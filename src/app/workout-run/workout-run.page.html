@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{selectedPlan.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let set of selectedPlan.exerciseSets">
+    <app-workout-run-item [exerciseSet]="set"></app-workout-run-item>
+  </div>
+  <ion-button [expand]="'full'">Finish Workout</ion-button>
+</ion-content>

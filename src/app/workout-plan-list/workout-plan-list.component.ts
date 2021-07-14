@@ -29,6 +29,10 @@ export class WorkoutPlanListComponent implements OnInit {
     this.router.navigate(['/workout-plan-detail', { id: id }]);
   }
 
+  goToWorkoutRun(id: string) {
+    this.router.navigate(['/workout-run', { id: id }])
+  }
+
   async initData() {
     this.receiveAll().then(result => {
       this.workoutPlans = result

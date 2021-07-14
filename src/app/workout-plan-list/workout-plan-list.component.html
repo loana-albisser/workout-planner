@@ -3,14 +3,14 @@
   <ion-card *ngFor="let item of workoutPlans">
     <ion-card-header>
       <ion-card-title>{{item.title}}</ion-card-title>
-      <ion-button [fill]="'clear'" [slot]="'end'" class="button-edit">
-        <ion-icon name="create-outline"></ion-icon>
-      </ion-button>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <app-workout-plan-exercise-set-item *ngFor="let exerciseSet of item.exerciseSets" [exerciseSet]="exerciseSet">
-        </app-workout-plan-exercise-set-item>
+        <!--<app-workout-plan-exercise-set-item *ngFor="let exerciseSet of item.exerciseSets" [exerciseSet]="exerciseSet">
+        </app-workout-plan-exercise-set-item> -->
+        <div class="exercise-container">
+          <ion-label *ngFor="let exerciseSet of item.exerciseSets">{{exerciseSet.exercise.title}}</ion-label>
+        </div>
       </ion-list>
     </ion-card-content>
     <ion-item (click)="goToWorkoutDetail(item.id)" class="ion-activated">
@@ -18,7 +18,7 @@
       <ion-label>Edit Workout</ion-label>
     </ion-item>
 
-    <ion-item href="#">
+    <ion-item (click)="goToWorkoutRun(item.id)">
       <ion-icon name="play-outline" slot="start"></ion-icon>
       <ion-label>Start Workout</ion-label>
     </ion-item>

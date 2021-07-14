@@ -1,7 +1,7 @@
 
 export class WorkoutPlan {
     constructor(
-        public id: string = "", 
+        public id: string = "",
         public title: string = "",
         public exerciseSets: Array<ExerciseSet> = Array()) {
     }
@@ -18,6 +18,6 @@ export class ExerciseSet {
 }
 
 export class SingleExerciseSet {
-    constructor(public reps: number, public weight: number) {}
+    constructor(public reps: number, public weight: number, public finished: boolean = false) {}
 }
 

@@ -3,17 +3,7 @@ ion-list {
     width: 100%;
 }
 
-ion-card {
+.exercise-container {
     display: flex;
     flex-flow: column;
-}
-
-app-workout-plan-exercise-set-item {
-    display: flex;
-    width: 100%;
-    margin-bottom: 16px;
-}
-
-.button-edit {
-    float: right;
 }
