@@ -1,3 +1,5 @@
+import { Title } from '@angular/platform-browser';
+import { WorkoutPlan, Exercise } from './model/workout-plan';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
@@ -8,38 +10,12 @@ import 'firebase/firestore'
 
 @Injectable()
 export class DatabaseProvider {
-   /**
-    * @name _DB
-    * @type {object}
-    * @private
-    * @description     Defines an object for handling interfacing with the 
-    				   Cloud Firestore database service
-    */
    private _DB : any;
-
-
 
    constructor(public http: HttpClient) 
    {
-      // Initialise access to the firestore service
       this._DB = firebase.firestore();
    }
-
-
-
-   /**
-    * Create the database collection and defines an initial document 
-    * Note the use of merge : true flag within the returned promise  - this 
-    * is needed to ensure that the collection is not repeatedly recreated should 
-    * this method be called again (we DON'T want to overwrite our documents!)
-    *
-    * @public
-    * @method createAndPopulateDocument
-    * @param  collectionObj    {String}           The database collection we want to create
-    * @param  docID            {String}           The document ID 
-    * @param  dataObj          {Any}              The document key/values to be added
-    * @return {Promise}
-    */
    createAndPopulateDocument(collectionObj : string,
                              docID         : string,
                              dataObj       : any) : Promise<any>
@@ -61,17 +37,7 @@ export class DatabaseProvider {
       });
    }
 
-
-
-   /**
-    * Return documents from specific database collection
-    *
-    * @public
-    * @method getDocuments
-    * @param  collectionObj    {String}           The database collection we want to retrieve records from
-    * @return {Promise}
-    */
-   getDocuments(collectionObj : string) : Promise<any>
+   async getWorkoutPlans(collectionObj : string) : Promise<WorkoutPlan[]>
    {
       return new Promise((resolve, reject) =>
       {
@@ -79,26 +45,24 @@ export class DatabaseProvider {
          .get()
          .then((querySnapshot) => 
          {
-
-            // Declare an array which we'll use to store retrieved documents
             let obj : any = [];
-
-
-            // Iterate through each document, retrieve the values for each field
-            // and then assign these to a key in an object that is pushed into the 
-            // obj array
-            querySnapshot
-            .forEach((doc : any) => 
+            querySnapshot.forEach((doc : any) => 
             {
-                obj.push({
-                   id             : doc.id,
-                   title           : doc.data().title
-                });
-            });
+               let id = doc.id
+               let title = doc.data().title
+               let exercises = Array()
+               doc.data().exercises.forEach((id: string) => {
+                     // this.getExercise(id).then(exercise => {
+                        let exercise = new Exercise(id, "")
+                        exercises.push(exercise)
+                     // })
+               })
+               
 
-            
-            // Resolve the completed array that contains all of the formatted data 
-            // from the retrieved documents
+               let workoutPlan = new WorkoutPlan(id, title, exercises)
+               obj.push(workoutPlan);
+      
+            });
             resolve(obj);
          })
          .catch((error : any) =>
@@ -106,6 +70,28 @@ export class DatabaseProvider {
             reject(error);
          });
       });
+   }
+
+   async getExercise(id: string): Promise<Exercise> 
+   {
+      return new Promise((resolve, reject) => 
+      {
+         var docRef = this._DB.collection("Exercise").doc(id);
+
+         docRef.get().then((doc) => {
+            if (doc.exists) {
+               let id = doc.id
+               let title = doc.data().title
+               let exercise = new Exercise(id, title)
+               resolve(exercise)
+            } else {
+               reject()
+            }
+        }).catch((error) => {
+            reject(error)
+        });
+      })
+
    }
 
 
