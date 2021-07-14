@@ -1,0 +1,6 @@
+{
+	"appId": "ch.loanaalisser.workoutplan",
+	"appName": "workout-planner",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

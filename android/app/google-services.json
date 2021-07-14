@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1023352532792",
+    "project_id": "workout-planner-ae57d",
+    "storage_bucket": "workout-planner-ae57d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023352532792:android:1d33c4d64c0397e30c9bcd",
+        "android_client_info": {
+          "package_name": "ch.loanaalbisser.workoutplan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023352532792-779candihsplgbi0gvp7vbd2rijoijls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI18LppF4DbGJ___rHMYk319ZrnrpI-T0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023352532792-779candihsplgbi0gvp7vbd2rijoijls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

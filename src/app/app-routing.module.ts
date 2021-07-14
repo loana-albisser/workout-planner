@@ -11,6 +11,14 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'workout-plan-add',
+    loadChildren: () => import('./workout-plan-add/workout-plan-add.module').then( m => m.WorkoutPlanAddPageModule)
+  },
+  {
+    path: 'exercise-add',
+    loadChildren: () => import('./exercise-add/exercise-add.module').then( m => m.ExerciseAddPageModule)
+  },
 ];
 
 @NgModule({

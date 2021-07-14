@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">workout-planner</string>
+    <string name="title_activity_main">workout-planner</string>
+    <string name="package_name">ch.loanaalisser.workoutplan</string>
+    <string name="custom_url_scheme">ch.loanaalisser.workoutplan</string>
+</resources>

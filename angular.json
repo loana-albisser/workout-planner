@@ -39,7 +39,17 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+              "allowedCommonJsDependencies": [
+                "firebase",
+                "@firebase/app",
+                "@firebase/database",
+                "@firebase/firestore",
+                "@firebase/functions",
+                "@firebase/performance",
+                "@firebase/remote-config",
+                "@firebase/component",
+             ]
           },
           "configurations": {
             "production": {
@@ -171,6 +181,7 @@
     }
   },
   "cli": {
+    "analytics": false,
     "defaultCollection": "@ionic/angular-toolkit"
   },
   "schematics": {
