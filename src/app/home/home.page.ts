@@ -30,7 +30,6 @@ export class HomePage {
           debugger;
           this.openDatabase()
         }); */
-        debugger;
         this.retrieveCollection()
       });
     }
@@ -71,7 +70,6 @@ export class HomePage {
       }
 
       ret = await db.execute(defaultWorkoutPlans);
-      debugger;
       this.workoutPlanRepositoryService.allWorkoutPlans = ret
     
       if (ret.changes.changes !== 2) {

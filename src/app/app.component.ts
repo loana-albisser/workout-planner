@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
   constructor(private platform: Platform) {
     this.platform.ready().then(async () => {
-      debugger;
     firebase.initializeApp(environment.firebaseConfig)
     });
   }

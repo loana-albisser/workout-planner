@@ -7,21 +7,21 @@
         <ion-icon name="create-outline"></ion-icon>
       </ion-button>
     </ion-card-header>
-  <ion-card-content>
-    <ion-list>
-      <ion-item>
-        <ion-label>Hip Thursts</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Squats</ion-label>
-      </ion-item>
-      <ion-item *ngFor="let item of workoutPlanRepositoryService.allWorkoutPlans">
-        <ion-label>{{item.title}}</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Hip Thursts</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Squats</ion-label>
+        </ion-item>
+        <ion-item *ngFor="let item of workoutPlans">
+          <ion-label>{{item.title}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
 
 
-</ion-card>
+  </ion-card>
 
 </ion-list>
