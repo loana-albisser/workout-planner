@@ -1,9 +1,9 @@
 import { Title } from '@angular/platform-browser';
-import { Exercise } from './../model/workout-plan';
+import { Exercise, WorkoutPlan } from './../model/workout-plan';
 import { DatabaseProvider } from './../database-provider';
 import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
 import { Component, OnInit } from '@angular/core';
-import { WorkoutPlan } from '../model/workout-plan';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-plan-list',
@@ -14,13 +14,19 @@ export class WorkoutPlanListComponent implements OnInit {
   workoutPlans: Array<WorkoutPlan>  = Array()
 
 
-  constructor(public workoutPlanRepositoryService: WorkoutPlanRepositoryService,
+  constructor(
+    public router: Router,
+    public workoutPlanRepositoryService: WorkoutPlanRepositoryService,
     private databaseProvider: DatabaseProvider) {
     
   }
 
   ngOnInit() {
     this.initData()
+  }
+
+  goToWorkoutDetail(id: string) {
+    this.router.navigate(['/workout-plan-detail', { id: id }]);
   }
 
   async initData() {
@@ -30,13 +36,13 @@ export class WorkoutPlanListComponent implements OnInit {
   }
 
   async receiveAll(): Promise<WorkoutPlan[]> {
-    var workoutPlans: WorkoutPlan[] = Array()
     return new Promise(resolve => {
       this.receiveWorkoutPlans().then(data => {
         this.updateWorkoutPlans(data).then(data => {
             this.workoutPlans = data
+            this.workoutPlanRepositoryService.allWorkoutPlans = this.workoutPlans
         })
-        
+    
       })
     })
   }
@@ -46,10 +52,14 @@ export class WorkoutPlanListComponent implements OnInit {
     for (let workoutPlan of data) {
       let newWorkoutPlan = new WorkoutPlan()
       Object.assign(newWorkoutPlan, workoutPlan)
-      newWorkoutPlan.exercises = Array()
-      for (let exercise of workoutPlan.exercises) {
-        const newExercise = await this.databaseProvider.getExercise(exercise.id)
-        newWorkoutPlan.exercises.push(newExercise)
+      newWorkoutPlan.exerciseSets = Array()
+      for (let exerciseSet of workoutPlan.exerciseSets) {
+        const newExerciseSet = await this.databaseProvider.getExerciseSet(exerciseSet.id)
+        const newExercise = await this.databaseProvider.getExercise(newExerciseSet.exercise.id)
+        newExerciseSet.exercise = newExercise
+        newWorkoutPlan.exerciseSets.push(newExerciseSet)
+        // const newExercise = await this.databaseProvider.getExercise(exercise.id)
+        // newWorkoutPlan.exercises.push(newExercise)
       }
       workoutPlans.push(newWorkoutPlan)
       

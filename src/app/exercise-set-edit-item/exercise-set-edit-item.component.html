@@ -1,0 +1,36 @@
+<ion-card class="container">
+  <ion-card-header>
+    <ion-card-title>{{exerciseSet.exercise.title}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-label class="label-header">Reps</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-label class="label-header">Weight [kg]</ion-label>
+        </ion-col>
+        <ion-col size="2">
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let item of exerciseSet.exerciseSets">
+        <ion-col>
+          <ion-input [type]="'number'" [(ngModel)]="item.reps"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-input [type]="'number'" [(ngModel)]="item.weight"></ion-input>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button class="button-remove" [fill]="'clear'">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+  <ion-item class="ion-activated">
+    <ion-icon class="icon-add-set" name="add-outline" slot="start"></ion-icon>
+    <ion-label class="label-add-set">Add Set</ion-label>
+  </ion-item>
+</ion-card>

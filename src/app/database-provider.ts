@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { WorkoutPlan, Exercise } from './model/workout-plan';
+import { WorkoutPlan, Exercise, SingleExerciseSet, ExerciseSet } from './model/workout-plan';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
@@ -51,14 +51,12 @@ export class DatabaseProvider {
                let id = doc.id
                let title = doc.data().title
                let exercises = Array()
-               doc.data().exercises.forEach((id: string) => {
-                     // this.getExercise(id).then(exercise => {
-                        let exercise = new Exercise(id, "")
-                        exercises.push(exercise)
-                     // })
+               if (doc.data().exerciseSets !== undefined) {
+                  doc.data().exerciseSets.forEach((id: string) => {
+                        let exerciseSet = new ExerciseSet(id, new Exercise("", ""), [])
+                        exercises.push(exerciseSet)
                })
-               
-
+               }
                let workoutPlan = new WorkoutPlan(id, title, exercises)
                obj.push(workoutPlan);
       
@@ -72,7 +70,33 @@ export class DatabaseProvider {
       });
    }
 
-   async getExercise(id: string): Promise<Exercise> 
+   getExerciseSet(id: string): Promise<ExerciseSet> 
+   {
+      return new Promise((resolve, reject) => 
+      {
+         var docRef = this._DB.collection("ExerciseSet").doc(id);
+
+         docRef.get().then((doc) => {
+            if (doc.exists) {
+               let id = doc.id
+               let exercise = new Exercise(doc.data().exercise, "")
+               let exerciseSets: Array<SingleExerciseSet> = Array()
+               for (let item of doc.data().sets) {
+                  let set = new SingleExerciseSet(item.reps, item.weight)
+                  exerciseSets.push(set)
+               }
+               let exerciseSet = new ExerciseSet(id, exercise, exerciseSets)
+               resolve(exerciseSet)
+            } else {
+               reject()
+            }
+        }).catch((error) => {
+            reject(error)
+        });
+      })
+   }
+
+   getExercise(id: string): Promise<Exercise> 
    {
       return new Promise((resolve, reject) => 
       {
@@ -91,7 +115,6 @@ export class DatabaseProvider {
             reject(error)
         });
       })
-
    }
 
 

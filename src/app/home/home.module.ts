@@ -1,3 +1,4 @@
+import { WorkoutPlanExerciseSetItemComponent } from './../workout-plan-exercise-set-item/workout-plan-exercise-set-item.component';
 import { WorkoutPlanListComponent } from '../workout-plan-list/workout-plan-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,6 +16,6 @@ import { HomePageRoutingModule } from './home-routing.module';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, WorkoutPlanListComponent]
+  declarations: [HomePage, WorkoutPlanListComponent, WorkoutPlanExerciseSetItemComponent]
 })
 export class HomePageModule {}
