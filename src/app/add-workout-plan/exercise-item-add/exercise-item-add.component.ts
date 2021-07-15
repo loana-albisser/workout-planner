@@ -1,4 +1,4 @@
-import { Exercise, ExerciseSet } from './../model/workout-plan';
+import { Exercise, ExerciseSet } from '../../model/workout-plan';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

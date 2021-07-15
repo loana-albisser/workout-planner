@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AddExerciseService {
-  exerciseAddSetList: Array<ExerciseSet> = Array()
+  exerciseAddSetList: Array<ExerciseSet> = Array();
 
   constructor() { }
 }

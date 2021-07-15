@@ -1,8 +1,9 @@
 
 export class WorkoutPlan {
     constructor(
-        public id: string = "",
-        public title: string = "",
+        public id: string = '',
+        public title: string = '',
+        private user: string = '',
         public exerciseSets: Array<ExerciseSet> = Array()) {
     }
 }

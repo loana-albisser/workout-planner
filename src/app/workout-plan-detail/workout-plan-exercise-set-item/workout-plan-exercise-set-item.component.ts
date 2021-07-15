@@ -1,4 +1,4 @@
-import { ExerciseSet } from './../model/workout-plan';
+import { ExerciseSet } from '../../model/workout-plan';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -9,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class WorkoutPlanExerciseSetItemComponent implements OnInit {
   @Input("exerciseSet")
   exerciseSet: ExerciseSet
-  
+
   constructor() { }
 
   ngOnInit() {}

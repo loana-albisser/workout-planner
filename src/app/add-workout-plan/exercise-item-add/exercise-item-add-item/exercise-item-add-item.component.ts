@@ -1,7 +1,7 @@
-import { SingleExerciseSet } from './../model/workout-plan';
-import { AddExerciseService } from './../add-exercise.service';
+import { SingleExerciseSet } from '../../../model/workout-plan';
+import { AddExerciseService } from '../../../add-exercise.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { ExerciseSet } from '../model/workout-plan';
+import { ExerciseSet } from '../../../model/workout-plan';
 
 @Component({
   selector: 'app-exercise-item-add-item',

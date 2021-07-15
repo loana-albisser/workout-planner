@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ExerciseSet } from '../model/workout-plan';
+import { ExerciseSet } from '../../model/workout-plan';
 
 @Component({
   selector: 'app-workout-run-item',

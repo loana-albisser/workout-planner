@@ -1,4 +1,4 @@
-import { WorkoutRunItemComponent } from './../workout-run-item/workout-run-item.component';
+import { WorkoutRunItemComponent } from './workout-run-item/workout-run-item.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

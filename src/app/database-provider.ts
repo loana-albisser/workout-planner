@@ -1,18 +1,19 @@
+import { AuthenticationService } from './authentication.service';
 import { Title } from '@angular/platform-browser';
 import { WorkoutPlan, Exercise, SingleExerciseSet, ExerciseSet } from './model/workout-plan';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
-// We MUST import both the firebase AND firestore modules like so
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 @Injectable()
 export class DatabaseProvider {
    private firestore: any;
 
-   constructor(public http: HttpClient)
+   constructor(public http: HttpClient,
+    public authenticationService: AuthenticationService)
    {
       this.firestore = firebase.firestore();
    }
@@ -35,11 +36,14 @@ export class DatabaseProvider {
       });
    }
 
-   async getWorkoutPlans(collectionObj: string): Promise<WorkoutPlan[]>
+   async getWorkoutPlans(): Promise<WorkoutPlan[]>
    {
       return new Promise((resolve, reject) =>
       {
-         this.firestore.collection(collectionObj).get().then((querySnapshot) =>
+        debugger;
+        const uid = this.authenticationService.currentUser;
+         this.firestore.collection('WorkoutPlan').where('user', '==', uid)
+         .get().then((querySnapshot) =>
          {
             const obj: any = [];
             querySnapshot.forEach((doc: any) =>
@@ -53,7 +57,7 @@ export class DatabaseProvider {
                         exercises.push(exerciseSet);
                });
                }
-               const workoutPlan = new WorkoutPlan(id, title, exercises);
+               const workoutPlan = new WorkoutPlan(id, title, this.authenticationService.currentUser.uid, exercises);
                obj.push(workoutPlan);
 
             });

@@ -1,5 +1,5 @@
-import { ExerciseItemAddItemComponent } from './../exercise-item-add-item/exercise-item-add-item.component';
-import { ExerciseItemAddComponent } from './../exercise-item-add/exercise-item-add.component';
+import { ExerciseItemAddItemComponent } from '../exercise-item-add/exercise-item-add-item/exercise-item-add-item.component';
+import { ExerciseItemAddComponent } from '../exercise-item-add/exercise-item-add.component';
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

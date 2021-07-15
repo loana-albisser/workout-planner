@@ -3,7 +3,8 @@ import { Exercise, WorkoutPlan } from './../model/workout-plan';
 import { DatabaseProvider } from './../database-provider';
 import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-workout-plan-list',
@@ -11,80 +12,85 @@ import { Router } from '@angular/router';
   styleUrls: ['./workout-plan-list.component.scss'],
 })
 export class WorkoutPlanListComponent implements OnInit {
-  workoutPlans: Array<WorkoutPlan>  = Array()
+  workoutPlans: Array<WorkoutPlan>  = Array();
 
 
   constructor(
     public router: Router,
+    private activatedRoute: ActivatedRoute,
+    private authenticationService: AuthenticationService,
     public workoutPlanRepositoryService: WorkoutPlanRepositoryService,
     private databaseProvider: DatabaseProvider) {
-    
+
   }
 
   ngOnInit() {
-    this.initData()
+    const uid = this.activatedRoute.snapshot.paramMap.get('uid');
+    debugger;
+    this.authenticationService.currentUser = uid;
+    this.initData();
   }
 
   goToWorkoutDetail(id: string) {
-    this.router.navigate(['/workout-plan-detail', { id: id }]);
+    this.router.navigate(['/workout-plan-detail', { id }]);
   }
 
   goToWorkoutRun(id: string) {
-    this.router.navigate(['/workout-run', { id: id }])
+    this.router.navigate(['/workout-run', { id }]);
   }
 
   async initData() {
     this.receiveAll().then(result => {
-      this.workoutPlans = result
-    })
+      this.workoutPlans = result;
+    });
   }
 
   async receiveAll(): Promise<WorkoutPlan[]> {
     return new Promise(resolve => {
       this.receiveWorkoutPlans().then(data => {
         this.updateWorkoutPlans(data).then(data => {
-            this.workoutPlans = data
-            this.workoutPlanRepositoryService.allWorkoutPlans = this.workoutPlans
-        })
-    
-      })
-    })
+            this.workoutPlans = data;
+            this.workoutPlanRepositoryService.allWorkoutPlans = this.workoutPlans;
+        });
+
+      });
+    });
   }
 
   async updateWorkoutPlans(data: WorkoutPlan[]): Promise<WorkoutPlan[]> {
-    let workoutPlans: WorkoutPlan[] = Array()
-    for (let workoutPlan of data) {
-      let newWorkoutPlan = new WorkoutPlan()
-      Object.assign(newWorkoutPlan, workoutPlan)
-      newWorkoutPlan.exerciseSets = Array()
-      for (let exerciseSet of workoutPlan.exerciseSets) {
-        const newExerciseSet = await this.databaseProvider.getExerciseSet(exerciseSet.id)
-        const newExercise = await this.databaseProvider.getExercise(newExerciseSet.exercise.id)
-        newExerciseSet.exercise = newExercise
-        newWorkoutPlan.exerciseSets.push(newExerciseSet)
+    const workoutPlans: WorkoutPlan[] = Array();
+    for (const workoutPlan of data) {
+      const newWorkoutPlan = new WorkoutPlan();
+      Object.assign(newWorkoutPlan, workoutPlan);
+      newWorkoutPlan.exerciseSets = Array();
+      for (const exerciseSet of workoutPlan.exerciseSets) {
+        const newExerciseSet = await this.databaseProvider.getExerciseSet(exerciseSet.id);
+        const newExercise = await this.databaseProvider.getExercise(newExerciseSet.exercise.id);
+        newExerciseSet.exercise = newExercise;
+        newWorkoutPlan.exerciseSets.push(newExerciseSet);
         // const newExercise = await this.databaseProvider.getExercise(exercise.id)
         // newWorkoutPlan.exercises.push(newExercise)
       }
-      workoutPlans.push(newWorkoutPlan)
-      
+      workoutPlans.push(newWorkoutPlan);
+
     }
-    return workoutPlans
+    return workoutPlans;
   }
 
   async receiveWorkoutPlans(): Promise<WorkoutPlan[]> {
     return new Promise(resolve => {
-      this.databaseProvider.getWorkoutPlans("WorkoutPlan").then(data => {
-        resolve(data)
-      })
-    })
+      this.databaseProvider.getWorkoutPlans().then(data => {
+        resolve(data);
+      });
+    });
   }
 
   async receiveExercise(id: string): Promise<Exercise> {
     return new Promise(resolve => {
       this.databaseProvider.getExercise(id).then(data => {
-        resolve(data)
+        resolve(data);
 
-    })
-    })
+    });
+    });
   }
 }

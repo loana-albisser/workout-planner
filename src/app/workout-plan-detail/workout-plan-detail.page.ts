@@ -9,14 +9,14 @@ import { WorkoutPlan } from '../model/workout-plan';
   styleUrls: ['./workout-plan-detail.page.scss'],
 })
 export class WorkoutPlanDetailPage implements OnInit {
-  selectedPlan: WorkoutPlan = new WorkoutPlan("", "", [])
-  
+  selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', [])
+
   constructor(public activatedRoute: ActivatedRoute,
     private workoutPlanRepositoryService: WorkoutPlanRepositoryService) { }
 
   ngOnInit() {
-    let planId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(p => p.id == planId)
+    const planId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(p => p.id === planId);
   }
 
 }

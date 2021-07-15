@@ -1,4 +1,4 @@
-import { AddExerciseService } from './../add-exercise.service';
+import { AddExerciseService } from '../../add-exercise.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
