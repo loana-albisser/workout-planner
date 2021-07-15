@@ -10,23 +10,21 @@ import 'firebase/firestore'
 
 @Injectable()
 export class DatabaseProvider {
-   private _DB : any;
+   private firestore: any;
 
-   constructor(public http: HttpClient) 
+   constructor(public http: HttpClient)
    {
-      this._DB = firebase.firestore();
+      this.firestore = firebase.firestore();
    }
-   createAndPopulateDocument(collectionObj : string,
-                             docID         : string,
-                             dataObj       : any) : Promise<any>
+   createAndPopulateDocument(collectionObj: string,
+                             docID: string,
+                             dataObj: any): Promise<any>
    {
       return new Promise((resolve, reject) =>
       {
-         this._DB
-         .collection(collectionObj)
-         .doc(docID)
-         .set(dataObj, { merge: true }) 
-         .then((data : any) =>
+         this.firestore.collection(collectionObj).doc(docID)
+         .set(dataObj, { merge: true })
+         .then((data: any) =>
          {
             resolve(data);
          })
@@ -37,82 +35,103 @@ export class DatabaseProvider {
       });
    }
 
-   async getWorkoutPlans(collectionObj : string) : Promise<WorkoutPlan[]>
+   async getWorkoutPlans(collectionObj: string): Promise<WorkoutPlan[]>
    {
       return new Promise((resolve, reject) =>
       {
-         this._DB.collection(collectionObj)
-         .get()
-         .then((querySnapshot) => 
+         this.firestore.collection(collectionObj).get().then((querySnapshot) =>
          {
-            let obj : any = [];
-            querySnapshot.forEach((doc : any) => 
+            const obj: any = [];
+            querySnapshot.forEach((doc: any) =>
             {
-               let id = doc.id
-               let title = doc.data().title
-               let exercises = Array()
+               const id = doc.id;
+               const title = doc.data().title;
+               const exercises = Array();
                if (doc.data().exerciseSets !== undefined) {
-                  doc.data().exerciseSets.forEach((id: string) => {
-                        let exerciseSet = new ExerciseSet(id, new Exercise("", ""), [])
-                        exercises.push(exerciseSet)
-               })
+                  doc.data().exerciseSets.forEach((setId: string) => {
+                        const exerciseSet = new ExerciseSet(setId, new Exercise('', ''), []);
+                        exercises.push(exerciseSet);
+               });
                }
-               let workoutPlan = new WorkoutPlan(id, title, exercises)
+               const workoutPlan = new WorkoutPlan(id, title, exercises);
                obj.push(workoutPlan);
-      
+
             });
             resolve(obj);
          })
-         .catch((error : any) =>
+         .catch((error: any) =>
          {
             reject(error);
          });
       });
    }
 
-   getExerciseSet(id: string): Promise<ExerciseSet> 
+   getAllExercises(): Promise<Exercise[]>{
+    return new Promise((resolve, reject) =>
+    {
+       const docRef = this.firestore.collection('Exercise');
+       const obj: any = [];
+
+        docRef.get().then((doc) => {
+        doc.forEach((result: any) =>
+        {
+           const id = result.id;
+           const title = result.data().title;
+           const exercise = new Exercise(id, title);
+
+           obj.push(exercise);
+
+        });
+        resolve(obj);
+      }).catch((error: any) => {
+          reject(error);
+      });
+    });
+  }
+
+   getExerciseSet(id: string): Promise<ExerciseSet>
    {
-      return new Promise((resolve, reject) => 
+      return new Promise((resolve, reject) =>
       {
-         var docRef = this._DB.collection("ExerciseSet").doc(id);
+         const docRef = this.firestore.collection('ExerciseSet').doc(id);
 
          docRef.get().then((doc) => {
             if (doc.exists) {
-               let id = doc.id
-               let exercise = new Exercise(doc.data().exercise, "")
-               let exerciseSets: Array<SingleExerciseSet> = Array()
-               for (let item of doc.data().sets) {
-                  let set = new SingleExerciseSet(item.reps, item.weight)
-                  exerciseSets.push(set)
+              const setId = doc.id;
+              const exercise = new Exercise(doc.data().exercise, '')
+;              const exerciseSets: Array<SingleExerciseSet> = Array();
+               for (const item of doc.data().sets) {
+                const set = new SingleExerciseSet(item.reps, item.weight);
+                  exerciseSets.push(set);
                }
-               let exerciseSet = new ExerciseSet(id, exercise, exerciseSets)
-               resolve(exerciseSet)
+               const exerciseSet = new ExerciseSet(setId, exercise, exerciseSets);
+               resolve(exerciseSet);
             } else {
-               reject()
+               reject();
             }
-        }).catch((error) => {
-            reject(error)
+        }).catch((error: any) => {
+            reject(error);
         });
-      })
+      });
    }
 
-   getExercise(id: string): Promise<Exercise> 
+   getExercise(id: string): Promise<Exercise>
    {
-      return new Promise((resolve, reject) => 
+      return new Promise((resolve, reject) =>
       {
-         var docRef = this._DB.collection("Exercise").doc(id);
+         const docRef = this.firestore.collection('Exercise').doc(id);
 
          docRef.get().then((doc) => {
             if (doc.exists) {
-               let id = doc.id
-               let title = doc.data().title
-               let exercise = new Exercise(id, title)
-               resolve(exercise)
+               const id = doc.id;
+               const title = doc.data().title;
+               const exercise = new Exercise(id, title);
+               resolve(exercise);
             } else {
-               reject()
+               reject();
             }
-        }).catch((error) => {
-            reject(error)
+        }).catch((error: any) => {
+            reject(error);
         });
       })
    }
@@ -129,12 +148,12 @@ export class DatabaseProvider {
     * @return {Promise}
     */
    addDocument(collectionObj : string,
-             dataObj       : any) : Promise<any> 
+             dataObj       : any) : Promise<any>
    {
       return new Promise((resolve, reject) =>
       {
-         this._DB.collection(collectionObj).add(dataObj)
-         .then((obj : any) =>
+         this.firestore.collection(collectionObj).add(dataObj)
+         .then((obj: any) =>
          {
             resolve(obj);
          })
@@ -157,11 +176,11 @@ export class DatabaseProvider {
     * @return {Promise}
     */
    deleteDocument(collectionObj : string,
-                docID         : string) : Promise<any> 
+                docID         : string) : Promise<any>
    {
       return new Promise((resolve, reject) =>
       {
-         this._DB
+         this.firestore
          .collection(collectionObj)
          .doc(docID)
          .delete()
@@ -184,17 +203,17 @@ export class DatabaseProvider {
     * @public
     * @method updateDocument
     * @param  collectionObj    {String}           The database collection to be used
-    * @param  docID            {String}           The document ID 
+    * @param  docID            {String}           The document ID
     * @param  dataObj          {Any}              The document key/values to be updated
     * @return {Promise}
     */
    updateDocument(collectionObj : string,
                 docID         : string,
-                dataObj       : any) : Promise<any> 
+                dataObj       : any) : Promise<any>
    {
       return new Promise((resolve, reject) =>
       {
-         this._DB
+         this.firestore
          .collection(collectionObj)
          .doc(docID)
          .update(dataObj)

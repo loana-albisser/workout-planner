@@ -1,3 +1,4 @@
+import { AddExerciseService } from './../add-exercise.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkoutPlanAddPage implements OnInit {
 
-  constructor() { }
+  constructor(public addExerciseService: AddExerciseService) { }
 
   ngOnInit() {
   }

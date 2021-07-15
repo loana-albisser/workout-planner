@@ -1,5 +1,7 @@
+import { AddExerciseService } from './../add-exercise.service';
+import { DatabaseProvider } from './../database-provider';
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-exercise-add',
@@ -7,16 +9,35 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./exercise-add.page.scss'],
 })
 export class ExerciseAddPage implements OnInit {
-  workouts: Array<WorkoutAdd>  = Array(new WorkoutAdd("first", false), new WorkoutAdd("second", false), new WorkoutAdd("third", false))
+  workoutAddList: Array<WorkoutAdd>  = Array();
 
-  constructor() {
+  constructor(private location: Location,
+    private databaseProvider: DatabaseProvider,
+    private addExerciseService: AddExerciseService) {
   }
 
   ngOnInit() {
+    this.receiveAllExercises();
   }
 
+  saveSelectedExercises() {
+   const selectedExercises = this.workoutAddList.filter(item => item.isChecked === true);
+   this.addExerciseService.workoutAddList = selectedExercises;
+   this.location.back();
+  }
+
+  receiveAllExercises() {
+      this.databaseProvider.getAllExercises().then(result => {
+        const workoutAddList = Array();
+        result.forEach(value => {
+            const workoutAdd = new WorkoutAdd(value.id, value.title, false);
+            workoutAddList.push(workoutAdd);
+        });
+        this.workoutAddList = workoutAddList;
+      });
+  }
 }
 
 export class WorkoutAdd {
-  constructor(public title: string, public isChecked: boolean) {}
+  constructor(public id: string, public title: string, public isChecked: boolean) {}
 }
