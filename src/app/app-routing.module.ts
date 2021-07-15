@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'workout-run',
     loadChildren: () => import('./workout-run/workout-run.module').then( m => m.WorkoutRunPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
 ];
 
 @NgModule({
