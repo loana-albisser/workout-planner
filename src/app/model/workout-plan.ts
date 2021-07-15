@@ -14,10 +14,10 @@ export class Exercise {
 }
 
 export class ExerciseSet {
-    constructor(public id: string, public exercise: Exercise, public exerciseSets: Array<SingleExerciseSet>) {}
+    constructor(public id: string = '', public exercise: Exercise, public exerciseSets: Array<SingleExerciseSet>) {}
 }
 
 export class SingleExerciseSet {
-    constructor(public reps: number, public weight: number, public finished: boolean = false) {}
+    constructor(public reps: number = null, public weight: number = null, public finished: boolean = false) {}
 }
 

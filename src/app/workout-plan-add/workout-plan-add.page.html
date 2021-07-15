@@ -13,6 +13,7 @@
     <ion-input></ion-input>
   </ion-item>
   <ion-button [routerLink]="['/exercise-add']" [expand]="'full'" class="button-add">Add Exercise</ion-button>
-  <app-exercise-item-add *ngFor="item of addExerciseService.workoutAddList"> </app-exercise-item-add>
+  <app-exercise-item-add *ngFor="let item of addExerciseService.exerciseAddSetList" [exerciseSet]="item">
+  </app-exercise-item-add>
 
 </ion-content>

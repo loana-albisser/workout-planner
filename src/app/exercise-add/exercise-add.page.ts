@@ -1,3 +1,5 @@
+import { ExerciseSet, SingleExerciseSet } from './../model/workout-plan';
+import { Exercise } from './../model/workout-plan';
 import { AddExerciseService } from './../add-exercise.service';
 import { DatabaseProvider } from './../database-provider';
 import { Component, OnInit } from '@angular/core';
@@ -22,7 +24,15 @@ export class ExerciseAddPage implements OnInit {
 
   saveSelectedExercises() {
    const selectedExercises = this.workoutAddList.filter(item => item.isChecked === true);
-   this.addExerciseService.workoutAddList = selectedExercises;
+   const exerciseSetList = Array();
+   selectedExercises.forEach((item, index) => {
+      const exercise = new Exercise(item.id, item.title);
+      const singleExerciseSetList = Array<SingleExerciseSet>();
+      singleExerciseSetList.push(new SingleExerciseSet());
+      const exerciseSet = new ExerciseSet(index.toString(), exercise, singleExerciseSetList);
+      exerciseSetList.push(exerciseSet);
+   });
+   this.addExerciseService.exerciseAddSetList = exerciseSetList
    this.location.back();
   }
 

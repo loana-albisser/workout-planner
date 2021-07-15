@@ -7,9 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./exercise-set-edit-item.component.scss'],
 })
 export class ExerciseSetEditItemComponent implements OnInit {
-  @Input() exerciseSet: ExerciseSet
+  @Input() exerciseSet: ExerciseSet;
 
-  constructor() { 
+  constructor() {
   }
 
   ngOnInit() {

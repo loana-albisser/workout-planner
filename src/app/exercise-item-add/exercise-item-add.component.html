@@ -1,6 +1,5 @@
-<ion-label class="title">Squat (Smith Machine)</ion-label>
+<ion-label class="title">{{exerciseSet.exercise.title}}</ion-label>
 <ion-list>
-  <app-exercise-item-add-item></app-exercise-item-add-item>
+  <app-exercise-item-add-item *ngFor="let item of exerciseSet.exerciseSets" [exerciseSet]="exerciseSet">
+  </app-exercise-item-add-item>
 </ion-list>
-
-
