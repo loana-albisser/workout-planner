@@ -1,4 +1,4 @@
-import { ExerciseSetEditItemComponent } from './../exercise-set-edit-item/exercise-set-edit-item.component';
+import { ExerciseSetEditItemComponent } from './exercise-set-edit-item/exercise-set-edit-item.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,8 +14,8 @@ import { WorkoutPlanDetailPage } from './workout-plan-detail.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    WorkoutPlanDetailPageRoutingModule
+    WorkoutPlanDetailPageRoutingModule,
   ],
-  declarations: [WorkoutPlanDetailPage, ExerciseSetEditItemComponent]
+  declarations: [WorkoutPlanDetailPage, ExerciseSetEditItemComponent],
 })
 export class WorkoutPlanDetailPageModule {}

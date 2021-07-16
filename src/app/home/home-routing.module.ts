@@ -16,7 +16,8 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/workout/workout-overview',
+        redirectTo: '/home/workout',
+        pathMatch: 'full',
       },
     ],
   },

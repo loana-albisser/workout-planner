@@ -14,14 +14,14 @@
         <ion-col size="2">
         </ion-col>
       </ion-row>
-      <ion-row *ngFor="let item of exerciseSet.exerciseSets">
+      <ion-row *ngFor="let item of exerciseSet.exerciseSets; let i = index">
         <ion-col>
           <ion-input [type]="'number'" [(ngModel)]="item.reps"></ion-input>
         </ion-col>
         <ion-col>
           <ion-input [type]="'number'" [(ngModel)]="item.weight"></ion-input>
         </ion-col>
-        <ion-col size="2">
+        <ion-col size="2" (click)="removeExerciseSet(i)">
           <ion-button class="button-remove" [fill]="'clear'">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-button>
@@ -29,7 +29,7 @@
       </ion-row>
     </ion-grid>
   </ion-card-content>
-  <ion-item class="ion-activated">
+  <ion-item button class="ion-activated" (click)="addExerciseSet()">
     <ion-icon class="icon-add-set" name="add-outline" slot="start"></ion-icon>
     <ion-label class="label-add-set">Add Set</ion-label>
   </ion-item>
