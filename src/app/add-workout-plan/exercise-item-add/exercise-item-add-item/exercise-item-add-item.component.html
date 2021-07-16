@@ -14,8 +14,11 @@
         </ion-item>
       </ion-col>
       <ion-col size="2">
-        <ion-button *ngIf="isLastElement(i)" class="button-add" [fill]="'clear'" (click)="addExerciseSet()">
+        <ion-button *ngIf="isLastElement(i)" class="button-add-remove" [fill]="'clear'" (click)="addExerciseSet()">
           <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!isLastElement(i)" class="button-add-remove" [fill]="'clear'" (click)="removeExerciseSet(i)">
+          <ion-icon name="remove-outline"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>

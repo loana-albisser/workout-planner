@@ -1,26 +1,26 @@
 ion-row {
-    align-items: center;
+  align-items: center;
 }
 
 ion-col {
-    padding-left: 0dp;
-    padding-right: 0dp;
+  padding-left: 0dp;
+  padding-right: 0dp;
 }
 
 ion-grid {
-    padding-inline-start: 0;
-    padding-inline-end: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
 }
 
 ion-item {
-    --padding-start: 8px;
-    --background: transparent;
+  --padding-start: 8px;
+  --background: transparent;
 }
 
-.button-add {
-    float: right;
+.button-add-remove {
+  float: right;
 }
 
 .item-input-data {
-    --background: var(--ion-item-background)
+  --background: var(--ion-item-background);
 }

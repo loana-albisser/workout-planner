@@ -13,10 +13,22 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-workout-plan-list></app-workout-plan-list>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/workout-plan-add']">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="workout">
+        <ion-icon name="barbell-outline"></ion-icon>
+        <ion-label>Workout</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="progress">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        <ion-label>Progress</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="about">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <ion-label>About</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>

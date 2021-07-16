@@ -30,4 +30,12 @@ export class ExerciseItemAddItemComponent implements OnInit {
       (item) => item.id === this.exerciseSet.id
     ).exerciseSets = oldExerciseSets;
   }
+
+  removeExerciseSet(index: number) {
+    const selectedExerciseSet = this.addExerciseService.exerciseAddSetList.find(
+      (item) => item.id === this.exerciseSet.id
+    );
+    delete selectedExerciseSet.exerciseSets[index];
+    delete this.exerciseSet.exerciseSets[index];
+  }
 }

@@ -6,11 +6,24 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
-  }
+    children: [
+      {
+        path: 'workout',
+        loadChildren: () =>
+          import('../workout-overview/workout-overview.module').then(
+            (m) => m.WorkoutOverviewPageModule
+          ),
+      },
+      {
+        path: '',
+        redirectTo: '/workout/workout-overview',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class HomePageRoutingModule {}

@@ -45,6 +45,10 @@ const routes: Routes = [
         (m) => m.WorkoutRunPageModule
       ),
   },
+  {
+    path: 'workout-overview',
+    loadChildren: () => import('./workout-overview/workout-overview.module').then( m => m.WorkoutOverviewPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>workout-overview</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-workout-plan-list></app-workout-plan-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/workout-plan-add']">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

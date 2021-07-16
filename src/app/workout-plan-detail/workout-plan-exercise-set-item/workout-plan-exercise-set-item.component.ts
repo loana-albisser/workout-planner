@@ -7,14 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./workout-plan-exercise-set-item.component.scss'],
 })
 export class WorkoutPlanExerciseSetItemComponent implements OnInit {
-  @Input("exerciseSet")
-  exerciseSet: ExerciseSet
+  @Input() exerciseSet: ExerciseSet;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 
   hasSets(): boolean {
-    return this.exerciseSet.exerciseSets.length > 0
+    return this.exerciseSet.exerciseSets.length > 0;
   }
 }
