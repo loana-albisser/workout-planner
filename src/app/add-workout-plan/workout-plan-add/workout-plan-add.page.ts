@@ -7,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./workout-plan-add.page.scss'],
 })
 export class WorkoutPlanAddPage implements OnInit {
+  constructor(public addExerciseService: AddExerciseService) {}
 
-  constructor(public addExerciseService: AddExerciseService) { }
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
-
+  saveWorkoutPlan() {}
 }

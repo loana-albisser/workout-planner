@@ -1,4 +1,4 @@
-import { SingleExerciseSet } from '../../../model/workout-plan';
+import { SingleExerciseSet } from './../../../model/workout-plan';
 import { AddExerciseService } from '../../../add-exercise.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ExerciseSet } from '../../../model/workout-plan';
@@ -15,20 +15,19 @@ export class ExerciseItemAddItemComponent implements OnInit {
 
   ngOnInit() {}
 
+  isLastElement(index: number): boolean {
+    if (index === this.exerciseSet.exerciseSets.length - 1) {
+      return true;
+    }
+    return false;
+  }
+
   addExerciseSet() {
     const oldExerciseSets = Array();
     Object.assign(oldExerciseSets, this.exerciseSet.exerciseSets);
     oldExerciseSets.push(new SingleExerciseSet());
-    // const oldExerciseSets = this.exerciseSet.exerciseSets;
-    // oldExerciseSets.push(new SingleExerciseSet());
-    // const singleExerciseSet = new SingleExerciseSet();
-    // this.exerciseSet.exerciseSets = oldExerciseSets;
     this.addExerciseService.exerciseAddSetList.find(
       (item) => item.id === this.exerciseSet.id
     ).exerciseSets = oldExerciseSets;
-    // const test = this.addExerciseService.exerciseAddSetList;
-    const test = this.addExerciseService.exerciseAddSetList;
-    debugger;
-    // this.addExerciseService.exerciseAddSetList = Array();
   }
 }

@@ -1,8 +1,14 @@
 .title-item {
-    margin: 8px;
+  margin: 8px;
 }
 
 .button-add {
-    margin-top: 16px;
-    margin-bottom: 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+app-exercise-item-add {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 16px;
 }

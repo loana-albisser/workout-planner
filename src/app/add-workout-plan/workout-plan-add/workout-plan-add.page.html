@@ -4,6 +4,11 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Add Exercise</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveWorkoutPlan()">
+        <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,5 +19,4 @@
   </ion-item>
   <ion-button [routerLink]="['/exercise-add']" [expand]="'full'" class="button-add">Add Exercise</ion-button>
   <app-exercise-item-add *ngFor="let item of addExerciseService.exerciseAddSetList" [exerciseSet]="item"></app-exercise-item-add>
-
 </ion-content>
