@@ -87,13 +87,42 @@ export class DatabaseProvider {
       .doc(exerciseSetId)
       .update({ sets: exerciseSet })
       .then(() => {
-        debugger;
         console.log('Document successfully updated!');
       })
       .catch((error) => {
-        debugger;
         console.error('Error updating document: ', error);
       });
+  }
+
+  addExerciseSet(exerciseSet: ExerciseSet): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const newExerciseSet = Array();
+      exerciseSet.exerciseSets.forEach((item) => {
+        newExerciseSet.push({ reps: item.reps, weight: item.weight });
+      });
+      this.firestore
+        .collection('ExerciseSet')
+        .add({
+          exercise: exerciseSet.exercise.id,
+          sets: newExerciseSet,
+        })
+        .then((data) => {
+          resolve(data.id);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  addExerciseSetToWorkoutPlan(planId: string, setId: string) {
+    const workoutPlanCollection = this.firestore
+      .collection('WorkoutPlan')
+      .doc(planId);
+
+    workoutPlanCollection.update({
+      exerciseSets: firebase.firestore.FieldValue.arrayUnion(setId),
+    });
   }
 
   getAllExercises(): Promise<Exercise[]> {

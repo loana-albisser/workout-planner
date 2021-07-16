@@ -1,9 +1,11 @@
 import { DatabaseProvider } from './../database-provider';
 import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutPlan } from '../model/workout-plan';
 import { Location } from '@angular/common';
+import { AddExerciseService } from '../add-exercise.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-workout-plan-detail',
@@ -14,9 +16,11 @@ export class WorkoutPlanDetailPage implements OnInit {
   selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', []);
 
   constructor(
-    private location: Location,
+    private router: Router,
+    private authenticationService: AuthenticationService,
     public activatedRoute: ActivatedRoute,
     private databaseProvider: DatabaseProvider,
+    public addExerciseService: AddExerciseService,
     private workoutPlanRepositoryService: WorkoutPlanRepositoryService
   ) {}
 
@@ -31,6 +35,17 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.selectedPlan.exerciseSets.forEach((sets) => {
       this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
     });
-    this.location.back();
+    this.addExerciseService.exerciseAddSetList.forEach((sets) => {
+      this.databaseProvider.addExerciseSet(sets).then((result) => {
+        this.databaseProvider.addExerciseSetToWorkoutPlan(
+          this.selectedPlan.id,
+          result
+        );
+      });
+    });
+    this.router.navigate([
+      '/home',
+      { uid: this.authenticationService.currentUser },
+    ]);
   }
 }
