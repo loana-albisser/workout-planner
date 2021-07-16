@@ -77,6 +77,25 @@ export class DatabaseProvider {
     });
   }
 
+  updateExerciseSet(
+    exerciseSetId: string,
+    singleExerciseSet: SingleExerciseSet[]
+  ) {
+    const exerciseSet = singleExerciseSet.map((obj) => Object.assign({}, obj));
+    this.firestore
+      .collection('ExerciseSet')
+      .doc(exerciseSetId)
+      .update({ sets: exerciseSet })
+      .then(() => {
+        debugger;
+        console.log('Document successfully updated!');
+      })
+      .catch((error) => {
+        debugger;
+        console.error('Error updating document: ', error);
+      });
+  }
+
   getAllExercises(): Promise<Exercise[]> {
     return new Promise((resolve, reject) => {
       const docRef = this.firestore.collection('Exercise');

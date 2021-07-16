@@ -1,7 +1,9 @@
+import { DatabaseProvider } from './../database-provider';
 import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WorkoutPlan } from '../model/workout-plan';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-workout-plan-detail',
@@ -12,7 +14,9 @@ export class WorkoutPlanDetailPage implements OnInit {
   selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', []);
 
   constructor(
+    private location: Location,
     public activatedRoute: ActivatedRoute,
+    private databaseProvider: DatabaseProvider,
     private workoutPlanRepositoryService: WorkoutPlanRepositoryService
   ) {}
 
@@ -21,5 +25,12 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
     );
+  }
+
+  saveWorkoutPlan() {
+    this.selectedPlan.exerciseSets.forEach((sets) => {
+      this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
+    });
+    this.location.back();
   }
 }
