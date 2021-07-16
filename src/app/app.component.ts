@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
   constructor(private platform: Platform) {
     this.platform.ready().then(async () => {
-    firebase.initializeApp(environment.firebaseConfig)
+      firebase.initializeApp(environment.firebaseConfig);
     });
   }
 }

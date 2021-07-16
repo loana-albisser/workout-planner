@@ -5,5 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="loginWithGoogle()">Login with Google</ion-button>
+  <div id="firebaseui-auth-container"></div>
+  <ion-button class="button-login" (click)="loginWithGoogle()" [expand]="'block'">
+    <ion-icon slot="start" name="logo-google"></ion-icon>
+    Sign in with Google</ion-button>
 </ion-content>

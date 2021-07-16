@@ -11,22 +11,24 @@ import { ExerciseSet } from '../../../model/workout-plan';
 export class ExerciseItemAddItemComponent implements OnInit {
   @Input() exerciseSet: ExerciseSet;
 
-  constructor(private addExerciseService: AddExerciseService) { }
+  constructor(private addExerciseService: AddExerciseService) {}
 
   ngOnInit() {}
 
   addExerciseSet() {
     const oldExerciseSets = Array();
     Object.assign(oldExerciseSets, this.exerciseSet.exerciseSets);
-    oldExerciseSets.push(new SingleExerciseSet())
+    oldExerciseSets.push(new SingleExerciseSet());
     // const oldExerciseSets = this.exerciseSet.exerciseSets;
     // oldExerciseSets.push(new SingleExerciseSet());
-      // const singleExerciseSet = new SingleExerciseSet();
-      // this.exerciseSet.exerciseSets = oldExerciseSets;
-      this.addExerciseService.exerciseAddSetList.find(item => item.id === this.exerciseSet.id).exerciseSets  = oldExerciseSets;
-      // const test = this.addExerciseService.exerciseAddSetList;
-      const test = this.addExerciseService.exerciseAddSetList;
-      // this.addExerciseService.exerciseAddSetList = Array();
+    // const singleExerciseSet = new SingleExerciseSet();
+    // this.exerciseSet.exerciseSets = oldExerciseSets;
+    this.addExerciseService.exerciseAddSetList.find(
+      (item) => item.id === this.exerciseSet.id
+    ).exerciseSets = oldExerciseSets;
+    // const test = this.addExerciseService.exerciseAddSetList;
+    const test = this.addExerciseService.exerciseAddSetList;
+    debugger;
+    // this.addExerciseService.exerciseAddSetList = Array();
   }
-
 }
