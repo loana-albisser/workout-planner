@@ -1,3 +1,4 @@
+import { WorkoutRun, ExecutedExercise } from './workout-run/workout-run.page';
 import { AuthenticationService } from './authentication.service';
 import { Title } from '@angular/platform-browser';
 import {
@@ -122,6 +123,43 @@ export class DatabaseProvider {
 
     workoutPlanCollection.update({
       exerciseSets: firebase.firestore.FieldValue.arrayUnion(setId),
+    });
+  }
+
+  addWorkoutRun(workoutRun: WorkoutRun) {
+    const newWorkoutRun = new WorkoutRun();
+    const executedExercise = Array();
+      workoutRun.executedExercised.forEach(executed => {
+        const single = Array();
+        for (const bla of executed.set) {
+          single.push(Object.assign({}, bla));
+        }
+        const newExecuted = new ExecutedExercise();
+        newExecuted.exerciseSetId = executed.exerciseSetId;
+        newExecuted.set = Object.assign({}, single);
+        executedExercise.push(Object.assign({}, executed));
+      });
+        newWorkoutRun.executedExercised = Object.assign({}, executedExercise);
+
+    /* const newExecutedExercises = workoutRun.executedExercised.map((obj)=> Object.assign({}, obj));
+    const workoutSetID = workoutRun.executedExercised.map(item => item.exerciseSetId);
+    const newSet = Array();
+    newExecutedExercises.forEach(item => {
+      newSet.push(item.set.map(obj => Object.assign({}, obj)));
+    }); */
+
+
+    const workoutRunCollection = this.firestore.collection('WorkoutRun');
+    workoutRunCollection.add({
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      executedExercises: newWorkoutRun.executedExercised
+    }).then(data => {
+      debugger;
+      const teset = data;
+
+    }).catch(error => {
+      debugger;
+      const test = error;
     });
   }
 

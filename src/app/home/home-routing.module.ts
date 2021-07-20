@@ -15,6 +15,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'progress',
+        loadChildren: () =>
+          import('../progress/progress.module').then(
+            (m) => m.ProgressPageModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/home/workout',
         pathMatch: 'full',

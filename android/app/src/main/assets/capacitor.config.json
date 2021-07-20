@@ -1,5 +1,5 @@
 {
-	"appId": "ch.loanaalisser.workoutplan",
+	"appId": "io.ionic.starter",
 	"appName": "workout-planner",
 	"webDir": "www",
 	"bundledWebRuntime": false

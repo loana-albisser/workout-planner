@@ -11,5 +11,5 @@
   <div *ngFor="let set of selectedPlan.exerciseSets">
     <app-workout-run-item [exerciseSet]="set"></app-workout-run-item>
   </div>
-  <ion-button [expand]="'full'">Finish Workout</ion-button>
+  <ion-button [expand]="'full'" (click)="save()">Finish Workout</ion-button>
 </ion-content>

@@ -47,7 +47,15 @@ const routes: Routes = [
   },
   {
     path: 'workout-overview',
-    loadChildren: () => import('./workout-overview/workout-overview.module').then( m => m.WorkoutOverviewPageModule)
+    loadChildren: () =>
+      import('./workout-overview/workout-overview.module').then(
+        (m) => m.WorkoutOverviewPageModule
+      ),
+  },
+  {
+    path: 'progress',
+    loadChildren: () =>
+      import('./progress/progress.module').then((m) => m.ProgressPageModule),
   },
 ];
 

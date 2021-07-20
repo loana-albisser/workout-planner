@@ -1,6 +1,8 @@
 {
   "name": "workout-planner",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular",
   "id": "92289ad1"
 }
