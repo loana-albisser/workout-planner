@@ -128,21 +128,24 @@ export class DatabaseProvider {
 
   addWorkoutRun(workoutRun: WorkoutRun) {
     const workoutRunCollection = this.firestore.collection('WorkoutRun');
+
+    // const uid = this.authenticationService.currentUser;
+    const uid = 'dMmZkYlO2HWMZnnudjUUgIixWR43';
     workoutRunCollection.add({
       date: firebase.firestore.FieldValue.serverTimestamp(),
+      user: uid,
+      executedPlan: workoutRun.executedPlan
     }).then(data => {
-      workoutRun.executedExercised.forEach(item => {
+      workoutRun.executedExercises.forEach(item => {
         if (item.set.length > 0) {
-          // const minimizedSetList = item.set.map(bla => delete bla.finished);
-          const minimizedSetList = Array()
+          const minimizedSetList = Array();
           item.set.forEach(set => {
             minimizedSetList.push({ reps: set.reps, weight: set.weight});
           });
           const castedSetList = minimizedSetList.map((obj) => Object.assign({}, obj));
-          workoutRunCollection.doc(data.id).update({ executedExercise:
-            firebase.firestore.FieldValue.arrayUnion({ exerciseSetId: item.exerciseSetId, set: castedSetList})})
+          workoutRunCollection.doc(data.id).update({ executedExercises:
+            firebase.firestore.FieldValue.arrayUnion({ exercise: item.exercise, set: castedSetList})})
             .then((result) => {
-            // workoutRunCollection.doc(data.id).set({ executedExercise: [{ set: asdf}]});
           }).catch((err) => {
 
           });
@@ -151,6 +154,31 @@ export class DatabaseProvider {
       });
     }).catch(error => {
       const test = error;
+    });
+  }
+
+  receiveAllWorkoutRuns(): Promise<WorkoutRun[]> {
+    return new Promise((resolve, reject) => {
+      const docRef = this.firestore.collection('WorkoutRun');
+      const obj: any = [];
+      // const uid = this.authenticationService.currentUser;
+      const uid = 'dMmZkYlO2HWMZnnudjUUgIixWR43';
+
+      docRef
+        .where('user', '==', uid)
+        .get()
+        .then((doc) => {
+          doc.forEach((result: any) => {
+            // const id = result.id;
+            // const date = result.data().title;
+            const workoutRun = result.data();
+            obj.push(workoutRun);
+          });
+          resolve(obj);
+        })
+        .catch((error: any) => {
+          reject(error);
+        });
     });
   }
 

@@ -1,3 +1,5 @@
+import { WorkoutRun } from './../workout-run/workout-run.page';
+import { DatabaseProvider } from './../database-provider';
 import Chart from 'chart.js/auto';
 import { Component, OnInit } from '@angular/core';
 import { GoogleChartInterface } from 'ng2-google-charts';
@@ -9,12 +11,24 @@ import { GoogleChartInterface } from 'ng2-google-charts';
 })
 export class ProgressPage implements OnInit {
   public pieChart: GoogleChartInterface;
+  public workoutRuns: Array<WorkoutRun>;
 
-  constructor() {}
+  constructor(private databaseProvider: DatabaseProvider) {}
 
   ngOnInit() {
     // ßthis.loadColumnChart();
-    this.loadCharsJS();
+    // this.loadCharsJS();
+  }
+
+  ionViewWillEnter(){
+    this.receiveAllWorkoutRuns();
+
+  }
+
+  private receiveAllWorkoutRuns() {
+    this.databaseProvider.receiveAllWorkoutRuns().then(item => {
+        this.workoutRuns = item;
+    });
   }
 
   loadCharsJS() {

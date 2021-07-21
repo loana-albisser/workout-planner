@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <google-chart [data]="pieChart"></google-chart>
-  <div id="myChart"></div>
+  <!--<google-chart [data]="pieChart"></google-chart>-->
+  <ion-list>
+    <app-progress-item  *ngFor="let workoutRun of workoutRuns" [workoutRun]="workoutRun"></app-progress-item>
+  </ion-list>
 </ion-content>

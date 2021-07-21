@@ -1,3 +1,4 @@
+import { ProgressItemComponent } from './progress-item/progress-item.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +18,6 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     ProgressPageRoutingModule,
     Ng2GoogleChartsModule,
   ],
-  declarations: [ProgressPage],
+  declarations: [ProgressPage, ProgressItemComponent],
 })
 export class ProgressPageModule {}

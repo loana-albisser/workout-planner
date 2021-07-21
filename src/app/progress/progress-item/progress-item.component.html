@@ -1,0 +1,30 @@
+<ion-card class="container">
+  <ion-card-header>
+    <ion-card-title><span>{{workoutRun.executedPlan}}</span><span class="date">{{workoutRun.date.toDate() | date: 'dd.MM.yyyy HH:mm'}} </span>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-grid *ngFor="let item of workoutRun.executedExercises">
+        <ion-label>{{item.exercise}}</ion-label>
+        <ion-row>
+          <ion-col>
+            <ion-label class="label-header">Reps</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label class="label-header">Weight [kg]</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of item.set; let i = index">
+          <ion-col>
+            <ion-input [type]="'number'" [(ngModel)]="item.reps"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input [type]="'number'" [(ngModel)]="item.weight"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+  </ion-card-content>
+</ion-card>

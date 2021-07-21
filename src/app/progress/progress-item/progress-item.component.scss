@@ -1,0 +1,43 @@
+.container {
+  margin: 8px;
+  padding: 8px;
+}
+
+.label-header {
+  font-weight: 600;
+}
+.date {
+  float: right;
+}
+
+ion-row {
+  align-items: center;
+}
+
+ion-col {
+  padding: 0;
+  padding-left: 16px;
+  padding-right: 16px;
+  color: white
+}
+
+ion-card-header {
+  padding: 0 0 16px 0
+}
+
+ion-card-content {
+  padding-bottom: 0;
+  padding-inline-end: 0;
+  padding-inline-start: 0;
+}
+
+ion-item {
+  min-height: 24px;
+}
+
+.label-add-set {
+  font-size: 14px;
+  padding: 0;
+  opacity: 0.5;
+}
+

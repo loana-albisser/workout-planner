@@ -27,16 +27,16 @@ export class WorkoutRunPage implements OnInit {
   save() {
     this.location.back();
     const workoutRun = new WorkoutRun();
-    workoutRun.executedExercised = Array();
+    workoutRun.executedPlan = this.selectedPlan.title;
+    workoutRun.executedExercises = Array();
     this.selectedPlan.exerciseSets.forEach(item => {
       const executedExercise = new ExecutedExercise();
       executedExercise.set = new Array();
-      executedExercise.exerciseSetId = item.id;
-      workoutRun.executedExercised.push(executedExercise);
+      executedExercise.exercise = item.exercise.title;
+      workoutRun.executedExercises.push(executedExercise);
       item.exerciseSets.forEach(set => {
         if (set.finished) {
           executedExercise.set.push(set);
-          // finishedExercises.push(set);
         }
       });
     });
@@ -46,10 +46,12 @@ export class WorkoutRunPage implements OnInit {
 
 export class WorkoutRun {
   date: any;
-  executedExercised: Array<ExecutedExercise>;
+  user: string;
+  executedPlan: string;
+  executedExercises: Array<ExecutedExercise>;
 }
 
 export class ExecutedExercise {
-  exerciseSetId: string;
+  exercise: string;
   set: Array<SingleExerciseSet>;
 }
