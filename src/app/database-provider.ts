@@ -127,38 +127,29 @@ export class DatabaseProvider {
   }
 
   addWorkoutRun(workoutRun: WorkoutRun) {
-    const newWorkoutRun = new WorkoutRun();
-    const executedExercise = Array();
-      workoutRun.executedExercised.forEach(executed => {
-        const single = Array();
-        for (const bla of executed.set) {
-          single.push(Object.assign({}, bla));
-        }
-        const newExecuted = new ExecutedExercise();
-        newExecuted.exerciseSetId = executed.exerciseSetId;
-        newExecuted.set = Object.assign({}, single);
-        executedExercise.push(Object.assign({}, executed));
-      });
-        newWorkoutRun.executedExercised = Object.assign({}, executedExercise);
-
-    /* const newExecutedExercises = workoutRun.executedExercised.map((obj)=> Object.assign({}, obj));
-    const workoutSetID = workoutRun.executedExercised.map(item => item.exerciseSetId);
-    const newSet = Array();
-    newExecutedExercises.forEach(item => {
-      newSet.push(item.set.map(obj => Object.assign({}, obj)));
-    }); */
-
-
     const workoutRunCollection = this.firestore.collection('WorkoutRun');
     workoutRunCollection.add({
       date: firebase.firestore.FieldValue.serverTimestamp(),
-      executedExercises: newWorkoutRun.executedExercised
     }).then(data => {
-      debugger;
-      const teset = data;
+      workoutRun.executedExercised.forEach(item => {
+        if (item.set.length > 0) {
+          // const minimizedSetList = item.set.map(bla => delete bla.finished);
+          const minimizedSetList = Array()
+          item.set.forEach(set => {
+            minimizedSetList.push({ reps: set.reps, weight: set.weight});
+          });
+          const castedSetList = minimizedSetList.map((obj) => Object.assign({}, obj));
+          workoutRunCollection.doc(data.id).update({ executedExercise:
+            firebase.firestore.FieldValue.arrayUnion({ exerciseSetId: item.exerciseSetId, set: castedSetList})})
+            .then((result) => {
+            // workoutRunCollection.doc(data.id).set({ executedExercise: [{ set: asdf}]});
+          }).catch((err) => {
 
+          });
+        }
+
+      });
     }).catch(error => {
-      debugger;
       const test = error;
     });
   }
@@ -240,9 +231,9 @@ export class DatabaseProvider {
    *
    * @public
    * @method addDocument
-   * @param  collectionObj    {String}           The database collection we want to add a new document to
-   * @param  docObj           {Any}              The key/value object we want to add
-   * @return {Promise}
+   * @param collectionObj    {String}           The database collection we want to add a new document to
+   * @param docObj           {Any}              The key/value object we want to add
+   * @return
    */
   addDocument(collectionObj: string, dataObj: any): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -263,9 +254,9 @@ export class DatabaseProvider {
    *
    * @public
    * @method deleteDocument
-   * @param  collectionObj    {String}           The database collection we want to delete a document from
-   * @param  docObj           {Any}              The document we wish to delete
-   * @return {Promise}
+   * @param collectionObj    {String}           The database collection we want to delete a document from
+   * @param docObj           {Any}              The document we wish to delete
+   * @return
    */
   deleteDocument(collectionObj: string, docID: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -287,10 +278,10 @@ export class DatabaseProvider {
    *
    * @public
    * @method updateDocument
-   * @param  collectionObj    {String}           The database collection to be used
-   * @param  docID            {String}           The document ID
-   * @param  dataObj          {Any}              The document key/values to be updated
-   * @return {Promise}
+   * @param collectionObj    {String}           The database collection to be used
+   * @param docID            {String}           The document ID
+   * @param dataObj          {Any}              The document key/values to be updated
+   * @return
    */
   updateDocument(
     collectionObj: string,
