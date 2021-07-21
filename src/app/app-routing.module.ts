@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'splashscreen',
     pathMatch: 'full',
   },
   {
@@ -56,6 +56,14 @@ const routes: Routes = [
     path: 'progress',
     loadChildren: () =>
       import('./progress/progress.module').then((m) => m.ProgressPageModule),
+  },
+  {
+    path: 'splashscreen',
+    loadChildren: () => import('./splashscreen/splashscreen.module').then( m => m.SplashscreenPageModule)
+  },
+  {
+    path: 'registration',
+    loadChildren: () => import('./registration/registration.module').then( m => m.RegistrationPageModule)
   },
 ];
 

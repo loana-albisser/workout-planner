@@ -18,6 +18,39 @@ export class AuthenticationService {
     return firebase.auth().currentUser;
   }
 
+  initializeUser(): Promise<string> {
+    return new Promise(resolve => {
+      firebase.auth().onAuthStateChanged((user) => {
+        resolve(user.uid);
+      });
+    });
+  }
+
+  login(email: string, password: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
+        this.currentUser = userCredential.user.uid;
+        resolve(true);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+    });
+  }
+
+  register(email: string, password: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    this.currentUser = userCredential.user.uid;
+        resolve(true);
+  })
+  .catch((error) => {
+    reject(error);
+  });
+    });
+  }
+
   loginWithGoogle() {
     firebase
       .auth()

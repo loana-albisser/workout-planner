@@ -1,0 +1,21 @@
+<ion-content>
+  <ion-label class="label-title">Sign Up</ion-label>
+  <form [formGroup]="registrationForm" (ngSubmit)="register()">
+    <ion-item>
+      <ion-label position="floating">E-Mail</ion-label>
+      <ion-input formControlName="email" [(ngModel)]="email" [type]="'email'"></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+      Enter a valid email
+    </span>
+    <ion-item >
+      <ion-label position="floating">Password</ion-label>
+      <ion-input formControlName="password" [(ngModel)]="password" [type]="'password'"></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.invalid">
+      Password must be 6 digits
+    </span>
+  <ion-button class="button-register" [type]="'submit'" [expand]="'block'">Sign up</ion-button>
+  </form>
+  <ion-button class="button-login" (click)="goToLoginPage()" [expand]="'block'" [fill]="'clear'" [size]="'small'">Sign in</ion-button>
+</ion-content>

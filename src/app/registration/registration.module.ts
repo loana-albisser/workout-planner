@@ -1,13 +1,12 @@
-import { AuthenticationService } from './../authentication.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPageRoutingModule } from './login-routing.module';
+import { RegistrationPageRoutingModule } from './registration-routing.module';
 
-import { LoginPage } from './login.page';
+import { RegistrationPage } from './registration.page';
 
 @NgModule({
   imports: [
@@ -15,9 +14,8 @@ import { LoginPage } from './login.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    LoginPageRoutingModule
+    RegistrationPageRoutingModule
   ],
-  providers: [AuthenticationService],
-  declarations: [LoginPage]
+  declarations: [RegistrationPage]
 })
-export class LoginPageModule {}
+export class RegistrationPageModule {}

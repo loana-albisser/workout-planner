@@ -9,11 +9,16 @@ import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, HttpClientModule,    IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    IonicModule.forRoot(),
+    AppRoutingModule],
   providers: [ DatabaseProvider, WorkoutPlanRepositoryService, NavParams, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

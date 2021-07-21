@@ -45,8 +45,7 @@ export class DatabaseProvider {
 
   async getWorkoutPlans(): Promise<WorkoutPlan[]> {
     return new Promise((resolve, reject) => {
-      // const uid = this.authenticationService.currentUser;
-      const uid = 'dMmZkYlO2HWMZnnudjUUgIixWR43';
+      const uid = this.authenticationService.currentUser;
       this.firestore
         .collection('WorkoutPlan')
         .where('user', '==', uid)
@@ -128,9 +127,7 @@ export class DatabaseProvider {
 
   addWorkoutRun(workoutRun: WorkoutRun) {
     const workoutRunCollection = this.firestore.collection('WorkoutRun');
-
-    // const uid = this.authenticationService.currentUser;
-    const uid = 'dMmZkYlO2HWMZnnudjUUgIixWR43';
+    const uid = this.authenticationService.currentUser;
     workoutRunCollection.add({
       date: firebase.firestore.FieldValue.serverTimestamp(),
       user: uid,
@@ -161,8 +158,7 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const docRef = this.firestore.collection('WorkoutRun');
       const obj: any = [];
-      // const uid = this.authenticationService.currentUser;
-      const uid = 'dMmZkYlO2HWMZnnudjUUgIixWR43';
+      const uid = this.authenticationService.currentUser;
 
       docRef
         .where('user', '==', uid)
