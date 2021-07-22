@@ -13,14 +13,33 @@ import { Location } from '@angular/common';
 export class ExerciseAddPage implements OnInit {
   workoutAddList: Array<WorkoutAdd>  = Array();
   fullWorkoutList: Array<WorkoutAdd>  = Array();
+  muscleGroups: Array<MuscleGroupFilter> = Array();
+  chipSelectedColor = 'primary';
 
   constructor(private location: Location,
     private databaseProvider: DatabaseProvider,
     private addExerciseService: UpdateExerciseService) {
+
   }
 
   ngOnInit() {
     this.receiveAllExercises();
+    this.initializeMuscleGroups();
+  }
+
+  initializeMuscleGroups() {
+    this.muscleGroups.push(new MuscleGroupFilter('Leg'));
+    this.muscleGroups.push(new MuscleGroupFilter('Back'));
+    this.muscleGroups.push(new MuscleGroupFilter('Arms'));
+    this.muscleGroups.push(new MuscleGroupFilter('Core'));
+    this.muscleGroups.push(new MuscleGroupFilter('Chest'));
+    this.muscleGroups.push(new MuscleGroupFilter('Biceps'));
+    this.muscleGroups.push(new MuscleGroupFilter('Triceps'));
+  }
+
+  changeFilter(filter: MuscleGroupFilter) {
+    // TODO change to title instead of id
+    this.muscleGroups.find(item => item.title === filter.title).isChecked = !filter.isChecked;
   }
 
   saveSelectedExercises() {
@@ -35,7 +54,7 @@ export class ExerciseAddPage implements OnInit {
    });
    exerciseSetList.forEach(item => {
     this.addExerciseService.exerciseAddSetList.push(item);
-   })
+   });
    this.location.back();
   }
 
@@ -63,4 +82,10 @@ export class ExerciseAddPage implements OnInit {
 
 export class WorkoutAdd {
   constructor(public id: string, public title: string, public isChecked: boolean) {}
+}
+
+export class MuscleGroupFilter {
+  id: string;
+  isChecked: boolean;
+  constructor(public title: string) {}
 }

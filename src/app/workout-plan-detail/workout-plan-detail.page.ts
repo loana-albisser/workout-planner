@@ -18,6 +18,7 @@ export class WorkoutPlanDetailPage implements OnInit {
   orderChanged: boolean;
 
   constructor(
+    private location: Location,
     private router: Router,
     private authenticationService: AuthenticationService,
     public activatedRoute: ActivatedRoute,
@@ -38,6 +39,10 @@ export class WorkoutPlanDetailPage implements OnInit {
     const draggedItem = this.selectedPlan.exerciseSets.splice(event.detail.from,1)[0];
     this.selectedPlan.exerciseSets.splice(event.detail.to,0,draggedItem);
    event.detail.complete();
+  }
+
+  cancel() {
+    this.location.back();
   }
 
   removeExercise(exerciseSet: ExerciseSet) {

@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button (click)="cancel()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>{{selectedPlan.title}}</ion-title>
+    <!--<ion-title>{{selectedPlan.title}}</ion-title>-->
+    <ion-input [value]="selectedPlan.title"></ion-input>
     <ion-buttons slot="end">
       <ion-button (click)="saveWorkoutPlan()">
         <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>

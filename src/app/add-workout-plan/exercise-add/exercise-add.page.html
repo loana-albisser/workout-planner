@@ -13,6 +13,11 @@
 
 <ion-content>
   <ion-searchbar (ionChange)="search($event)"></ion-searchbar>
+  <div class="container-muscle-group">
+    <ion-chip [ngClass]="{'chip-selected': muscleGroup.isChecked === true}"  *ngFor="let muscleGroup of muscleGroups" (click)="changeFilter(muscleGroup)">
+      <ion-label>{{muscleGroup.title}}</ion-label>
+    </ion-chip>
+  </div>
   <ion-list>
     <ion-item *ngFor="let item of workoutAddList">
       <ion-label>{{item.title}}</ion-label>
