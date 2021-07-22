@@ -15,6 +15,7 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class WorkoutPlanDetailPage implements OnInit {
   selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', []);
+  orderChanged: boolean;
 
   constructor(
     private router: Router,
@@ -30,6 +31,13 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
     );
+  }
+
+  onReorderItems(event) {
+    this.orderChanged = true;
+    const draggedItem = this.selectedPlan.exerciseSets.splice(event.detail.from,1)[0];
+    this.selectedPlan.exerciseSets.splice(event.detail.to,0,draggedItem);
+   event.detail.complete();
   }
 
   removeExercise(exerciseSet: ExerciseSet) {

@@ -38,4 +38,10 @@ export class WorkoutPlanAddPage implements OnInit {
     });
     this.location.back();
   }
+
+  onReorderItems(event) {
+    const draggedItem = this.addExerciseService.exerciseAddSetList.splice(event.detail.from,1)[0];
+    this.addExerciseService.exerciseAddSetList.splice(event.detail.to,0,draggedItem);
+   event.detail.complete();
+  }
 }

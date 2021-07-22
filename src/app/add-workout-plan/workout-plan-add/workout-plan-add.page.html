@@ -17,5 +17,7 @@
     <ion-input [(ngModel)]="title"></ion-input>
   </ion-item>
   <ion-button [routerLink]="['/exercise-add']" [expand]="'block'" class="button-add">Add Exercise</ion-button>
+  <ion-reorder-group (ionItemReorder)="onReorderItems($event)" disabled="false">
   <app-exercise-item-add *ngFor="let item of addExerciseService.exerciseAddSetList" [exerciseSet]="item"></app-exercise-item-add>
+  </ion-reorder-group>
 </ion-content>

@@ -166,13 +166,31 @@ export class DatabaseProvider {
     });
   }
 
-  addExerciseSetToWorkoutPlan(planId: string, setId: string) {
-    const workoutPlanCollection = this.firestore
+  addExerciseSetToWorkoutPlan(planId: string, setId: string): Promise<boolean> {
+    return new Promise(resolve => {
+      const workoutPlanCollection = this.firestore
       .collection('WorkoutPlan')
       .doc(planId);
 
     workoutPlanCollection.update({
       exerciseSets: firebase.firestore.FieldValue.arrayUnion(setId),
+    }).then(() => {
+      resolve(true);
+    });
+    });
+  }
+
+  addExerciseSetsToWorkoutPlan(planId: string, setIds: Array<string>) {
+    return new Promise(resolve => {
+      const workoutPlanCollection = this.firestore
+      .collection('WorkoutPlan')
+      .doc(planId);
+
+    workoutPlanCollection.update({
+      exerciseSets: setIds,
+    }).then(() => {
+      resolve(true);
+    });
     });
   }
 
