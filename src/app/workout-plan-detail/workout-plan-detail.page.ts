@@ -1,10 +1,11 @@
+import { ExerciseSet } from './../model/workout-plan';
 import { DatabaseProvider } from './../database-provider';
 import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutPlan } from '../model/workout-plan';
 import { Location } from '@angular/common';
-import { AddExerciseService } from '../add-exercise.service';
+import { UpdateExerciseService } from '../add-exercise.service';
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
@@ -20,7 +21,7 @@ export class WorkoutPlanDetailPage implements OnInit {
     private authenticationService: AuthenticationService,
     public activatedRoute: ActivatedRoute,
     private databaseProvider: DatabaseProvider,
-    public addExerciseService: AddExerciseService,
+    public addExerciseService: UpdateExerciseService,
     private workoutPlanRepositoryService: WorkoutPlanRepositoryService
   ) {}
 
@@ -29,6 +30,12 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
     );
+  }
+
+  removeExercise(exerciseSet: ExerciseSet) {
+    const indexToDelete = this.selectedPlan.exerciseSets.findIndex(item => item.id === exerciseSet.id);
+    this.selectedPlan.exerciseSets.splice(indexToDelete, 1);
+    this.addExerciseService.removedExercises.push(exerciseSet);
   }
 
   saveWorkoutPlan() {
@@ -42,6 +49,9 @@ export class WorkoutPlanDetailPage implements OnInit {
           result
         );
       });
+    });
+    this.addExerciseService.removedExercises.forEach(sets => {
+
     });
     this.router.navigate([
       '/home',

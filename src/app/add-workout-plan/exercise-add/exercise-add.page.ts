@@ -1,6 +1,6 @@
 import { ExerciseSet, SingleExerciseSet } from '../../model/workout-plan';
 import { Exercise } from '../../model/workout-plan';
-import { AddExerciseService } from '../../add-exercise.service';
+import { UpdateExerciseService } from '../../add-exercise.service';
 import { DatabaseProvider } from '../../database-provider';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
@@ -16,7 +16,7 @@ export class ExerciseAddPage implements OnInit {
 
   constructor(private location: Location,
     private databaseProvider: DatabaseProvider,
-    private addExerciseService: AddExerciseService) {
+    private addExerciseService: UpdateExerciseService) {
   }
 
   ngOnInit() {

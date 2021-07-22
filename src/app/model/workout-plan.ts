@@ -9,6 +9,8 @@ export class WorkoutPlan {
 }
 
 export class Exercise {
+    exerciseType: string;
+    muscleGroups: Array<string>;
     constructor(public id: string, public title: string) {
 
     }

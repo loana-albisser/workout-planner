@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class AddExerciseService {
+export class UpdateExerciseService {
   exerciseAddSetList: Array<ExerciseSet> = Array();
+  removedExercises: Array<ExerciseSet> = Array();
 
   constructor() {}
 }

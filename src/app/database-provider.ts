@@ -24,24 +24,6 @@ export class DatabaseProvider {
   ) {
     this.firestore = firebase.firestore();
   }
-  createAndPopulateDocument(
-    collectionObj: string,
-    docID: string,
-    dataObj: any
-  ): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.firestore
-        .collection(collectionObj)
-        .doc(docID)
-        .set(dataObj, { merge: true })
-        .then((data: any) => {
-          resolve(data);
-        })
-        .catch((error: any) => {
-          reject(error);
-        });
-    });
-  }
 
   async getWorkoutPlans(): Promise<WorkoutPlan[]> {
     return new Promise((resolve, reject) => {
@@ -138,6 +120,32 @@ export class DatabaseProvider {
     });
   }
 
+  removeExerciseSet(exerciseSet: ExerciseSet): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.firestore
+      .collection('ExerciseSet')
+      .doc(exerciseSet.id)
+      .delete()
+      .then((data) => {
+        resolve(true);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+  }
+
+  removeExerciseSetFromWorkoutPlan(planId: string, setId: string) {
+    const workoutPlanCollection = this.firestore
+      .collection('WorkoutPlan')
+      .doc(planId);
+
+    workoutPlanCollection.update({
+      exerciseSets: firebase.firestore.FieldValue.arrayRemove(setId)
+
+    });
+  }
+
   addWorkoutPlan(workoutPlan: WorkoutPlan): Promise<string> {
     return new Promise((resolve, reject) => {
       const workoutPlanCollection = this.firestore.collection('WorkoutPlan');
@@ -209,7 +217,6 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const docRef = this.firestore.collection('WorkoutRun');
       const obj: any = [];
-      debugger;
       const uid = this.authenticationService.getCurrentUser().uid;
 
       docRef
@@ -293,82 +300,6 @@ export class DatabaseProvider {
           } else {
             reject();
           }
-        })
-        .catch((error: any) => {
-          reject(error);
-        });
-    });
-  }
-
-  /**
-   * Add a new document to a selected database collection
-   *
-   * @public
-   * @method addDocument
-   * @param collectionObj    {String}           The database collection we want to add a new document to
-   * @param docObj           {Any}              The key/value object we want to add
-   * @return
-   */
-  addDocument(collectionObj: string, dataObj: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.firestore
-        .collection(collectionObj)
-        .add(dataObj)
-        .then((obj: any) => {
-          resolve(obj);
-        })
-        .catch((error: any) => {
-          reject(error);
-        });
-    });
-  }
-
-  /**
-   * Delete an existing document from a selected database collection
-   *
-   * @public
-   * @method deleteDocument
-   * @param collectionObj    {String}           The database collection we want to delete a document from
-   * @param docObj           {Any}              The document we wish to delete
-   * @return
-   */
-  deleteDocument(collectionObj: string, docID: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.firestore
-        .collection(collectionObj)
-        .doc(docID)
-        .delete()
-        .then((obj: any) => {
-          resolve(obj);
-        })
-        .catch((error: any) => {
-          reject(error);
-        });
-    });
-  }
-
-  /**
-   * Update an existing document within a selected database collection
-   *
-   * @public
-   * @method updateDocument
-   * @param collectionObj    {String}           The database collection to be used
-   * @param docID            {String}           The document ID
-   * @param dataObj          {Any}              The document key/values to be updated
-   * @return
-   */
-  updateDocument(
-    collectionObj: string,
-    docID: string,
-    dataObj: any
-  ): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.firestore
-        .collection(collectionObj)
-        .doc(docID)
-        .update(dataObj)
-        .then((obj: any) => {
-          resolve(obj);
         })
         .catch((error: any) => {
           reject(error);

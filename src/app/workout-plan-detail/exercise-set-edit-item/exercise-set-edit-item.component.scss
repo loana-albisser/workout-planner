@@ -20,25 +20,28 @@ ion-col {
 }
 
 ion-card-header {
-    padding: 0 0 16px 0
+    padding: 0 0 16px 0;
+    display: flex;
+    justify-content: space-between;
+
+    ion-icon {
+      display: flex;
+      width: 20px;
+      height: 20px;
+      align-self: flex-end;
+    }
 }
 
 ion-card-content {
     padding-bottom: 0;
+
+    ion-input {
+      --padding-start: 0
+    }
 }
 
 ion-item {
     min-height: 24px;
-}
-
-.label-add-set {
-    font-size: 14px;
-    padding: 0;
-    opacity: 0.5;
-}
-
-.icon-add-set {
-    margin: 0 16px 0 0
 }
 
 

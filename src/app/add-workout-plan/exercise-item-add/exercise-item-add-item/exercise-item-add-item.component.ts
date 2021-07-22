@@ -1,5 +1,5 @@
 import { SingleExerciseSet } from './../../../model/workout-plan';
-import { AddExerciseService } from '../../../add-exercise.service';
+import { UpdateExerciseService } from '../../../add-exercise.service';
 import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ExerciseSet } from '../../../model/workout-plan';
 
@@ -12,7 +12,7 @@ export class ExerciseItemAddItemComponent implements OnInit {
   @Input() exerciseSet: ExerciseSet;
   @ViewChildren('repInputs') inputs: QueryList<any>;
 
-  constructor(private addExerciseService: AddExerciseService) {}
+  constructor(private addExerciseService: UpdateExerciseService) {}
 
   ngOnInit() {}
 

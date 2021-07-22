@@ -13,11 +13,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-button [routerLink]="['/exercise-add']" [expand]="'full'" class="button-add">Add Exercise</ion-button>
+  <ion-button [routerLink]="['/exercise-add']" [expand]="'block'" class="button-add">Add Exercise</ion-button>
   <div *ngFor="let set of addExerciseService.exerciseAddSetList">
     <app-exercise-set-edit-item [exerciseSet]="set"></app-exercise-set-edit-item>
   </div>
   <div *ngFor="let set of selectedPlan.exerciseSets">
-    <app-exercise-set-edit-item [exerciseSet]="set"></app-exercise-set-edit-item>
+    <app-exercise-set-edit-item [exerciseSet]="set" (removeExercise)="removeExercise($event)"></app-exercise-set-edit-item>
   </div>
 </ion-content>
