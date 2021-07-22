@@ -50,8 +50,10 @@ export class WorkoutPlanDetailPage implements OnInit {
         );
       });
     });
-    this.addExerciseService.removedExercises.forEach(sets => {
-
+    this.addExerciseService.removedExercises.forEach(set => {
+        this.databaseProvider.removeExerciseSet(set).then(() => {
+            this.databaseProvider.removeExerciseSetFromWorkoutPlan(this.selectedPlan.id, set.id);
+        });
     });
     this.router.navigate([
       '/home',
