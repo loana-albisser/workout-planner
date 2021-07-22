@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 })
 export class ExerciseAddPage implements OnInit {
   workoutAddList: Array<WorkoutAdd>  = Array();
+  fullWorkoutList: Array<WorkoutAdd>  = Array();
 
   constructor(private location: Location,
     private databaseProvider: DatabaseProvider,
@@ -32,8 +33,17 @@ export class ExerciseAddPage implements OnInit {
       const exerciseSet = new ExerciseSet(index.toString(), exercise, singleExerciseSetList);
       exerciseSetList.push(exerciseSet);
    });
-   this.addExerciseService.exerciseAddSetList = exerciseSetList
+   this.addExerciseService.exerciseAddSetList = exerciseSetList;
    this.location.back();
+  }
+
+  search(event: CustomEvent) {
+      const value: string = event.detail.value;
+      if (value === '') {
+        this.workoutAddList = this.fullWorkoutList;
+      } else {
+        this.workoutAddList = this.fullWorkoutList.filter(item => item.title.toLowerCase().includes(value.toLowerCase()));
+      }
   }
 
   receiveAllExercises() {
@@ -44,6 +54,7 @@ export class ExerciseAddPage implements OnInit {
             workoutAddList.push(workoutAdd);
         });
         this.workoutAddList = workoutAddList;
+        this.fullWorkoutList = workoutAddList.map((obj) => Object.assign({}, obj));
       });
   }
 }

@@ -1,6 +1,6 @@
 import { SingleExerciseSet } from './../../../model/workout-plan';
 import { AddExerciseService } from '../../../add-exercise.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ExerciseSet } from '../../../model/workout-plan';
 
 @Component({
@@ -10,6 +10,7 @@ import { ExerciseSet } from '../../../model/workout-plan';
 })
 export class ExerciseItemAddItemComponent implements OnInit {
   @Input() exerciseSet: ExerciseSet;
+  @ViewChildren('repInputs') inputs: QueryList<any>;
 
   constructor(private addExerciseService: AddExerciseService) {}
 
@@ -29,6 +30,9 @@ export class ExerciseItemAddItemComponent implements OnInit {
     this.addExerciseService.exerciseAddSetList.find(
       (item) => item.id === this.exerciseSet.id
     ).exerciseSets = oldExerciseSets;
+    setTimeout(() => {
+      this.inputs.last.setFocus();
+    },100);
   }
 
   removeExerciseSet(index: number) {
