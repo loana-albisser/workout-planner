@@ -4,13 +4,13 @@
       <ion-col>
         <ion-item class="item-input-data">
           <ion-label position="stacked">Reps</ion-label>
-          <ion-input [type]="'number'"></ion-input>
+          <ion-input [(ngModel)]="item.reps" [type]="'number'"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col>
         <ion-item class="item-input-data">
           <ion-label position="stacked">Weight [kg]</ion-label>
-          <ion-input [type]="'number'"></ion-input>
+          <ion-input [(ngModel)]="item.weight" [type]="'number'"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="2">

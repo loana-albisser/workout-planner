@@ -68,8 +68,6 @@ export class WorkoutPlanListComponent implements OnInit {
         );
         newExerciseSet.exercise = newExercise;
         newWorkoutPlan.exerciseSets.push(newExerciseSet);
-        // const newExercise = await this.databaseProvider.getExercise(exercise.id)
-        // newWorkoutPlan.exercises.push(newExercise)
       }
       workoutPlans.push(newWorkoutPlan);
     }

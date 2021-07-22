@@ -21,7 +21,12 @@ export class AuthenticationService {
   initializeUser(): Promise<string> {
     return new Promise(resolve => {
       firebase.auth().onAuthStateChanged((user) => {
-        resolve(user.uid);
+        if (user != null) {
+          this.currentUser = user.uid;
+          resolve(user.uid);
+        } else {
+          resolve(null);
+        }
       });
     });
   }

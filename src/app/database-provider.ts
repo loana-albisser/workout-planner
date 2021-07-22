@@ -45,7 +45,7 @@ export class DatabaseProvider {
 
   async getWorkoutPlans(): Promise<WorkoutPlan[]> {
     return new Promise((resolve, reject) => {
-      const uid = this.authenticationService.currentUser;
+      const uid = this.authenticationService.getCurrentUser().uid;
       this.firestore
         .collection('WorkoutPlan')
         .where('user', '==', uid)
@@ -72,6 +72,29 @@ export class DatabaseProvider {
           resolve(obj);
         })
         .catch((error: any) => {
+          reject(error);
+        });
+    });
+  }
+
+  setExerciseSet(
+    exerciseId: string,
+    singleExerciseSet: SingleExerciseSet[]
+  ): Promise<string> {
+    // TODO add Converter
+    return new Promise((resolve, reject) => {
+      const exerciseSet = Array();
+      singleExerciseSet.forEach(item => {
+          exerciseSet.push({reps: Number(item.reps), weight: Number(item.weight)});
+      });
+      const castedExerciseSetList = exerciseSet.map((obj) => Object.assign({}, obj));
+      this.firestore
+        .collection('ExerciseSet')
+        .add({ exercise: exerciseId, sets: castedExerciseSetList })
+        .then(data => {
+          resolve(data.id);
+        })
+        .catch((error) => {
           reject(error);
         });
     });
@@ -115,6 +138,26 @@ export class DatabaseProvider {
     });
   }
 
+  addWorkoutPlan(workoutPlan: WorkoutPlan): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const workoutPlanCollection = this.firestore.collection('WorkoutPlan');
+      const castedSetIdList = Array();
+      workoutPlan.exerciseSets.forEach((item) => {
+        castedSetIdList.push(item.id);
+      });
+      const user = this.authenticationService.getCurrentUser().uid;
+
+      workoutPlanCollection.add({
+        title: workoutPlan.title,
+        user,
+      }).then(data => {
+        resolve(data.id)
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  }
+
   addExerciseSetToWorkoutPlan(planId: string, setId: string) {
     const workoutPlanCollection = this.firestore
       .collection('WorkoutPlan')
@@ -127,46 +170,53 @@ export class DatabaseProvider {
 
   addWorkoutRun(workoutRun: WorkoutRun) {
     const workoutRunCollection = this.firestore.collection('WorkoutRun');
-    const uid = this.authenticationService.currentUser;
-    workoutRunCollection.add({
-      date: firebase.firestore.FieldValue.serverTimestamp(),
-      user: uid,
-      executedPlan: workoutRun.executedPlan
-    }).then(data => {
-      workoutRun.executedExercises.forEach(item => {
-        if (item.set.length > 0) {
-          const minimizedSetList = Array();
-          item.set.forEach(set => {
-            minimizedSetList.push({ reps: set.reps, weight: set.weight});
-          });
-          const castedSetList = minimizedSetList.map((obj) => Object.assign({}, obj));
-          workoutRunCollection.doc(data.id).update({ executedExercises:
-            firebase.firestore.FieldValue.arrayUnion({ exercise: item.exercise, set: castedSetList})})
-            .then((result) => {
-          }).catch((err) => {
-
-          });
-        }
-
+    const uid = this.authenticationService.getCurrentUser().uid;
+    workoutRunCollection
+      .add({
+        date: firebase.firestore.FieldValue.serverTimestamp(),
+        user: uid,
+        executedPlan: workoutRun.executedPlan,
+      })
+      .then((data) => {
+        workoutRun.executedExercises.forEach((item) => {
+          if (item.set.length > 0) {
+            const minimizedSetList = Array();
+            item.set.forEach((set) => {
+              minimizedSetList.push({ reps: set.reps, weight: set.weight });
+            });
+            const castedSetList = minimizedSetList.map((obj) =>
+              Object.assign({}, obj)
+            );
+            workoutRunCollection
+              .doc(data.id)
+              .update({
+                executedExercises: firebase.firestore.FieldValue.arrayUnion({
+                  exercise: item.exercise,
+                  set: castedSetList,
+                }),
+              })
+              .then((result) => {})
+              .catch((err) => {});
+          }
+        });
+      })
+      .catch((error) => {
+        const test = error;
       });
-    }).catch(error => {
-      const test = error;
-    });
   }
 
   receiveAllWorkoutRuns(): Promise<WorkoutRun[]> {
     return new Promise((resolve, reject) => {
       const docRef = this.firestore.collection('WorkoutRun');
       const obj: any = [];
-      const uid = this.authenticationService.currentUser;
+      debugger;
+      const uid = this.authenticationService.getCurrentUser().uid;
 
       docRef
         .where('user', '==', uid)
         .get()
         .then((doc) => {
           doc.forEach((result: any) => {
-            // const id = result.id;
-            // const date = result.data().title;
             const workoutRun = result.data();
             obj.push(workoutRun);
           });
