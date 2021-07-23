@@ -256,7 +256,6 @@ export class DatabaseProvider {
 
       docRef
         .where('user', '==', uid)
-        .get()
         .onSnapshot((doc) => {
           doc.forEach((result: any) => {
             const workoutRun = result.data();

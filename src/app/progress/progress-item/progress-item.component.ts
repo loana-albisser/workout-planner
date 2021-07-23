@@ -8,9 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ProgressItemComponent implements OnInit {
   @Input() workoutRun: WorkoutRun;
+  expanded = false;
 
   constructor() { }
 
   ngOnInit() {}
+
+  changeExpandItem() {
+    this.expanded = !this.expanded;
+  }
 
 }

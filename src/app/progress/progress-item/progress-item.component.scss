@@ -1,13 +1,32 @@
-.container {
+ion-card {
   margin: 8px;
   padding: 8px;
 }
 
-.label-header {
-  font-weight: 600;
+.container-expanded {
+ height: 100%;
 }
-.date {
-  float: right;
+
+.container-unexpanded {
+  height: 54px;
+}
+
+.container-title {
+  display: flex;
+  flex-flow: column;
+}
+
+.label-date {
+  font-weight: 600;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.label-title {
+  opacity: 0.8;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 ion-row {
@@ -22,7 +41,14 @@ ion-col {
 }
 
 ion-card-header {
-  padding: 0 0 16px 0
+  padding: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  ion-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
 }
 
 ion-card-content {

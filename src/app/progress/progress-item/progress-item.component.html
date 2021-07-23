@@ -1,7 +1,13 @@
-<ion-card class="container">
-  <ion-card-header>
-    <ion-card-title><span>{{workoutRun.executedPlan}}</span><span class="date">{{workoutRun.date.toDate() | date: 'dd.MM.yyyy HH:mm'}} </span>
-    </ion-card-title>
+<ion-card id="container" [ngClass]="expanded ? 'container-expanded': 'container-unexpanded'">
+  <ion-card-header (click)="changeExpandItem()">
+    <ion-icon *ngIf="!expanded" name="chevron-forward-outline"></ion-icon>
+    <ion-icon *ngIf="expanded" name="chevron-down-outline"></ion-icon>
+
+    <div class="container-title">
+      <ion-label class="label-date">{{workoutRun.date.toDate() | date: 'dd.MM.yyyy HH:mm'}}</ion-label>
+      <ion-label class="label-title">{{workoutRun.executedPlan}}</ion-label>
+    </div>
+
   </ion-card-header>
   <ion-card-content>
     <ion-list>
