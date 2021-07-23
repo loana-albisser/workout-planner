@@ -12,7 +12,7 @@
   <ion-card-content>
     <ion-list>
       <ion-grid *ngFor="let item of workoutRun.executedExercises">
-        <ion-label>{{item.exercise}}</ion-label>
+        <ion-label class="label-exercise-title">{{item.exercise}}</ion-label>
         <ion-row>
           <ion-col>
             <ion-label class="label-header">Reps</ion-label>

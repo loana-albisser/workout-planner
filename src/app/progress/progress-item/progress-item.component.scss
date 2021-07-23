@@ -61,9 +61,21 @@ ion-item {
   min-height: 24px;
 }
 
+ion-input {
+  --padding-start: 0;
+}
+
 .label-add-set {
   font-size: 14px;
   padding: 0;
   opacity: 0.5;
+}
+
+.label-exercise-title {
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 8px;
+  display: flex;
 }
 
