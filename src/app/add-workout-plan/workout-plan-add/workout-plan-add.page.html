@@ -13,10 +13,10 @@
 
 <ion-content>
   <ion-item class="title-item">
-    <ion-label position="stacked">Title</ion-label>
+    <ion-label position="stacked">{{ "title" | translate }}</ion-label>
     <ion-input [(ngModel)]="title"></ion-input>
   </ion-item>
-  <ion-button [routerLink]="['/exercise-add']" [expand]="'block'" class="button-add">Add Exercise</ion-button>
+  <ion-button [routerLink]="['/exercise-add']" [expand]="'block'" class="button-add">{{"add_exercise" | translate}}</ion-button>
   <ion-reorder-group (ionItemReorder)="onReorderItems($event)" disabled="false">
   <app-exercise-item-add *ngFor="let item of addExerciseService.exerciseAddSetList" [exerciseSet]="item"></app-exercise-item-add>
   </ion-reorder-group>

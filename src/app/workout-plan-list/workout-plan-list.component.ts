@@ -34,6 +34,7 @@ export class WorkoutPlanListComponent implements OnInit {
 
   goToWorkoutRun(id: string, event: any) {
     event.preventDefault();
+    event.stopPropagation();
     this.router.navigate(['/workout-run', { id }]);
   }
 

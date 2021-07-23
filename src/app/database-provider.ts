@@ -25,14 +25,14 @@ export class DatabaseProvider {
     this.firestore = firebase.firestore();
   }
 
-  async getWorkoutPlans(): Promise<WorkoutPlan[]> {
+  getWorkoutPlans(): Promise<WorkoutPlan[]> {
     return new Promise((resolve, reject) => {
       const uid = this.authenticationService.getCurrentUser().uid;
       this.firestore
         .collection('WorkoutPlan')
         .where('user', '==', uid)
-        .get()
-        .then((querySnapshot) => {
+        // .get()
+        /* .then((querySnapshot) => {
           const obj: any = [];
           querySnapshot.forEach((doc: any) => {
             const id = doc.id;
@@ -52,10 +52,27 @@ export class DatabaseProvider {
             obj.push(workoutPlan);
           });
           resolve(obj);
-        })
-        .catch((error: any) => {
-          reject(error);
-        });
+        }) */
+        .onSnapshot((querySnapshot) => {
+          const obj: any = [];
+          querySnapshot.forEach((doc: any) => {
+            const id = doc.id;
+            const title = doc.data().title;
+            const exercises = Array();
+            if (doc.data().exerciseSets !== undefined) {
+              doc.data().exerciseSets.forEach((setId: string) => {
+                const exerciseSet = new ExerciseSet(
+                  setId,
+                  new Exercise('', ''),
+                  []
+                );
+                exercises.push(exerciseSet);
+              });
+            }
+            const workoutPlan = new WorkoutPlan(id, title, uid, exercises);
+            obj.push(workoutPlan);
+          });
+          resolve(obj);      });
     });
   }
 
@@ -240,15 +257,12 @@ export class DatabaseProvider {
       docRef
         .where('user', '==', uid)
         .get()
-        .then((doc) => {
+        .onSnapshot((doc) => {
           doc.forEach((result: any) => {
             const workoutRun = result.data();
             obj.push(workoutRun);
           });
           resolve(obj);
-        })
-        .catch((error: any) => {
-          reject(error);
         });
     });
   }

@@ -10,7 +10,6 @@ import { GoogleChartInterface } from 'ng2-google-charts';
   styleUrls: ['./progress.page.scss'],
 })
 export class ProgressPage implements OnInit {
-  public pieChart: GoogleChartInterface;
   public workoutRuns: Array<WorkoutRun>;
 
   constructor(private databaseProvider: DatabaseProvider) {}
@@ -20,7 +19,13 @@ export class ProgressPage implements OnInit {
 
   ionViewWillEnter(){
     this.receiveAllWorkoutRuns();
+  }
 
+  isEmpty(): boolean {
+    if (this.workoutRuns == null) {
+      return true;
+    }
+    return this.workoutRuns.length === 0;
   }
 
   private receiveAllWorkoutRuns() {

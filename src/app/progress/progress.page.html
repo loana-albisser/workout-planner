@@ -6,6 +6,7 @@
 
 <ion-content>
   <!--<google-chart [data]="pieChart"></google-chart>-->
+  <ion-label *ngIf="isEmpty()">No workout finished</ion-label>
   <ion-list>
     <app-progress-item  *ngFor="let workoutRun of workoutRuns" [workoutRun]="workoutRun"></app-progress-item>
   </ion-list>

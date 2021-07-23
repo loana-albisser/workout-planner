@@ -14,7 +14,7 @@
         <ion-col size="2">
         </ion-col>
       </ion-row>
-      <ion-row [ngClass]="{'selected-row': item.finished === true}" *ngFor="let item of exerciseSet.exerciseSets">
+      <ion-row #exerciseRow *ngFor="let item of exerciseSet.exerciseSets; index as i">
         <ion-col>
           <ion-input [type]="'number'" [(ngModel)]="item.reps"></ion-input>
         </ion-col>
@@ -22,7 +22,7 @@
           <ion-input [type]="'number'" [(ngModel)]="item.weight"></ion-input>
         </ion-col>
         <ion-col size="2">
-          <ion-checkbox class="checkbox-done" [(ngModel)]="item.finished">
+          <ion-checkbox  (ionChange)="exerciseCheckChanged(item.finished, i)" class="checkbox-done" [(ngModel)]="item.finished">
           </ion-checkbox>
         </ion-col>
       </ion-row>

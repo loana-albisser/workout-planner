@@ -1,6 +1,6 @@
 <ion-list>
 
-  <ion-card *ngFor="let item of workoutPlans" (click)="goToWorkoutDetail(item.id)">
+  <ion-card button *ngFor="let item of workoutPlans" (click)="goToWorkoutDetail(item.id)">
     <ion-card-header>
       <ion-card-title>{{item.title}}</ion-card-title>
     </ion-card-header>
@@ -12,7 +12,7 @@
       </ion-list>
     </ion-card-content>
 
-    <ion-item class="item-action" (click)="goToWorkoutRun(item.id, $event)">
+    <ion-item button class="item-action" (click)="goToWorkoutRun(item.id, $event)">
       <ion-icon class="icon-action" name="play-outline" slot="start"></ion-icon>
       <ion-label class="label-action">Start Workout</ion-label>
     </ion-item>
