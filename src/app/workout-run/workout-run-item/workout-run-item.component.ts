@@ -11,6 +11,7 @@ import { Animation, AnimationController } from '@ionic/angular';
 export class WorkoutRunItemComponent implements OnInit {
   @Input() exerciseSet: ExerciseSet;
   @ViewChildren('exerciseRow') row: QueryList<any>;
+  @ViewChildren('container') container: QueryList<any>;
 
   constructor(private animationCtrl: AnimationController) { }
 
@@ -29,6 +30,26 @@ export class WorkoutRunItemComponent implements OnInit {
         { offset: 1, background: 'var(--ion-color-primary-transparent-20)', transform: 'scale(1)' }
       ]);
       animation.play();
+      const finished = Array();
+      this.exerciseSet.exerciseSets.forEach(item => {
+        if(item.finished === true) {
+          finished.push(item);
+        }
+      });
+      if (finished.length === this.exerciseSet.exerciseSets.length) {
+        const container = this.container.first.el;
+        const finishedAnimation = this.animationCtrl.create()
+        .addElement(container)
+        .duration(300)
+        .iterations(1)
+        .keyframes([
+          { offset: 0, background: 'var(--ion-card-background)', transform: 'scale(1)', opacity: '1' },
+          { offset: 0.72, background: 'var(--ion-color-primary-transparent-20)', transform: 'scale(1.1)', opacity: '0.3' },
+          { offset: 1, background: 'var(--ion-color-primary-transparent-20)', transform: 'scale(1)' , opacity: '0.3'}
+        ]);
+        finishedAnimation.play();
+      }
+
     } else {
       const rowElement = this.row.get(index).el;
       const animation = this.animationCtrl.create()
@@ -37,6 +58,15 @@ export class WorkoutRunItemComponent implements OnInit {
       .iterations(1)
       .fromTo('background', 'var(--ion-color-primary-transparent-20)', 'var(--ion-card-background)');
       animation.play();
+
+      const container = this.container.first.el;
+        const finishedAnimation = this.animationCtrl.create()
+        .addElement(container)
+        .duration(300)
+        .iterations(1)
+        .to('opacity', '1')
+        .to('background','var(--ion-card-background)');
+        finishedAnimation.play();
     }
   }
 

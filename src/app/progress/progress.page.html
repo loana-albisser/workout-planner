@@ -5,9 +5,21 @@
 </ion-header>
 
 <ion-content>
-  <!--<google-chart [data]="pieChart"></google-chart>-->
-  <ion-label *ngIf="isEmpty()">No workout finished</ion-label>
-  <ion-list>
-    <app-progress-item  *ngFor="let workoutRun of workoutRuns" [workoutRun]="workoutRun"></app-progress-item>
-  </ion-list>
+  <div>
+    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="type">
+      <ion-segment-button class="left" value="list">
+        <ion-icon name="list-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button class="right" value="chart">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+    <!--<google-chart [data]="pieChart"></google-chart>-->
+    <ion-label *ngIf="isEmpty()">No workout finished</ion-label>
+    <ion-list *ngIf="isListLayout()">
+      <app-progress-item  *ngFor="let workoutRun of workoutRuns" [workoutRun]="workoutRun"></app-progress-item>
+    </ion-list>
+    <google-chart *ngIf="!isListLayout() && loaded" [data]="pieChart"></google-chart>
+
+  </div>
 </ion-content>

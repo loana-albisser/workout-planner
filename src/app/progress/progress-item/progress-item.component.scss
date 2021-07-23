@@ -3,6 +3,14 @@ ion-card {
   padding: 8px;
 }
 
+ion-grid {
+  background-color: var(--ion-card-transparent-20);
+  margin-bottom: 16px;
+  border-radius: 10px;
+  padding-left: 16px;
+  padding-top: 16px;
+}
+
 .container-expanded {
  height: 100%;
 }
@@ -26,22 +34,26 @@ ion-card {
 .label-title {
   opacity: 0.8;
   font-size: 12px;
+  font-weight: 500;
   margin-top: 2px;
+}
+
+.label-header {
+  font-weight: 500;
 }
 
 ion-row {
   align-items: center;
+  opacity: 0.8;
 }
 
 ion-col {
   padding: 0;
-  padding-left: 16px;
-  padding-right: 16px;
   color: white
 }
 
 ion-card-header {
-  padding: 0 0 16px 0;
+  padding: 0 0 0 0;
   display: flex;
   align-items: center;
   ion-icon {
@@ -63,6 +75,8 @@ ion-item {
 
 ion-input {
   --padding-start: 0;
+  --padding-bottom: 4px;
+  --padding-top: 4px;
 }
 
 .label-add-set {

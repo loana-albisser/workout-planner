@@ -1,12 +1,44 @@
 div {
-  width: 100%;
-  height: 300px;
+  display: flex;
+  flex-flow: column;
 }
 
 ion-list {
   background: transparent;
   padding-top: 0;
 }
+
+ion-segment {
+  width: 120px;
+  display: flex;
+  align-self: flex-end;
+  margin-top: 8px;
+  margin-right: 8px;
+}
+ion-segment-button {
+  min-width: unset;
+    min-height: 32px;
+    --color-checked: white;
+    --background-checked: var(--ion-color-primary);
+    --indicator-color: transparent;
+    --padding-end: 0;
+    --padding-start: 0;
+
+    ion-icon {
+      margin: 0;
+    }
+}
+.left {
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+}
+
+.right {
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+
 
 ion-label {
   display: flex;
