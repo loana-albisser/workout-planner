@@ -5,8 +5,7 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <!--<ion-title>{{selectedPlan.title}}</ion-title>-->
-    <ion-input [value]="selectedPlan.title"></ion-input>
+    <ion-input [(ngModel)]="title"></ion-input>
     <ion-buttons slot="end">
       <ion-button (click)="saveWorkoutPlan()">
         <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>

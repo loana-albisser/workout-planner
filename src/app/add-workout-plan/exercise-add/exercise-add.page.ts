@@ -28,19 +28,34 @@ export class ExerciseAddPage implements OnInit {
   }
 
   initializeMuscleGroups() {
-    this.muscleGroups.push(new MuscleGroupFilter('Leg'));
-    this.muscleGroups.push(new MuscleGroupFilter('Back'));
-    this.muscleGroups.push(new MuscleGroupFilter('Arms'));
-    this.muscleGroups.push(new MuscleGroupFilter('Core'));
-    this.muscleGroups.push(new MuscleGroupFilter('Chest'));
-    this.muscleGroups.push(new MuscleGroupFilter('Biceps'));
-    this.muscleGroups.push(new MuscleGroupFilter('Triceps'));
+    this.muscleGroups.push(new MuscleGroupFilter('leg'));
+    this.muscleGroups.push(new MuscleGroupFilter('back'));
+    this.muscleGroups.push(new MuscleGroupFilter('arms'));
+    this.muscleGroups.push(new MuscleGroupFilter('core'));
+    this.muscleGroups.push(new MuscleGroupFilter('chest'));
+    this.muscleGroups.push(new MuscleGroupFilter('biceps'));
+    this.muscleGroups.push(new MuscleGroupFilter('triceps'));
   }
 
   changeFilter(filter: MuscleGroupFilter) {
-    // TODO change to title instead of id
+    debugger;
     this.muscleGroups.find(item => item.title === filter.title).isChecked = !filter.isChecked;
-    this.workoutAddList = this.fullWorkoutList.filter(item => item.muscleGroups.includes(filter.title));  }
+      const selectedMuscleGroups = this.muscleGroups.filter(item => item.isChecked === true);
+      if (selectedMuscleGroups.length === 0) {
+        this.workoutAddList = this.fullWorkoutList;
+      } else {
+        const newExerciseList = Array();
+        selectedMuscleGroups.forEach(item => {
+          const exercises = this.fullWorkoutList.filter(workout => workout.muscleGroups?.includes(item.title));
+          exercises.forEach(exercise => {
+            newExerciseList.push(exercise);
+          });
+        });
+        this.workoutAddList = newExerciseList;
+      }
+
+
+  }
 
   saveSelectedExercises() {
    const selectedExercises = this.workoutAddList.filter(item => item.isChecked === true);

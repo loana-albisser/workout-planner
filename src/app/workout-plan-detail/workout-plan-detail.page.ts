@@ -16,6 +16,7 @@ import { AuthenticationService } from '../authentication.service';
 export class WorkoutPlanDetailPage implements OnInit {
   selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', []);
   orderChanged: boolean;
+  title: string;
 
   constructor(
     private location: Location,
@@ -32,6 +33,7 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
     );
+    this.title = this.selectedPlan.title;
   }
 
   onReorderItems(event) {
@@ -68,6 +70,10 @@ export class WorkoutPlanDetailPage implements OnInit {
             this.databaseProvider.removeExerciseSetFromWorkoutPlan(this.selectedPlan.id, set.id);
         });
     });
+    debugger;
+    if(this.title !== this.selectedPlan.title) {
+      this.databaseProvider.updateWorkoutPlanTitle(this.selectedPlan.id, this.title);
+    }
     this.router.navigate([
       '/home',
       { uid: this.authenticationService.currentUser },

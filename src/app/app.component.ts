@@ -14,7 +14,12 @@ export class AppComponent {
     private translate: TranslateService) {
     this.platform.ready().then(async () => {
       firebase.initializeApp(environment.firebaseConfig);
-      this.translate.setDefaultLang('en');
+      this.initTranslation();
     });
+  }
+
+  initTranslation() {
+    this.translate.setDefaultLang('en');
+    this.translate.use(navigator.language);
   }
 }
