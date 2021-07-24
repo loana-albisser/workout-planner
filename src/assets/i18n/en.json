@@ -1,6 +1,8 @@
 {
   "title": "Title",
   "add_exercise": "Add exercise",
+  "delete": "delete",
+  "arm": "Arm",
   "leg": "Leg",
   "chest": "Chest",
   "triceps": "Triceps",

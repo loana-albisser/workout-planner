@@ -36,11 +36,17 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.title = this.selectedPlan.title;
   }
 
+  delete() {
+    this.databaseProvider.removeWorkoutPlan(this.selectedPlan.id);
+    this.location.back();
+  }
+
   onReorderItems(event) {
     this.orderChanged = true;
-    const draggedItem = this.selectedPlan.exerciseSets.splice(event.detail.from,1)[0];
-    this.selectedPlan.exerciseSets.splice(event.detail.to,0,draggedItem);
-   event.detail.complete();
+    const draggedItem = this.selectedPlan.exerciseSets.splice(
+      event.detail.from, 1)[0];
+    this.selectedPlan.exerciseSets.splice(event.detail.to, 0, draggedItem);
+    event.detail.complete();
   }
 
   cancel() {
@@ -48,7 +54,9 @@ export class WorkoutPlanDetailPage implements OnInit {
   }
 
   removeExercise(exerciseSet: ExerciseSet) {
-    const indexToDelete = this.selectedPlan.exerciseSets.findIndex(item => item.id === exerciseSet.id);
+    const indexToDelete = this.selectedPlan.exerciseSets.findIndex(
+      (item) => item.id === exerciseSet.id
+    );
     this.selectedPlan.exerciseSets.splice(indexToDelete, 1);
     this.addExerciseService.removedExercises.push(exerciseSet);
   }
@@ -65,14 +73,20 @@ export class WorkoutPlanDetailPage implements OnInit {
         );
       });
     });
-    this.addExerciseService.removedExercises.forEach(set => {
-        this.databaseProvider.removeExerciseSet(set).then(() => {
-            this.databaseProvider.removeExerciseSetFromWorkoutPlan(this.selectedPlan.id, set.id);
-        });
+    this.addExerciseService.removedExercises.forEach((set) => {
+      this.databaseProvider.removeExerciseSet(set).then(() => {
+        this.databaseProvider.removeExerciseSetFromWorkoutPlan(
+          this.selectedPlan.id,
+          set.id
+        );
+      });
     });
     debugger;
-    if(this.title !== this.selectedPlan.title) {
-      this.databaseProvider.updateWorkoutPlanTitle(this.selectedPlan.id, this.title);
+    if (this.title !== this.selectedPlan.title) {
+      this.databaseProvider.updateWorkoutPlanTitle(
+        this.selectedPlan.id,
+        this.title
+      );
     }
     this.router.navigate([
       '/home',

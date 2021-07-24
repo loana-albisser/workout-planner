@@ -24,4 +24,5 @@
       <app-exercise-set-edit-item [exerciseSet]="set" (removeExercise)="removeExercise($event)"></app-exercise-set-edit-item>
   </div>
   </ion-reorder-group>
+  <ion-button color="danger" class="button-delete" [expand]="'block'" (click)="delete()">{{ "delete" | translate}}</ion-button>
 </ion-content>

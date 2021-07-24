@@ -150,6 +150,13 @@ export class DatabaseProvider {
     });
   }
 
+  removeWorkoutPlan(workoutPlanId: string) {
+      this.firestore
+        .collection('WorkoutPlan')
+        .doc(workoutPlanId)
+        .delete();
+  }
+
   removeExerciseSetFromWorkoutPlan(planId: string, setId: string) {
     const workoutPlanCollection = this.firestore
       .collection('WorkoutPlan')

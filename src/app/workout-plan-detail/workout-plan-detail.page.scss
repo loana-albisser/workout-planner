@@ -19,3 +19,15 @@ ion-header {
     letter-spacing: 0.0125em;
   }
 }
+
+.button-delete {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+  opacity: 1;
+}
+
+ion-content {
+  --padding-bottom: 40px;
+}

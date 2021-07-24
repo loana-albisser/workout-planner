@@ -9,6 +9,7 @@ import { IonicModule } from '@ionic/angular';
 import { WorkoutPlanDetailPageRoutingModule } from './workout-plan-detail-routing.module';
 
 import { WorkoutPlanDetailPage } from './workout-plan-detail.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { WorkoutPlanDetailPage } from './workout-plan-detail.page';
     FormsModule,
     IonicModule,
     SharedModule,
+    TranslateModule,
     WorkoutPlanDetailPageRoutingModule,
   ],
   declarations: [WorkoutPlanDetailPage],
