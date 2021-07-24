@@ -51,7 +51,6 @@ export class WorkoutRunPage implements OnInit {
 
   timerTick() {
     setTimeout(() => {
-
       if (!this.runTimer) { return; }
       this.remainingTime++;
       this.displayTime = this.getSecondsAsDigitalClock(this.remainingTime);
