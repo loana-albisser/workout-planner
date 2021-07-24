@@ -43,6 +43,10 @@ export class AuthenticationService {
     });
   }
 
+  logout() {
+    firebase.auth().signOut();
+  }
+
   register(email: string, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(email, password)

@@ -3,7 +3,7 @@
     <ion-title>progress</ion-title>
   </ion-toolbar>
 </ion-header>
-ß
+
 <ion-content>
   <div>
     <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="type">
@@ -14,9 +14,8 @@
         <ion-icon name="analytics-outline"></ion-icon>
       </ion-segment-button>
     </ion-segment>
-    <!--<google-chart [data]="pieChart"></google-chart>-->
-    <ion-label *ngIf="isEmpty()">No workout finished</ion-label>
-    <ion-list *ngIf="isListLayout()">
+    <ion-label *ngIf="isEmpty() && loaded">No workout finished</ion-label>
+    <ion-list *ngIf="isListLayout() && loaded">
       <app-progress-item
         *ngFor="let workoutRun of workoutRuns"
         [workoutRun]="workoutRun"

@@ -9,30 +9,24 @@ import { SplashScreen } from '@capacitor/splash-screen';
   styleUrls: ['./splashscreen.page.scss'],
 })
 export class SplashscreenPage implements OnInit {
-
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router) {
-      SplashScreen.show({
-        autoHide: false
-      });
-    }
+    private router: Router
+  ) {
+    SplashScreen.show({
+      autoHide: false,
+    });
+  }
 
   ngOnInit() {
-    this.authenticationService.initializeUser().then(user => {
+    this.authenticationService.initializeUser().then((user) => {
       if (user != null) {
         this.authenticationService.currentUser = user;
-        this.router.navigate([
-          '/home',
-          { uid: user },
-        ]);
+        this.router.navigate(['/home', { uid: user, replaceUrl: true }]);
       } else {
-        this.router.navigate([
-          '/login'
-        ]);
+        this.router.navigate(['/login'], { replaceUrl: true });
       }
       SplashScreen.hide();
     });
   }
-
 }
