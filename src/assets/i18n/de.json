@@ -1,4 +1,11 @@
 {
   "title": "Titel",
-  "add_exercise": "Übung hinzufügen"
+  "add_exercise": "Übung hinzufügen",
+  "arms": "Arme",
+  "leg": "Bein",
+  "chest": "Brust",
+  "triceps": "Trizeps",
+  "biceps": "Bizeps",
+  "back": "Rücken",
+  "core": "Bein"
   }

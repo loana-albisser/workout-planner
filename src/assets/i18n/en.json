@@ -1,4 +1,10 @@
 {
   "title": "Title",
-  "add_exercise": "Add exercise"
+  "add_exercise": "Add exercise",
+  "leg": "Leg",
+  "chest": "Chest",
+  "triceps": "Triceps",
+  "biceps": "Biceps",
+  "back": "Back",
+  "core": "Core"
   }

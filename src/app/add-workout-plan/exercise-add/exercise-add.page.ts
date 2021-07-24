@@ -28,25 +28,22 @@ export class ExerciseAddPage implements OnInit {
   }
 
   initializeMuscleGroups() {
-    this.muscleGroups.push(new MuscleGroupFilter('leg'));
-    this.muscleGroups.push(new MuscleGroupFilter('back'));
-    this.muscleGroups.push(new MuscleGroupFilter('arms'));
-    this.muscleGroups.push(new MuscleGroupFilter('core'));
-    this.muscleGroups.push(new MuscleGroupFilter('chest'));
-    this.muscleGroups.push(new MuscleGroupFilter('biceps'));
-    this.muscleGroups.push(new MuscleGroupFilter('triceps'));
+    this.databaseProvider.receiveMuscleGroups().then(result => {
+      result.forEach(item => {
+        this.muscleGroups.push(new MuscleGroupFilter(item.id, item.title));
+      });
+    });
   }
 
   changeFilter(filter: MuscleGroupFilter) {
-    debugger;
-    this.muscleGroups.find(item => item.title === filter.title).isChecked = !filter.isChecked;
+    this.muscleGroups.find(item => item.id === filter.id).isChecked = !filter.isChecked;
       const selectedMuscleGroups = this.muscleGroups.filter(item => item.isChecked === true);
       if (selectedMuscleGroups.length === 0) {
         this.workoutAddList = this.fullWorkoutList;
       } else {
         const newExerciseList = Array();
         selectedMuscleGroups.forEach(item => {
-          const exercises = this.fullWorkoutList.filter(workout => workout.muscleGroups?.includes(item.title));
+          const exercises = this.fullWorkoutList.filter(workout => workout.muscleGroups?.includes(item.id));
           exercises.forEach(exercise => {
             newExerciseList.push(exercise);
           });
@@ -100,7 +97,6 @@ export class WorkoutAdd {
 }
 
 export class MuscleGroupFilter {
-  id: string;
   isChecked: boolean;
-  constructor(public title: string) {}
+  constructor(public id: string, public title: string) {}
 }

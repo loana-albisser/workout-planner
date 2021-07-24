@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+/* eslint-disable @typescript-eslint/no-shadow */
 import { WorkoutRun, ExecutedExercise } from './workout-run/workout-run.page';
 import { AuthenticationService } from './authentication.service';
 import { Title } from '@angular/platform-browser';
@@ -21,7 +23,8 @@ export class DatabaseProvider {
 
   constructor(
     public http: HttpClient,
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    private translateService: TranslateService
   ) {
     this.firestore = firebase.firestore();
   }
@@ -32,28 +35,6 @@ export class DatabaseProvider {
       this.firestore
         .collection('WorkoutPlan')
         .where('user', '==', uid)
-        // .get()
-        /* .then((querySnapshot) => {
-          const obj: any = [];
-          querySnapshot.forEach((doc: any) => {
-            const id = doc.id;
-            const title = doc.data().title;
-            const exercises = Array();
-            if (doc.data().exerciseSets !== undefined) {
-              doc.data().exerciseSets.forEach((setId: string) => {
-                const exerciseSet = new ExerciseSet(
-                  setId,
-                  new Exercise('', ''),
-                  []
-                );
-                exercises.push(exerciseSet);
-              });
-            }
-            const workoutPlan = new WorkoutPlan(id, title, uid, exercises);
-            obj.push(workoutPlan);
-          });
-          resolve(obj);
-        }) */
         .onSnapshot((querySnapshot) => {
           const obj: any = [];
           querySnapshot.forEach((doc: any) => {
@@ -300,6 +281,25 @@ export class DatabaseProvider {
     });
   }
 
+  receiveMuscleGroups(): Promise<MuscleGroup[]> {
+    return new Promise((resolve, reject) => {
+      const docRef = this.firestore.collection('MuscleGroups');
+      const obj: any = [];
+      const uid = this.authenticationService.getCurrentUser().uid;
+
+      docRef.get().then((doc) => {
+        doc.forEach((result: any) => {
+          const title = result.data().title;
+          this.translateService.get(title).subscribe(result => {
+            const muscleGroup = new MuscleGroup(title, result);
+            obj.push(muscleGroup);
+          });
+        });
+        resolve(obj);
+      });
+    });
+  }
+
   getAllExercises(): Promise<Exercise[]> {
     return new Promise((resolve, reject) => {
       const docRef = this.firestore.collection('Exercise');
@@ -373,4 +373,8 @@ export class DatabaseProvider {
         });
     });
   }
+}
+
+export class MuscleGroup {
+  constructor(public id: string, public title: string) {}
 }
