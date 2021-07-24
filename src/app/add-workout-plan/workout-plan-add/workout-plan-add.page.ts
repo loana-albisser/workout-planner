@@ -1,4 +1,4 @@
-import { WorkoutPlan } from './../../model/workout-plan';
+import { ExerciseSet, WorkoutPlan } from './../../model/workout-plan';
 import { DatabaseProvider } from './../../database-provider';
 import { UpdateExerciseService } from '../../add-exercise.service';
 import { Component, OnInit } from '@angular/core';
@@ -23,6 +23,9 @@ export class WorkoutPlanAddPage implements OnInit {
 
   ngOnInit() {}
 
+  removeExercise(exerciseSet: ExerciseSet) {
+    // this.addExerciseService.removedExercises.push(exerciseSet);
+  }
   saveWorkoutPlan() {
     const workoutPlan = new WorkoutPlan();
     workoutPlan.title = this.title;
