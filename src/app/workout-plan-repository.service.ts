@@ -5,7 +5,7 @@ import { WorkoutPlan } from './model/workout-plan';
   providedIn: 'root'
 })
 export class WorkoutPlanRepositoryService {
-  allWorkoutPlans: Array<WorkoutPlan>  = Array()
+  allWorkoutPlans: Array<WorkoutPlan>  = Array();
 
   constructor() { }
 }

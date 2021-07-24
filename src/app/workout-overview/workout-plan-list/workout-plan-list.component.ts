@@ -1,10 +1,10 @@
 import { Title } from '@angular/platform-browser';
-import { Exercise, WorkoutPlan } from './../model/workout-plan';
-import { DatabaseProvider } from './../database-provider';
-import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
+import { Exercise, WorkoutPlan } from '../../model/workout-plan';
+import { DatabaseProvider } from '../../database-provider';
+import { WorkoutPlanRepositoryService } from '../../workout-plan-repository.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../../authentication.service';
 
 @Component({
   selector: 'app-workout-plan-list',

@@ -1,4 +1,6 @@
+import { DatabaseProvider } from './../database-provider';
 import { Component, OnInit } from '@angular/core';
+import { WorkoutPlan } from '../model/workout-plan';
 
 @Component({
   selector: 'app-workout-overview',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkoutOverviewPage implements OnInit {
 
-  constructor() { }
+  constructor(private databaseProvider: DatabaseProvider) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
+    this.receiveWorkoutPlans();
+  }
+
+  receiveWorkoutPlans(): Promise<WorkoutPlan[]> {
+    return new Promise((resolve) => {
+      this.databaseProvider.getWorkoutPlans().then((data) => {
+        resolve(data);
+      });
+    });
   }
 
 }

@@ -9,6 +9,5 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor() {
-    }
+  constructor() {}
 }

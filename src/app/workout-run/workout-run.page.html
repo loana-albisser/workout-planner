@@ -4,7 +4,16 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{selectedPlan.title}}</ion-title>
-  </ion-toolbar>
+  <ion-buttons slot="end">
+    <ion-button class="button-timer-start" *ngIf="!runTimer" (click)="startTimer()">
+      <ion-icon name="timer-outline"></ion-icon>
+    </ion-button>
+    <ion-label class="label-timer" *ngIf="runTimer">{{displayTime}}</ion-label>
+    <ion-button class="button-timer-reset" *ngIf="runTimer" (click)="stopTimer()">
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
 </ion-header>
 
 <ion-content>

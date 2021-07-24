@@ -1,3 +1,4 @@
+import { WorkoutPlanRepositoryService } from './workout-plan-repository.service';
 import { TranslateService } from '@ngx-translate/core';
 /* eslint-disable @typescript-eslint/no-shadow */
 import { WorkoutRun, ExecutedExercise } from './workout-run/workout-run.page';
@@ -113,7 +114,6 @@ export class DatabaseProvider {
   addExerciseSet(exerciseSet: ExerciseSet): Promise<string> {
     return new Promise((resolve, reject) => {
       const newExerciseSet = Array();
-      debugger;
       exerciseSet.exerciseSets.forEach((item) => {
         newExerciseSet.push({
           reps: Number(item.reps),
@@ -151,10 +151,7 @@ export class DatabaseProvider {
   }
 
   removeWorkoutPlan(workoutPlanId: string) {
-      this.firestore
-        .collection('WorkoutPlan')
-        .doc(workoutPlanId)
-        .delete();
+    this.firestore.collection('WorkoutPlan').doc(workoutPlanId).delete();
   }
 
   removeExerciseSetFromWorkoutPlan(planId: string, setId: string) {
@@ -297,7 +294,7 @@ export class DatabaseProvider {
       docRef.get().then((doc) => {
         doc.forEach((result: any) => {
           const title = result.data().title;
-          this.translateService.get(title).subscribe(result => {
+          this.translateService.get(title).subscribe((result) => {
             const muscleGroup = new MuscleGroup(title, result);
             obj.push(muscleGroup);
           });

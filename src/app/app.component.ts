@@ -20,6 +20,6 @@ export class AppComponent {
 
   initTranslation() {
     this.translate.setDefaultLang('en');
-    this.translate.use(navigator.language);
+    this.translate.use(navigator.language.slice(0, 2));
   }
 }

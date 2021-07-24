@@ -81,7 +81,6 @@ export class WorkoutPlanDetailPage implements OnInit {
         );
       });
     });
-    debugger;
     if (this.title !== this.selectedPlan.title) {
       this.databaseProvider.updateWorkoutPlanTitle(
         this.selectedPlan.id,

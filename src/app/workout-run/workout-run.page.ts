@@ -18,6 +18,9 @@ export class WorkoutRunPage implements OnInit {
   options: AnimationOptions = {
     path: '/assets/fitness.json',
   };
+  runTimer: boolean;
+  remainingTime = 0;
+  displayTime: string;
 
   constructor(
     public toastController: ToastController,
@@ -34,6 +37,42 @@ export class WorkoutRunPage implements OnInit {
           set.finished = false;
         });
     });
+  }
+
+  startTimer() {
+    this.runTimer = true;
+    this.timerTick();
+  }
+
+  stopTimer() {
+    this.runTimer = false;
+    this.remainingTime = 0;
+  }
+
+  timerTick() {
+    setTimeout(() => {
+
+      if (!this.runTimer) { return; }
+      this.remainingTime++;
+      this.displayTime = this.getSecondsAsDigitalClock(this.remainingTime);
+      if (this.remainingTime > 0) {
+        this.timerTick();
+      }
+    }, 1000);
+  }
+
+  getSecondsAsDigitalClock(inputSeconds: number) {
+    const secNum = parseInt(inputSeconds.toString(), 10);
+    const hours = Math.floor(secNum / 3600);
+    const minutes = Math.floor((secNum - (hours * 3600)) / 60);
+    const seconds = secNum - (hours * 3600) - (minutes * 60);
+    let hoursString = '';
+    let minutesString = '';
+    let secondsString = '';
+    hoursString = (hours < 10) ? '0' + hours : hours.toString();
+    minutesString = (minutes < 10) ? '0' + minutes : minutes.toString();
+    secondsString = (seconds < 10) ? '0' + seconds : seconds.toString();
+    return hoursString + ':' + minutesString + ':' + secondsString;
   }
 
   async save() {
