@@ -18,6 +18,7 @@
   </ion-item>
   <ion-button [routerLink]="['/exercise-add']" [expand]="'block'" class="button-add">{{"add_exercise" | translate}}</ion-button>
   <ion-reorder-group (ionItemReorder)="onReorderItems($event)" disabled="false">
-  <app-exercise-item-add *ngFor="let item of addExerciseService.exerciseAddSetList" [exerciseSet]="item"></app-exercise-item-add>
+  <!--<app-exercise-item-add *ngFor="let item of addExerciseService.exerciseAddSetList" [exerciseSet]="item"></app-exercise-item-add>-->
+  <app-exercise-set-edit-item *ngFor="let item of addExerciseService.exerciseAddSetList" [exerciseSet]="item" (removeExercise)="removeExercise($event)"></app-exercise-set-edit-item>
   </ion-reorder-group>
 </ion-content>

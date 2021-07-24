@@ -1,7 +1,7 @@
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ExerciseItemAddItemComponent } from '../exercise-item-add/exercise-item-add-item/exercise-item-add-item.component';
-import { ExerciseItemAddComponent } from '../exercise-item-add/exercise-item-add.component';
-import { NgModule, Component } from '@angular/core';
+import { SharedModule } from './../../shared/shared.module';
+import { AppModule } from './../../app.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,8 +10,6 @@ import { IonicModule } from '@ionic/angular';
 import { WorkoutPlanAddPageRoutingModule } from './workout-plan-add-routing.module';
 
 import { WorkoutPlanAddPage } from './workout-plan-add.page';
-import { HttpLoaderFactory } from 'src/app/app.module';
-import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -19,8 +17,9 @@ import { HttpClient } from '@angular/common/http';
     FormsModule,
     IonicModule,
     WorkoutPlanAddPageRoutingModule,
-    TranslateModule
+    TranslateModule,
+    SharedModule
   ],
-  declarations: [WorkoutPlanAddPage, ExerciseItemAddComponent, ExerciseItemAddItemComponent]
+  declarations: [WorkoutPlanAddPage]
 })
 export class WorkoutPlanAddPageModule {}

@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { ExerciseSetEditItemComponent } from './exercise-set-edit-item/exercise-set-edit-item.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,8 +15,9 @@ import { WorkoutPlanDetailPage } from './workout-plan-detail.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    SharedModule,
     WorkoutPlanDetailPageRoutingModule,
   ],
-  declarations: [WorkoutPlanDetailPage, ExerciseSetEditItemComponent],
+  declarations: [WorkoutPlanDetailPage],
 })
 export class WorkoutPlanDetailPageModule {}

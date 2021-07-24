@@ -44,8 +44,8 @@ export class WorkoutRunItemComponent implements OnInit {
         .iterations(1)
         .keyframes([
           { offset: 0, background: 'var(--ion-card-background)', transform: 'scale(1)', opacity: '1' },
-          { offset: 0.72, background: 'var(--ion-color-primary-transparent-20)', transform: 'scale(1.1)', opacity: '0.3' },
-          { offset: 1, background: 'var(--ion-color-primary-transparent-20)', transform: 'scale(1)' , opacity: '0.3'}
+          { offset: 0.72, background: 'var(--ion-color-primary-transparent-20)', transform: 'scale(1.1)', opacity: '0.4' },
+          { offset: 1, background: 'var(--ion-color-primary-transparent-20)', transform: 'scale(1)' , opacity: '0.4'}
         ]);
         finishedAnimation.play();
       }

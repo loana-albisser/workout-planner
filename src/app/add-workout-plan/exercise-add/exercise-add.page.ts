@@ -40,7 +40,7 @@ export class ExerciseAddPage implements OnInit {
   changeFilter(filter: MuscleGroupFilter) {
     // TODO change to title instead of id
     this.muscleGroups.find(item => item.title === filter.title).isChecked = !filter.isChecked;
-  }
+    this.workoutAddList = this.fullWorkoutList.filter(item => item.muscleGroups.includes(filter.title));  }
 
   saveSelectedExercises() {
    const selectedExercises = this.workoutAddList.filter(item => item.isChecked === true);
@@ -71,7 +71,7 @@ export class ExerciseAddPage implements OnInit {
       this.databaseProvider.getAllExercises().then(result => {
         const workoutAddList = Array();
         result.forEach(value => {
-            const workoutAdd = new WorkoutAdd(value.id, value.title, false);
+            const workoutAdd = new WorkoutAdd(value.id, value.title, value.muscleGroups, false);
             workoutAddList.push(workoutAdd);
         });
         this.workoutAddList = workoutAddList;
@@ -81,7 +81,7 @@ export class ExerciseAddPage implements OnInit {
 }
 
 export class WorkoutAdd {
-  constructor(public id: string, public title: string, public isChecked: boolean) {}
+  constructor(public id: string, public title: string, public muscleGroups: string[], public isChecked: boolean) {}
 }
 
 export class MuscleGroupFilter {

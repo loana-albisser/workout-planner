@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { SingleExerciseSet, WorkoutPlan } from '../model/workout-plan';
 import { Location } from '@angular/common';
+import { AnimationItem } from 'lottie-web';
+import { AnimationOptions } from 'ngx-lottie';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-workout-run',
@@ -12,8 +15,12 @@ import { Location } from '@angular/common';
 })
 export class WorkoutRunPage implements OnInit {
   selectedPlan: WorkoutPlan = new WorkoutPlan('', '','', []);
+  options: AnimationOptions = {
+    path: '/assets/fitness.json',
+  };
 
   constructor(
+    public toastController: ToastController,
       private activatedRoute: ActivatedRoute,
       private location: Location,
       private databaseProvider: DatabaseProvider,
@@ -22,9 +29,19 @@ export class WorkoutRunPage implements OnInit {
   ngOnInit() {
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(p => p.id === planId);
+    this.selectedPlan.exerciseSets.forEach(item => {
+        item.exerciseSets.forEach(set => {
+          set.finished = false;
+        });
+    });
   }
 
-  save() {
+  async save() {
+    const toast = await this.toastController.create({
+      message: 'Workout finished!',
+      duration: 2000
+    });
+    toast.present();
     this.location.back();
     const workoutRun = new WorkoutRun();
     workoutRun.executedPlan = this.selectedPlan.title;

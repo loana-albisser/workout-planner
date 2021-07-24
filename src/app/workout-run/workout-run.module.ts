@@ -1,3 +1,4 @@
+import { LottieModule } from 'ngx-lottie';
 import { WorkoutRunItemComponent } from './workout-run-item/workout-run-item.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,7 +15,8 @@ import { WorkoutRunPage } from './workout-run.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    WorkoutRunPageRoutingModule
+    WorkoutRunPageRoutingModule,
+    LottieModule
   ],
   declarations: [WorkoutRunPage, WorkoutRunItemComponent]
 })

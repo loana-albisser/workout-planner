@@ -21,7 +21,6 @@ export class ExerciseSetEditItemComponent implements OnInit {
     const indexToDelete = this.addExerciseService.exerciseAddSetList.findIndex(item => item.id === this.exerciseSet.id);
     this.addExerciseService.exerciseAddSetList.splice(indexToDelete, 1);
     this.removeExercise.emit(this.exerciseSet);
-
   }
 
   removeExerciseSet(index: number) {

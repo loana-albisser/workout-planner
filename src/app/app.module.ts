@@ -13,11 +13,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+import { ExerciseSetEditItemComponent } from './workout-plan-detail/exercise-set-edit-item/exercise-set-edit-item.component';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule,
+  imports: [
+    BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     IonicModule.forRoot(),
@@ -25,18 +29,26 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })],
-  providers: [ DatabaseProvider, WorkoutPlanRepositoryService, NavParams,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    LottieModule.forRoot({ player: playerFactory }),
+  ],
+  providers: [
+    DatabaseProvider,
+    WorkoutPlanRepositoryService,
+    NavParams,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export function HttpLoaderFactory(http: HttpClient) {
+export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-  }
+}
+
+export function playerFactory() {
+  return player;
+}
