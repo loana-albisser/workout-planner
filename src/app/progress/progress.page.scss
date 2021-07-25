@@ -3,6 +3,35 @@ div {
   flex-flow: column;
 }
 
+.container-graph-selection {
+  display: flex;
+  flex-flow: row;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  ion-item {
+    width: 100%;
+    --padding-start: 8px;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  ion-label {
+    margin: 0;
+  }
+}
+
+.select {
+
+  ion-select {
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+  }
+}
+
 ion-list {
   background: transparent;
   padding-top: 0;
@@ -17,16 +46,17 @@ ion-segment {
 }
 ion-segment-button {
   min-width: unset;
-    min-height: 32px;
-    --color-checked: white;
-    --background-checked: var(--ion-color-primary);
-    --indicator-color: transparent;
-    --padding-end: 0;
-    --padding-start: 0;
+  min-height: 32px;
+  --color-checked: white;
+  --background-checked: var(--ion-color-primary);
+  --background: var(--ion-item-background);
+  --indicator-color: transparent;
+  --padding-end: 0;
+  --padding-start: 0;
 
-    ion-icon {
-      margin: 0;
-    }
+  ion-icon {
+    margin: 0;
+  }
 }
 .left {
   border-bottom-left-radius: 15px;
@@ -38,10 +68,8 @@ ion-segment-button {
   border-top-right-radius: 15px;
 }
 
-
-
 ion-label {
   display: flex;
-    justify-content: center;
-    margin: 16px;
+  justify-content: center;
+  margin: 16px;
 }

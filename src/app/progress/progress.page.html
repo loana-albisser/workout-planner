@@ -21,6 +21,26 @@
         [workoutRun]="workoutRun"
       ></app-progress-item>
     </ion-list>
+    <div class="container-graph-selection" *ngIf="!isListLayout() && loaded">
+      <ion-item class="select" >
+        <ion-label>Period</ion-label>
+        <ion-select [(ngModel)]="period" [cancelText]="'Abbrechen'">
+          <ion-select-option value="week">1 Woche</ion-select-option>
+          <ion-select-option value="month">1 Month</ion-select-option>
+          <ion-select-option value="threeMonth">3 Monate</ion-select-option>
+          <ion-select-option value="sixMonth">6 Month</ion-select-option>
+          <ion-select-option value="year">1 Year</ion-select-option>
+          <ion-select-option value="all">All</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="select">
+        <ion-label>Exercises</ion-label>
+        <ion-select [(ngModel)]="selectedExercises" [multiple]="'true'">
+          <ion-select-option *ngFor="let exercise of exercises" value="{{exercise}}">{{exercise}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
     <google-chart
       *ngIf="!isListLayout() && loaded"
       [data]="pieChart"

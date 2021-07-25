@@ -1,6 +1,6 @@
 import { ProgressItemComponent } from './progress-item/progress-item.component';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -16,8 +16,9 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     FormsModule,
     IonicModule,
     ProgressPageRoutingModule,
-    Ng2GoogleChartsModule,
+    Ng2GoogleChartsModule
   ],
   declarations: [ProgressPage, ProgressItemComponent],
+  providers: [DatePipe]
 })
 export class ProgressPageModule {}
