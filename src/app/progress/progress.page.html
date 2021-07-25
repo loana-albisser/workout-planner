@@ -24,7 +24,7 @@
     <div class="container-graph-selection" *ngIf="!isListLayout() && loaded">
       <ion-item class="select" >
         <ion-label>Period</ion-label>
-        <ion-select [(ngModel)]="period" [cancelText]="'Abbrechen'">
+        <ion-select [(ngModel)]="period" (ionChange)="updateGraph()" [cancelText]="'Abbrechen'">
           <ion-select-option value="week">1 Woche</ion-select-option>
           <ion-select-option value="month">1 Month</ion-select-option>
           <ion-select-option value="threeMonth">3 Monate</ion-select-option>
@@ -35,13 +35,13 @@
       </ion-item>
       <ion-item class="select">
         <ion-label>Exercises</ion-label>
-        <ion-select [(ngModel)]="selectedExercises" [multiple]="'true'">
+        <ion-select [(ngModel)]="selectedExercises"  (ionChange)="updateGraph()" [multiple]="'true'">
           <ion-select-option *ngFor="let exercise of exercises" value="{{exercise}}">{{exercise}}</ion-select-option>
         </ion-select>
       </ion-item>
     </div>
 
-    <google-chart
+    <google-chart #mychart
       *ngIf="!isListLayout() && loaded"
       [data]="pieChart"
     ></google-chart>

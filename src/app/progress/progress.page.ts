@@ -1,12 +1,8 @@
-import {
-  WorkoutRun,
-  ExecutedExercise,
-} from './../workout-run/workout-run.page';
+import { WorkoutRun } from './../workout-run/workout-run.page';
 import { DatabaseProvider } from './../database-provider';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { GoogleChartInterface } from 'ng2-google-charts';
 import { DatePipe } from '@angular/common';
-import { Exercise } from '../model/workout-plan';
 
 @Component({
   selector: 'app-progress',
@@ -22,10 +18,12 @@ export class ProgressPage implements OnInit {
   loaded = false;
   exercises: string[] = Array();
   selectedExercises: string[] = Array();
+  @ViewChild('mychart ', { static: false }) mychart;
 
   constructor(
     private databaseProvider: DatabaseProvider,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -52,12 +50,17 @@ export class ProgressPage implements OnInit {
     return this.workoutRuns.length === 0;
   }
 
+  updateGraph() {
+    this.pieChart.dataTable = this.createDatatable();
+    this.mychart.draw();
+  }
+
   private receiveAllWorkoutRuns() {
     this.databaseProvider.receiveAllWorkoutRuns().then((item) => {
       this.workoutRuns = item;
+      this.initializeExerciseList(item);
       this.loadChart();
       this.loaded = true;
-      this.initializeExerciseList(item);
     });
   }
 
@@ -84,47 +87,75 @@ export class ProgressPage implements OnInit {
     });
 
     dataTable.push(this.createTitleArray());
-    /* allExecutedExercises.forEach(item => {
-      dataTable.push(this.createDataArray(item));
-    }); */
     this.createDataArray(this.workoutRuns).forEach((item) => {
       dataTable.push(item);
     });
-    // dataTable.push(this.createDataArray(this.workoutRuns));
-
     return dataTable;
   }
 
+  private periodToDay(period: Period): number {
+    if (period === Period.week) {
+      return 7;
+    } else if (period === Period.month) {
+      return 30;
+    } else if (period === Period.threeMonth) {
+      return 60;
+    } else if (period === Period.sixMonth) {
+      return 90;
+    } else if (period === Period.year) {
+      return 365;
+    } else {
+      return 365;
+    }
+  }
+
   private createDataArray(workoutRuns: WorkoutRun[]): string[] {
+    const days = this.periodToDay(this.period);
     const dataRow = Array();
     const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
-    const exercises = workoutRuns.filter((item) =>
-      item.executedExercises.filter((bla) => bla.exercise === 'Train triangle')
-    );
-    for (let i = 0; i < 8; i++) {
+    weekAgo.setDate(weekAgo.getDate() - days);
+    for (let i = 0; i < days + 1; i++) {
       const newDate = new Date();
       newDate.setDate(weekAgo.getDate() + i);
       const formattedDate = this.datePipe.transform(newDate, 'dd.MM.yyyy');
-      let exercise = exercises.find((bla) => bla.date.toDate() >= newDate);
-      if (exercise == null) {
-        exercise = exercises.find((bla) => bla.date.toDate() < newDate);
-      }
-      if (exercise != null) {
-        const lastExecutedExercise = exercise.executedExercises.find(
-          (item) => item.exercise === 'Train triangle'
+      const dataArray = Array();
+      dataArray.push(formattedDate);
+      this.selectedExercises.forEach((selectedExercise) => {
+        const exercises = workoutRuns.filter((item) =>
+          item.executedExercises.filter(
+            (bla) => bla.exercise === selectedExercise
+          )
         );
-        let volume = 0;
-        lastExecutedExercise.set.forEach((set) => {
-          let weight = set.weight;
-          if (set.weight === 0) {
-            weight = 1;
+        let exercise = exercises.find((bla) => bla.date.toDate() >= newDate);
+        if (exercise == null) {
+          exercise = exercises.find((bla) => bla.date.toDate() < newDate);
+        }
+        if (exercise != null) {
+          const lastExecutedExercise = exercise.executedExercises.find(
+            (item) => item.exercise === selectedExercise
+          );
+          if (lastExecutedExercise != null) {
+            let volume = 0;
+            lastExecutedExercise.set.forEach((set) => {
+              let weight = set.weight;
+              if (set.weight === 0) {
+                weight = 1;
+              }
+              volume = volume + set.reps * weight;
+            });
+            dataArray.push(volume);
+          } else {
+            if (dataArray.length > 1) {
+              const lastElement = dataArray[dataArray.length - 1];
+              dataArray.push(lastElement);
+            } else {
+              dataArray.push(0);
+            }
           }
-          volume = volume + set.reps * weight;
-        });
+        }
+      });
 
-        dataRow.push([formattedDate, volume]);
-      }
+      dataRow.push(dataArray);
     }
 
     return dataRow;
@@ -139,11 +170,9 @@ export class ProgressPage implements OnInit {
         allExecutedExercises.push(executedExercise.exercise);
       });
     });
-    allExecutedExercises.forEach(item => {
+    this.selectedExercises.forEach((item) => {
       titleRow.push(item);
     });
-    debugger;
-    // titleRow.push(allExecutedExercises[0]);
     return titleRow;
   }
 
