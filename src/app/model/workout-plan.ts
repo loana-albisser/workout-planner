@@ -11,6 +11,7 @@ export class WorkoutPlan {
 export class Exercise {
     exerciseType: string;
     muscleGroups: Array<string>;
+    unit: string;
     constructor(public id: string, public title: string) {
 
     }
@@ -21,6 +22,6 @@ export class ExerciseSet {
 }
 
 export class SingleExerciseSet {
-    constructor(public reps: number = null, public weight: number = null, public finished: boolean = false) {}
+    constructor(public reps: number = null, public weight: number = null, public time: number = null, public finished: boolean = false) {}
 }
 

@@ -29,6 +29,11 @@ export class ExerciseSetEditItemComponent implements OnInit {
     }
   }
 
+  isTimeUnit(): boolean {
+    const timeValues = this.exerciseSet.exercise.unit === 'time';
+    return timeValues;
+  }
+
   isLastElement(index: number): boolean {
     if (index === this.exerciseSet.exerciseSets.length - 1) {
       return true;

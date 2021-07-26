@@ -59,11 +59,13 @@ export class ExerciseAddPage implements OnInit {
    const exerciseSetList = Array();
    selectedExercises.forEach((item, index) => {
       const exercise = new Exercise(item.id, item.title);
+      exercise.unit = item.unit;
       const singleExerciseSetList = Array<SingleExerciseSet>();
       singleExerciseSetList.push(new SingleExerciseSet());
       const exerciseSet = new ExerciseSet(index.toString(), exercise, singleExerciseSetList);
       exerciseSetList.push(exerciseSet);
    });
+   debugger;
    exerciseSetList.forEach(item => {
     this.addExerciseService.exerciseAddSetList.push(item);
    });
@@ -84,6 +86,7 @@ export class ExerciseAddPage implements OnInit {
         const workoutAddList = Array();
         result.forEach(value => {
             const workoutAdd = new WorkoutAdd(value.id, value.title, value.muscleGroups, false);
+            workoutAdd.unit = value.unit;
             workoutAddList.push(workoutAdd);
         });
         this.workoutAddList = workoutAddList;
@@ -93,6 +96,7 @@ export class ExerciseAddPage implements OnInit {
 }
 
 export class WorkoutAdd {
+  unit: string;
   constructor(public id: string, public title: string, public muscleGroups: string[], public isChecked: boolean) {}
 }
 

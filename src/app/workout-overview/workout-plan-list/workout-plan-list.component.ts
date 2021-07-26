@@ -23,9 +23,15 @@ export class WorkoutPlanListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.databaseProvider.onWorkoutPlansChanged.subscribe(workoutPlans => {
+      this.updateWorkoutPlans(workoutPlans).then((data) => {
+        this.workoutPlans = data;
+        this.workoutPlanRepositoryService.allWorkoutPlans = this.workoutPlans;
+      });
+    });
     const uid = this.activatedRoute.snapshot.paramMap.get('uid');
     this.authenticationService.currentUser = uid;
-    this.initData();
+    this.receiveWorkoutPlans();
   }
 
   goToWorkoutDetail(id: string) {
@@ -36,23 +42,6 @@ export class WorkoutPlanListComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.router.navigate(['/workout-run', { id }]);
-  }
-
-  async initData() {
-    this.receiveAll().then((result) => {
-      this.workoutPlans = result;
-    });
-  }
-
-  async receiveAll(): Promise<WorkoutPlan[]> {
-    return new Promise((resolve) => {
-      this.receiveWorkoutPlans().then((data) => {
-        this.updateWorkoutPlans(data).then((data) => {
-          this.workoutPlans = data;
-          this.workoutPlanRepositoryService.allWorkoutPlans = this.workoutPlans;
-        });
-      });
-    });
   }
 
   async updateWorkoutPlans(data: WorkoutPlan[]): Promise<WorkoutPlan[]> {
@@ -73,6 +62,7 @@ export class WorkoutPlanListComponent implements OnInit {
       }
       workoutPlans.push(newWorkoutPlan);
     }
+    debugger;
     return workoutPlans;
   }
 

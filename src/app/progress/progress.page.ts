@@ -43,16 +43,16 @@ export class ProgressPage implements OnInit {
   ngOnInit() {
     this.type = 'list';
     this.period = Period.week;
-    // this.setGraph();
+    this.databaseProvider.onWorkoutRunsChanged.subscribe(workoutRuns => {
+      this.workoutRuns = workoutRuns;
+      this.initializeExerciseList(workoutRuns);
+      this.createGroupLineChart();
+      this.loaded = true;
+    });
   }
 
   ionViewWillEnter() {
     this.receiveAllWorkoutRuns();
-  }
-
-  ionViewDidEnter() {
-    // this.setGraph();
-    // this.createGroupLineChart();
   }
 
   createGroupLineChart() {
@@ -72,7 +72,6 @@ export class ProgressPage implements OnInit {
         },
       },
     });
-    // this.addData(this.lineChart, 'bla', [5, 10, 11]);
   }
 
   createDataSets(): any[] {
@@ -109,11 +108,16 @@ export class ProgressPage implements OnInit {
         if (lastExecutedExercise != null) {
           let volume = 0;
           lastExecutedExercise.set.forEach((set) => {
-            let weight = set.weight;
-            if (set.weight === 0) {
-              weight = 1;
+            if (set.time != null) {
+              volume = volume + set.time;
+            } else {
+              let weight = set.weight;
+              if (set.weight === 0) {
+                weight = 1;
+              }
+              volume = volume + set.reps * weight;
             }
-            volume = volume + set.reps * weight;
+
           });
           dataArray.push(volume);
         } else {
@@ -191,8 +195,6 @@ export class ProgressPage implements OnInit {
 
   updateGraph() {
     this.lineChart.destroy();
-    // this.pieChart.dataTable = this.createDatatable();
-    // this.mychart.draw();
     this.createGroupLineChart();
     this.lineChart.update();
   }
@@ -201,7 +203,6 @@ export class ProgressPage implements OnInit {
     this.databaseProvider.receiveAllWorkoutRuns().then((item) => {
       this.workoutRuns = item;
       this.initializeExerciseList(item);
-      // this.loadChart();
       this.createGroupLineChart();
       this.loaded = true;
     });
@@ -294,11 +295,15 @@ export class ProgressPage implements OnInit {
           if (lastExecutedExercise != null) {
             let volume = 0;
             lastExecutedExercise.set.forEach((set) => {
-              let weight = set.weight;
-              if (set.weight === 0) {
-                weight = 1;
+              if (set.time !== undefined) {
+                volume = volume + set.time;
+              } else {
+                let weight = set.weight;
+                if (set.weight === 0) {
+                  weight = 1;
+                }
+                volume = volume + set.reps * weight;
               }
-              volume = volume + set.reps * weight;
             });
             dataArray.push(volume);
           } else {

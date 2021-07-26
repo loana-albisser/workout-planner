@@ -21,10 +21,11 @@ export class WorkoutPlanAddPage implements OnInit {
     private location: Location
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   removeExercise(exerciseSet: ExerciseSet) {
-    // this.addExerciseService.removedExercises.push(exerciseSet);
   }
   saveWorkoutPlan() {
     const workoutPlan = new WorkoutPlan();

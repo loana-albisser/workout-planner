@@ -17,9 +17,13 @@ import 'rxjs/add/operator/map';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { title } from 'process';
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DatabaseProvider {
+  onWorkoutPlansChanged: BehaviorSubject<any> = new BehaviorSubject([]);
+  onWorkoutRunsChanged: BehaviorSubject<any> = new BehaviorSubject([]);
   private firestore: any;
 
   constructor(
@@ -55,6 +59,7 @@ export class DatabaseProvider {
             const workoutPlan = new WorkoutPlan(id, title, uid, exercises);
             obj.push(workoutPlan);
           });
+          this.onWorkoutPlansChanged.next(obj);
           resolve(obj);
         });
     });
@@ -68,10 +73,18 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const exerciseSet = Array();
       singleExerciseSet.forEach((item) => {
-        exerciseSet.push({
-          reps: Number(item.reps),
-          weight: Number(item.weight),
-        });
+        debugger;
+        if (item.time !== undefined) {
+          exerciseSet.push({
+            time: Number(item.time),
+          });
+        } else {
+          exerciseSet.push({
+            reps: Number(item.reps),
+            weight: Number(item.weight),
+          });
+        }
+
       });
       const castedExerciseSetList = exerciseSet.map((obj) =>
         Object.assign({}, obj)
@@ -94,10 +107,20 @@ export class DatabaseProvider {
   ) {
     const exerciseSet = Array();
     singleExerciseSet.forEach((item) => {
-      exerciseSet.push({
+      if (item.time !== undefined) {
+        exerciseSet.push({
+          time: Number(item.time)
+        });
+      } else {
+        exerciseSet.push({
+          reps: Number(item.reps),
+          weight: Number(item.weight)
+        });
+      }
+      /* exerciseSet.push({
         reps: Number(item.reps),
         weight: Number(item.weight),
-      });
+      }); */
     });
     this.firestore
       .collection('ExerciseSet')
@@ -115,10 +138,20 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const newExerciseSet = Array();
       exerciseSet.exerciseSets.forEach((item) => {
-        newExerciseSet.push({
+        /* newExerciseSet.push({
           reps: Number(item.reps),
           weight: Number(item.weight),
-        });
+        }); */
+        if (item.time !== undefined) {
+          newExerciseSet.push({
+            time: Number(item.time),
+          });
+        } else {
+          newExerciseSet.push({
+            reps: Number(item.reps),
+            weight: Number(item.weight),
+          });
+        }
       });
       this.firestore
         .collection('ExerciseSet')
@@ -243,10 +276,16 @@ export class DatabaseProvider {
           if (item.set.length > 0) {
             const minimizedSetList = Array();
             item.set.forEach((set) => {
-              minimizedSetList.push({
-                reps: Number(set.reps),
-                weight: Number(set.weight),
-              });
+              if (set.time !== undefined) {
+                minimizedSetList.push({
+                  time: Number(set.time),
+                });
+              } else {
+                minimizedSetList.push({
+                  reps: Number(set.reps),
+                  weight: Number(set.weight),
+                });
+              }
             });
             const castedSetList = minimizedSetList.map((obj) =>
               Object.assign({}, obj)
@@ -275,13 +314,17 @@ export class DatabaseProvider {
       const obj: any = [];
       const uid = this.authenticationService.getCurrentUser().uid;
 
-      docRef.where('user', '==', uid).onSnapshot((doc) => {
-        doc.forEach((result: any) => {
-          const workoutRun = result.data();
-          obj.push(workoutRun);
+      docRef
+        .where('user', '==', uid)
+        .orderBy('date', 'desc')
+        .onSnapshot((doc) => {
+          doc.forEach((result: any) => {
+            const workoutRun = result.data();
+            obj.push(workoutRun);
+          });
+          this.onWorkoutRunsChanged.next(obj);
+          resolve(obj);
         });
-        resolve(obj);
-      });
     });
   }
 
@@ -317,7 +360,9 @@ export class DatabaseProvider {
             const title = result.data().title;
             const muscleGroups = result.data().muscleGroups;
             const exercise = new Exercise(id, title);
+            const unit = result.data().unit;
             exercise.muscleGroups = muscleGroups;
+            exercise.unit = unit;
 
             obj.push(exercise);
           });
@@ -341,7 +386,14 @@ export class DatabaseProvider {
             const exercise = new Exercise(doc.data().exercise, '');
             const exerciseSets: Array<SingleExerciseSet> = Array();
             for (const item of doc.data().sets) {
-              const set = new SingleExerciseSet(item.reps, item.weight);
+              // const set = new SingleExerciseSet(item.reps, item.weight);
+              let set;
+              if (item.time !== undefined) {
+                set = new SingleExerciseSet();
+                set.time = item.time;
+              } else {
+                set = new SingleExerciseSet(item.reps, item.weight);
+              }
               exerciseSets.push(set);
             }
             const exerciseSet = new ExerciseSet(setId, exercise, exerciseSets);
@@ -366,7 +418,9 @@ export class DatabaseProvider {
           if (doc.exists) {
             const id = doc.id;
             const title = doc.data().title;
+            const unit = doc.data().unit;
             const exercise = new Exercise(id, title);
+            exercise.unit = unit;
             resolve(exercise);
           } else {
             reject();
