@@ -46,7 +46,7 @@
       [data]="pieChart"
     ></google-chart>-->
 
-    <ion-card>
+    <ion-card [ngClass]="{'container-invisible' :isListLayout(), 'container-visible': !isListLayout()}">
       <ion-card-content>
         <canvas #lineChart></canvas>
       </ion-card-content>

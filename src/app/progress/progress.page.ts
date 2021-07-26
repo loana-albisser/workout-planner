@@ -1,6 +1,7 @@
 import { WorkoutRun } from './../workout-run/workout-run.page';
 import { DatabaseProvider } from './../database-provider';
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
@@ -32,8 +33,10 @@ export class ProgressPage implements OnInit {
   private lineChart: Chart;
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private databaseProvider: DatabaseProvider,
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe
+  ) {
     Chart.register(...registerables);
   }
 
@@ -47,9 +50,9 @@ export class ProgressPage implements OnInit {
     this.receiveAllWorkoutRuns();
   }
 
-  ionViewDidEnter(){
-   // this.setGraph();
-   // this.createGroupLineChart();
+  ionViewDidEnter() {
+    // this.setGraph();
+    // this.createGroupLineChart();
   }
 
   createGroupLineChart() {
@@ -57,7 +60,7 @@ export class ProgressPage implements OnInit {
       type: 'line',
       data: {
         labels: this.createAxisLabels(),
-        datasets: this.createDataSets()
+        datasets: this.createDataSets(),
       },
       options: {
         scales: {
@@ -66,8 +69,8 @@ export class ProgressPage implements OnInit {
               beginAtZero: true
             }
           }] */
-        }
-      }
+        },
+      },
     });
     // this.addData(this.lineChart, 'bla', [5, 10, 11]);
   }
@@ -75,69 +78,60 @@ export class ProgressPage implements OnInit {
   createDataSets(): any[] {
     const dataSets = Array();
     this.selectedExercises.forEach((selectedExercise) => {
-        const data = this.createData(selectedExercise);
-        const dataSet = this.createDataSet(selectedExercise, data);
-        dataSets.push(dataSet);
+      const data = this.createData(selectedExercise);
+      const dataSet = this.createDataSet(selectedExercise, data);
+      dataSets.push(dataSet);
     });
     return dataSets;
   }
 
   createData(title: string): any[] {
     const days = this.periodToDay(this.period);
-    /* const daysAgo = new Date();
-    daysAgo.setDate(daysAgo.getDate() - days); */
     const dataArray = Array();
 
     for (let i = 0; i < days + 1; i++) {
-      // const newDate = daysAgo;
       const daysAgo = new Date();
       daysAgo.setDate(daysAgo.getDate() - days + i);
 
       const exercises = this.workoutRuns.filter((item) =>
-          item.executedExercises.filter(
-            (bla) => bla.exercise === title
-          )
+        item.executedExercises.filter((bla) => bla.exercise === title)
+      );
+      const exercise = exercises.find(
+        (bla) =>
+          bla.date.toDate().getFullYear() === daysAgo.getFullYear() &&
+          bla.date.toDate().getMonth() === daysAgo.getMonth() &&
+          bla.date.toDate().getDate() === daysAgo.getDate()
+      );
+      if (exercise != null) {
+        const lastExecutedExercise = exercise.executedExercises.find(
+          (item) => item.exercise === title
         );
-        const exercise = exercises.find((bla) => bla.date.toDate().getFullYear() === daysAgo.getFullYear() &&
-        bla.date.toDate().getMonth() === daysAgo.getMonth() &&
-        bla.date.toDate().getDate() === daysAgo.getDate());
-        /* if (exercise == null) {
-          exercise = exercises.find((bla) => bla.date.toDate() < newDate);
-        } */
-        if (exercise != null) {
-          const lastExecutedExercise = exercise.executedExercises.find(
-            (item) => item.exercise === title
-          );
-          if (lastExecutedExercise != null) {
-            let volume = 0;
-            lastExecutedExercise.set.forEach((set) => {
-              let weight = set.weight;
-              if (set.weight === 0) {
-                weight = 1;
-              }
-              volume = volume + set.reps * weight;
-            });
-            dataArray.push(volume);
-          } else {
-            if (dataArray.length > 1) {
-              const lastElement = dataArray[dataArray.length - 1];
-              dataArray.push(lastElement);
-            } else {
-              dataArray.push(0);
+        if (lastExecutedExercise != null) {
+          let volume = 0;
+          lastExecutedExercise.set.forEach((set) => {
+            let weight = set.weight;
+            if (set.weight === 0) {
+              weight = 1;
             }
-          }
+            volume = volume + set.reps * weight;
+          });
+          dataArray.push(volume);
         } else {
-          if (dataArray.length > 0) {
-             dataArray.push(dataArray[dataArray.length - 1]);
+          if (dataArray.length > 1) {
+            const lastElement = dataArray[dataArray.length - 1];
+            dataArray.push(lastElement);
           } else {
             dataArray.push(0);
           }
         }
-
-
-
+      } else {
+        if (dataArray.length > 0) {
+          dataArray.push(dataArray[dataArray.length - 1]);
+        } else {
+          dataArray.push(0);
+        }
+      }
     }
-
 
     return dataArray;
   }
@@ -147,26 +141,41 @@ export class ProgressPage implements OnInit {
       label: title,
       data,
       borderColor: this.getRandomColor(),
-      borderWidth: 1
+      borderWidth: 1,
     };
   }
 
   getRandomColor() {
-    const colors = ['#0074d9', '#7fdbff', '#39cccc', '#3d9970', '#2ecc40', '#01ff70',
-     '#ffdc00', '#ff851b', '#ff4136', '#85144b', '#f012be', '#b10dc9', '#aaaaaa', '#dddddd'];
+    const colors = [
+      '#0074d9',
+      '#7fdbff',
+      '#39cccc',
+      '#3d9970',
+      '#2ecc40',
+      '#01ff70',
+      '#ffdc00',
+      '#ff851b',
+      '#ff4136',
+      '#85144b',
+      '#f012be',
+      '#b10dc9',
+      '#aaaaaa',
+      '#dddddd',
+    ];
     return colors[Math.floor(Math.random() * colors.length)];
-}
+  }
 
   addData(chart, label, data) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
+      dataset.data.push(data);
     });
     chart.update();
-}
+  }
 
   segmentChanged($event) {
     this.type = $event.detail.value;
+    this.changeDetectorRef.markForCheck();
   }
 
   isListLayout() {

@@ -23,13 +23,20 @@ div {
   }
 }
 
-.select {
-
+.select  {
   ion-select {
     --padding-top: 0;
     --padding-bottom: 0;
     --padding-start: 0;
   }
+}
+
+.container-visible {
+  visibility: visible;
+}
+
+.container-invisible {
+  visibility: hidden;
 }
 
 ion-list {
