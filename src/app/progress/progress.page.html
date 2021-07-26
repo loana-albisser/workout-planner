@@ -1,8 +1,8 @@
-<ion-header>
+<!--<ion-header>
   <ion-toolbar>
     <ion-title>progress</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header>-->
 
 <ion-content>
   <div>
@@ -41,9 +41,15 @@
       </ion-item>
     </div>
 
-    <google-chart #mychart
+    <!--<google-chart #mychart
       *ngIf="!isListLayout() && loaded"
       [data]="pieChart"
-    ></google-chart>
+    ></google-chart>-->
+
+    <ion-card>
+      <ion-card-content>
+        <canvas #lineChart></canvas>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

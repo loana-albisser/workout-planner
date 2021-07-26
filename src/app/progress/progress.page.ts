@@ -1,8 +1,15 @@
 import { WorkoutRun } from './../workout-run/workout-run.page';
 import { DatabaseProvider } from './../database-provider';
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { GoogleChartInterface } from 'ng2-google-charts';
 import { DatePipe } from '@angular/common';
+import { Chart, registerables } from 'chart.js';
 
 @Component({
   selector: 'app-progress',
@@ -10,6 +17,9 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./progress.page.scss'],
 })
 export class ProgressPage implements OnInit {
+  @ViewChild('mychart ', { static: false }) mychart;
+  @ViewChild('lineChart') lineCanvas: ElementRef;
+
   public workoutRuns: Array<WorkoutRun>;
   public pieChart: GoogleChartInterface;
 
@@ -18,22 +28,142 @@ export class ProgressPage implements OnInit {
   loaded = false;
   exercises: string[] = Array();
   selectedExercises: string[] = Array();
-  @ViewChild('mychart ', { static: false }) mychart;
+
+  private lineChart: Chart;
 
   constructor(
     private databaseProvider: DatabaseProvider,
-    private datePipe: DatePipe,
-    private zone: NgZone
-  ) {}
+    private datePipe: DatePipe) {
+    Chart.register(...registerables);
+  }
 
   ngOnInit() {
     this.type = 'list';
     this.period = Period.week;
+    // this.setGraph();
   }
 
   ionViewWillEnter() {
     this.receiveAllWorkoutRuns();
   }
+
+  ionViewDidEnter(){
+   // this.setGraph();
+   // this.createGroupLineChart();
+  }
+
+  createGroupLineChart() {
+    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+      type: 'line',
+      data: {
+        labels: this.createAxisLabels(),
+        datasets: this.createDataSets()
+      },
+      options: {
+        scales: {
+          /* yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }] */
+        }
+      }
+    });
+    // this.addData(this.lineChart, 'bla', [5, 10, 11]);
+  }
+
+  createDataSets(): any[] {
+    const dataSets = Array();
+    this.selectedExercises.forEach((selectedExercise) => {
+        const data = this.createData(selectedExercise);
+        const dataSet = this.createDataSet(selectedExercise, data);
+        dataSets.push(dataSet);
+    });
+    return dataSets;
+  }
+
+  createData(title: string): any[] {
+    const days = this.periodToDay(this.period);
+    /* const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - days); */
+    const dataArray = Array();
+
+    for (let i = 0; i < days + 1; i++) {
+      // const newDate = daysAgo;
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - days + i);
+
+      const exercises = this.workoutRuns.filter((item) =>
+          item.executedExercises.filter(
+            (bla) => bla.exercise === title
+          )
+        );
+        const exercise = exercises.find((bla) => bla.date.toDate().getFullYear() === daysAgo.getFullYear() &&
+        bla.date.toDate().getMonth() === daysAgo.getMonth() &&
+        bla.date.toDate().getDate() === daysAgo.getDate());
+        /* if (exercise == null) {
+          exercise = exercises.find((bla) => bla.date.toDate() < newDate);
+        } */
+        if (exercise != null) {
+          const lastExecutedExercise = exercise.executedExercises.find(
+            (item) => item.exercise === title
+          );
+          if (lastExecutedExercise != null) {
+            let volume = 0;
+            lastExecutedExercise.set.forEach((set) => {
+              let weight = set.weight;
+              if (set.weight === 0) {
+                weight = 1;
+              }
+              volume = volume + set.reps * weight;
+            });
+            dataArray.push(volume);
+          } else {
+            if (dataArray.length > 1) {
+              const lastElement = dataArray[dataArray.length - 1];
+              dataArray.push(lastElement);
+            } else {
+              dataArray.push(0);
+            }
+          }
+        } else {
+          if (dataArray.length > 0) {
+             dataArray.push(dataArray[dataArray.length - 1]);
+          } else {
+            dataArray.push(0);
+          }
+        }
+
+
+
+    }
+
+
+    return dataArray;
+  }
+
+  createDataSet(title: string, data: number[]): any {
+    return {
+      label: title,
+      data,
+      borderColor: this.getRandomColor(),
+      borderWidth: 1
+    };
+  }
+
+  getRandomColor() {
+    const colors = ['#0074d9', '#7fdbff', '#39cccc', '#3d9970', '#2ecc40', '#01ff70',
+     '#ffdc00', '#ff851b', '#ff4136', '#85144b', '#f012be', '#b10dc9', '#aaaaaa', '#dddddd'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+  addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
 
   segmentChanged($event) {
     this.type = $event.detail.value;
@@ -51,15 +181,19 @@ export class ProgressPage implements OnInit {
   }
 
   updateGraph() {
-    this.pieChart.dataTable = this.createDatatable();
-    this.mychart.draw();
+    this.lineChart.destroy();
+    // this.pieChart.dataTable = this.createDatatable();
+    // this.mychart.draw();
+    this.createGroupLineChart();
+    this.lineChart.update();
   }
 
   private receiveAllWorkoutRuns() {
     this.databaseProvider.receiveAllWorkoutRuns().then((item) => {
       this.workoutRuns = item;
       this.initializeExerciseList(item);
-      this.loadChart();
+      // this.loadChart();
+      this.createGroupLineChart();
       this.loaded = true;
     });
   }
@@ -109,14 +243,28 @@ export class ProgressPage implements OnInit {
     }
   }
 
+  private createAxisLabels(): string[] {
+    const days = this.periodToDay(this.period);
+    // const daysAgo = new Date();
+    // daysAgo.setDate(daysAgo.getDate() - days);
+    const dateArray = Array();
+    for (let i = 0; i < days + 1; i++) {
+      const newDate = new Date();
+      newDate.setDate(newDate.getDate() - days + i);
+      const formattedDate = this.datePipe.transform(newDate, 'dd.MM.yyyy');
+      dateArray.push(formattedDate);
+    }
+    return dateArray;
+  }
+
   private createDataArray(workoutRuns: WorkoutRun[]): string[] {
     const days = this.periodToDay(this.period);
     const dataRow = Array();
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - days);
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - days);
     for (let i = 0; i < days + 1; i++) {
       const newDate = new Date();
-      newDate.setDate(weekAgo.getDate() + i);
+      newDate.setDate(daysAgo.getDate() + i);
       const formattedDate = this.datePipe.transform(newDate, 'dd.MM.yyyy');
       const dataArray = Array();
       dataArray.push(formattedDate);
