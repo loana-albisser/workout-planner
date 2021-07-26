@@ -8,12 +8,14 @@ import { WorkoutOverviewPageRoutingModule } from './workout-overview-routing.mod
 
 import { WorkoutOverviewPage } from './workout-overview.page';
 import { WorkoutPlanListComponent } from './workout-plan-list/workout-plan-list.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TranslateModule,
     WorkoutOverviewPageRoutingModule,
   ],
   declarations: [WorkoutOverviewPage, WorkoutPlanListComponent],

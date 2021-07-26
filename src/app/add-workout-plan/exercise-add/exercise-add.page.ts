@@ -65,7 +65,6 @@ export class ExerciseAddPage implements OnInit {
       const exerciseSet = new ExerciseSet(index.toString(), exercise, singleExerciseSetList);
       exerciseSetList.push(exerciseSet);
    });
-   debugger;
    exerciseSetList.forEach(item => {
     this.addExerciseService.exerciseAddSetList.push(item);
    });

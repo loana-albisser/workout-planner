@@ -14,7 +14,7 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./workout-plan-detail.page.scss'],
 })
 export class WorkoutPlanDetailPage implements OnInit {
-  selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', []);
+  selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', false, []);
   orderChanged: boolean;
   title: string;
 
@@ -29,6 +29,7 @@ export class WorkoutPlanDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    debugger;
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
@@ -38,6 +39,16 @@ export class WorkoutPlanDetailPage implements OnInit {
 
   delete() {
     this.databaseProvider.removeWorkoutPlan(this.selectedPlan.id);
+    this.location.back();
+  }
+
+  archive() {
+    this.databaseProvider.updateWorkoutPlanArchive(this.selectedPlan.id, true);
+    this.location.back();
+  }
+
+  unarchive() {
+    this.databaseProvider.updateWorkoutPlanArchive(this.selectedPlan.id, false);
     this.location.back();
   }
 

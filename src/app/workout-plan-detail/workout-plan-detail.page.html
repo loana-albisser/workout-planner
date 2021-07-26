@@ -15,14 +15,33 @@
 </ion-header>
 
 <ion-content>
-  <ion-button [routerLink]="['/exercise-add']" [expand]="'block'" class="button-add">{{"add_exercise" | translate}}</ion-button>
+  <ion-button
+    [routerLink]="['/exercise-add']"
+    [expand]="'block'"
+    class="button-add"
+    >{{"add_exercise" | translate}}</ion-button
+  >
   <ion-reorder-group (ionItemReorder)="onReorderItems($event)" disabled="false">
-  <div *ngFor="let set of addExerciseService.exerciseAddSetList">
-      <app-exercise-set-edit-item [exerciseSet]="set"></app-exercise-set-edit-item>
-  </div>
-  <div *ngFor="let set of selectedPlan.exerciseSets">
-      <app-exercise-set-edit-item [exerciseSet]="set" (removeExercise)="removeExercise($event)"></app-exercise-set-edit-item>
-  </div>
+    <div *ngFor="let set of addExerciseService.exerciseAddSetList">
+      <app-exercise-set-edit-item
+        [exerciseSet]="set"
+      ></app-exercise-set-edit-item>
+    </div>
+    <div *ngFor="let set of selectedPlan.exerciseSets">
+      <app-exercise-set-edit-item
+        [exerciseSet]="set"
+        (removeExercise)="removeExercise($event)"
+      ></app-exercise-set-edit-item>
+    </div>
   </ion-reorder-group>
-  <ion-button color="danger" class="button-delete" [expand]="'block'" (click)="delete()">{{ "delete" | translate}}</ion-button>
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="chevron-up-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="delete()" class="fab-button-detail"><ion-icon name="trash-outline"></ion-icon></ion-fab-button>
+      <ion-fab-button *ngIf="!selectedPlan.archived" (click)="archive()" class="fab-button-detail"><ion-icon name="archive-outline"></ion-icon></ion-fab-button>
+      <ion-fab-button *ngIf="selectedPlan.archived" (click)="unarchive()" class="fab-button-detail"><ion-icon name="reload-outline"></ion-icon></ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

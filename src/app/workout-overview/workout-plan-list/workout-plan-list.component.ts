@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
 import { Exercise, WorkoutPlan } from '../../model/workout-plan';
 import { DatabaseProvider } from '../../database-provider';
@@ -13,6 +14,7 @@ import { AuthenticationService } from '../../authentication.service';
 })
 export class WorkoutPlanListComponent implements OnInit {
   workoutPlans: Array<WorkoutPlan> = Array();
+  archivedWorkoutPlans: Array<WorkoutPlan> = Array();
 
   constructor(
     public router: Router,
@@ -25,13 +27,26 @@ export class WorkoutPlanListComponent implements OnInit {
   ngOnInit() {
     this.databaseProvider.onWorkoutPlansChanged.subscribe(workoutPlans => {
       this.updateWorkoutPlans(workoutPlans).then((data) => {
-        this.workoutPlans = data;
-        this.workoutPlanRepositoryService.allWorkoutPlans = this.workoutPlans;
+        this.archivedWorkoutPlans = Array();
+        this.workoutPlans = Array();
+        data.forEach(plan => {
+          if (plan.archived) {
+              this.archivedWorkoutPlans.push(plan);
+          } else {
+              this.workoutPlans.push(plan);
+          }
+        });
+        // this.workoutPlans = data;
+        this.workoutPlanRepositoryService.allWorkoutPlans = data;
       });
     });
     const uid = this.activatedRoute.snapshot.paramMap.get('uid');
     this.authenticationService.currentUser = uid;
     this.receiveWorkoutPlans();
+  }
+
+  hasArchivedPlans(): boolean {
+    return this.archivedWorkoutPlans.length > 0;
   }
 
   goToWorkoutDetail(id: string) {
@@ -62,7 +77,6 @@ export class WorkoutPlanListComponent implements OnInit {
       }
       workoutPlans.push(newWorkoutPlan);
     }
-    debugger;
     return workoutPlans;
   }
 

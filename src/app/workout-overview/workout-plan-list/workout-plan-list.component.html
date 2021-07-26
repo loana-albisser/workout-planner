@@ -18,5 +18,23 @@
     </ion-item>
 
   </ion-card>
-
+  <div *ngIf="hasArchivedPlans()">
+  <ion-item-divider>
+    <ion-label>
+      {{ "archived" | translate}}
+    </ion-label>
+  </ion-item-divider>
+  <ion-card button *ngFor="let item of archivedWorkoutPlans" (click)="goToWorkoutDetail(item.id)">
+    <ion-card-header>
+      <ion-card-title>{{item.title}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <div class="exercise-container">
+          <ion-label *ngFor="let exerciseSet of item.exerciseSets">{{exerciseSet.exercise.title}}</ion-label>
+        </div>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</div>
 </ion-list>

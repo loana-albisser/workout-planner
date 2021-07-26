@@ -4,6 +4,7 @@ export class WorkoutPlan {
         public id: string = '',
         public title: string = '',
         private user: string = '',
+        public archived: boolean = false,
         public exerciseSets: Array<ExerciseSet> = Array()) {
     }
 }

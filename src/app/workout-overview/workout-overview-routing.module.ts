@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { WorkoutOverviewPage } from './workout-overview.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: WorkoutOverviewPage
-  }
+    component: WorkoutOverviewPage,
+  },
 ];
 
 @NgModule({

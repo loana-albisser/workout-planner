@@ -14,7 +14,7 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./workout-run.page.scss'],
 })
 export class WorkoutRunPage implements OnInit {
-  selectedPlan: WorkoutPlan = new WorkoutPlan('', '','', []);
+  selectedPlan: WorkoutPlan = new WorkoutPlan('', '','', false, []);
   options: AnimationOptions = {
     path: '/assets/fitness.json',
   };

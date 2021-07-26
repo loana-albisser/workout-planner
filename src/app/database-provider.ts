@@ -45,6 +45,7 @@ export class DatabaseProvider {
           querySnapshot.forEach((doc: any) => {
             const id = doc.id;
             const title = doc.data().title;
+            const archived = doc.data().archived;
             const exercises = Array();
             if (doc.data().exerciseSets !== undefined) {
               doc.data().exerciseSets.forEach((setId: string) => {
@@ -56,7 +57,7 @@ export class DatabaseProvider {
                 exercises.push(exerciseSet);
               });
             }
-            const workoutPlan = new WorkoutPlan(id, title, uid, exercises);
+            const workoutPlan = new WorkoutPlan(id, title, uid, archived, exercises);
             obj.push(workoutPlan);
           });
           this.onWorkoutPlansChanged.next(obj);
@@ -73,7 +74,6 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const exerciseSet = Array();
       singleExerciseSet.forEach((item) => {
-        debugger;
         if (item.time !== undefined) {
           exerciseSet.push({
             time: Number(item.time),
@@ -243,6 +243,16 @@ export class DatabaseProvider {
 
     workoutPlanCollection.update({
       title: newTitle,
+    });
+  }
+
+  updateWorkoutPlanArchive(planId: string, isArchived: boolean) {
+    const workoutPlanCollection = this.firestore
+      .collection('WorkoutPlan')
+      .doc(planId);
+
+    workoutPlanCollection.update({
+      archived: isArchived,
     });
   }
 
