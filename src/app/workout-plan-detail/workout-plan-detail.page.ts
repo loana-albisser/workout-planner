@@ -29,7 +29,6 @@ export class WorkoutPlanDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    debugger;
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId

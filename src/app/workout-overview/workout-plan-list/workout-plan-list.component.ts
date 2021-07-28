@@ -36,7 +36,6 @@ export class WorkoutPlanListComponent implements OnInit {
               this.workoutPlans.push(plan);
           }
         });
-        // this.workoutPlans = data;
         this.workoutPlanRepositoryService.allWorkoutPlans = data;
       });
     });

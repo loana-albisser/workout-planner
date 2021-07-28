@@ -24,5 +24,5 @@
       <ion-checkbox [(ngModel)]="item.isChecked" slot="end"></ion-checkbox>
     </ion-item>
   </ion-list>
-
+  <ion-button class="button-custom-exercise" [expand]="'block'" (click)="createCustomExercise()">{{"create_custom_exercise" | translate}}</ion-button>
 </ion-content>

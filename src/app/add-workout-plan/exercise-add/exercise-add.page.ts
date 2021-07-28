@@ -4,6 +4,7 @@ import { UpdateExerciseService } from '../../add-exercise.service';
 import { DatabaseProvider } from '../../database-provider';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercise-add',
@@ -17,6 +18,7 @@ export class ExerciseAddPage implements OnInit {
   chipSelectedColor = 'primary';
 
   constructor(private location: Location,
+    private router: Router,
     private databaseProvider: DatabaseProvider,
     private addExerciseService: UpdateExerciseService) {
 
@@ -69,6 +71,10 @@ export class ExerciseAddPage implements OnInit {
     this.addExerciseService.exerciseAddSetList.push(item);
    });
    this.location.back();
+  }
+
+  createCustomExercise() {
+    this.router.navigate(['/create-custom-exercise']);
   }
 
   search(event: CustomEvent) {

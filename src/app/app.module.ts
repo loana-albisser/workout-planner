@@ -15,7 +15,6 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
-import { ExerciseSetEditItemComponent } from './workout-plan-detail/exercise-set-edit-item/exercise-set-edit-item.component';
 
 @NgModule({
   declarations: [AppComponent],

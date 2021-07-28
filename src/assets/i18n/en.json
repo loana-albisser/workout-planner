@@ -10,5 +10,16 @@
   "biceps": "Biceps",
   "back": "Back",
   "core": "Core",
-  "archived": "Archived"
+  "archived": "Archived",
+  "create_custom_exercise": "Create custom exercise",
+  "time": "Time",
+  "weight": "Weight",
+  "repetitions": "Repetitions",
+  "unit": "Unit",
+  "exercise_type": "Exercise type",
+  "machine": "Machine",
+  "body_weight": "Body Weight",
+  "none": "None",
+  "muscle_groups": "Muscle Groups",
+  "seconds": "Seconds"
   }

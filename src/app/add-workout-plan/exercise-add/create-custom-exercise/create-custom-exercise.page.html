@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveExercise()">
+        <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item class="item-title">
+    <ion-label position="stacked">{{ "title" | translate }}</ion-label>
+    <ion-input [(ngModel)]="title"></ion-input>
+  </ion-item>
+
+  <ion-radio-group [(ngModel)]="unit">
+    <ion-list-header>
+      <ion-label class="title-label">{{"unit" | translate}}</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>{{"weight" | translate}}</ion-label>
+      <ion-radio slot="start" value="weight"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{"time" | translate}}</ion-label>
+      <ion-radio slot="start" value="time"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+  <div class="container-input">
+    <ion-item *ngIf="isUnitWeight()" class="item-unit">
+      <ion-label position="stacked">{{ "repetitions" | translate }}</ion-label>
+      <ion-input [(ngModel)]="repetitions" [type]="'number'"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="isUnitWeight()" class="item-unit">
+      <ion-label position="stacked">{{ "weight" | translate }}</ion-label>
+      <ion-input [(ngModel)]="weight" [type]="'number'"></ion-input>
+    </ion-item>
+    <ion-item button *ngIf="!isUnitWeight()" (click)="openPicker()" class="item-unit">
+    <ion-label>Zeit auswählen</ion-label>
+    <ion-label class="label-selected-time">{{timeAsString}}</ion-label>
+      <!--<ion-datetime [(ngModel)]="time" value="00:00:00" (ionChange)="selectTime($event)" displayFormat="HH:mm:ss"></ion-datetime>-->
+    </ion-item>
+    <!--<ion-item *ngIf="!isUnitWeight()" class="item-unit">
+      <ion-label position="stacked">{{ "time" | translate }} [{{"seconds" | translate}}]</ion-label>
+      <ion-datetime value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
+    </ion-item>
+    <ion-item>
+    <ion-datetime value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
+    </ion-item>-->
+  </div>
+  <ion-radio-group [(ngModel)]="exerciseType" class="radio-group-exerciseType">
+    <ion-list-header>
+      <ion-label class="title-label">{{"exercise_type" | translate}}</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>{{"machine" | translate}}</ion-label>
+      <ion-radio slot="start" value="machine"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{"body_weight" | translate}}</ion-label>
+      <ion-radio slot="start" value="bodyWeight"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{"none" | translate}}</ion-label>
+      <ion-radio slot="start" value="none"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+  <ion-list-header>
+    <ion-label class="title-label">{{"muscle_groups" | translate}}</ion-label>
+  </ion-list-header>
+  <ion-list>
+
+    <ion-item *ngFor="let entry of muscleGroups">
+      <ion-label>{{entry.title}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="entry.isChecked"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>

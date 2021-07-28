@@ -1,3 +1,9 @@
+ion-list {
+  margin-bottom: 46px;
+  display: flex;
+  flex-flow: column;
+}
+
 .container-muscle-group {
   margin-bottom: 8px;
   margin-left: 8px;
@@ -7,4 +13,14 @@
 
 .chip-selected {
  --background: var(--ion-color-primary);
+}
+
+.button-custom-exercise {
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 32px);
+  z-index: 100;
+  opacity: 1;
+  margin-left: 16px;
+  margin-right: 16px;
 }

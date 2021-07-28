@@ -10,5 +10,16 @@
   "biceps": "Bizeps",
   "back": "Rücken",
   "core": "Bauch",
-  "archived": "Archiviert"
+  "archived": "Archiviert",
+  "create_custom_exercise": "Eigene Übung erstellen",
+  "unit": "Einheit",
+  "time": "Zeit",
+  "weight": "Gewicht",
+  "repetitions": "Wiederholungen",
+  "exercise_type": "Übungstyp",
+  "machine": "Maschine",
+  "body_weight": "Körpergewicht",
+  "none": "Keine",
+  "muscle_groups": "Muskelgruppen",
+  "seconds": "Sekunden"
   }
