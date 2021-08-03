@@ -29,28 +29,6 @@
       <ion-radio slot="start" value="time"></ion-radio>
     </ion-item>
   </ion-radio-group>
-  <div class="container-input">
-    <ion-item *ngIf="isUnitWeight()" class="item-unit">
-      <ion-label position="stacked">{{ "repetitions" | translate }}</ion-label>
-      <ion-input [(ngModel)]="repetitions" [type]="'number'"></ion-input>
-    </ion-item>
-    <ion-item *ngIf="isUnitWeight()" class="item-unit">
-      <ion-label position="stacked">{{ "weight" | translate }}</ion-label>
-      <ion-input [(ngModel)]="weight" [type]="'number'"></ion-input>
-    </ion-item>
-    <ion-item button *ngIf="!isUnitWeight()" (click)="openPicker()" class="item-unit">
-    <ion-label>Zeit auswählen</ion-label>
-    <ion-label class="label-selected-time">{{timeAsString}}</ion-label>
-      <!--<ion-datetime [(ngModel)]="time" value="00:00:00" (ionChange)="selectTime($event)" displayFormat="HH:mm:ss"></ion-datetime>-->
-    </ion-item>
-    <!--<ion-item *ngIf="!isUnitWeight()" class="item-unit">
-      <ion-label position="stacked">{{ "time" | translate }} [{{"seconds" | translate}}]</ion-label>
-      <ion-datetime value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
-    </ion-item>
-    <ion-item>
-    <ion-datetime value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
-    </ion-item>-->
-  </div>
   <ion-radio-group [(ngModel)]="exerciseType" class="radio-group-exerciseType">
     <ion-list-header>
       <ion-label class="title-label">{{"exercise_type" | translate}}</ion-label>

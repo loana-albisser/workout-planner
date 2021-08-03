@@ -1,3 +1,4 @@
+import { ExerciseTypeEnum, UnitEnum } from './../add-workout-plan/exercise-add/create-custom-exercise/create-custom-exercise.page';
 
 export class WorkoutPlan {
     constructor(
@@ -10,9 +11,10 @@ export class WorkoutPlan {
 }
 
 export class Exercise {
-    exerciseType: string;
+    exerciseType: ExerciseTypeEnum;
     muscleGroups: Array<string>;
-    unit: string;
+    unit: UnitEnum;
+    user: string;
     constructor(public id: string, public title: string) {
 
     }

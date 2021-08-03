@@ -29,6 +29,7 @@ export class WorkoutPlanDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    debugger;
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
@@ -72,6 +73,7 @@ export class WorkoutPlanDetailPage implements OnInit {
   }
 
   saveWorkoutPlan() {
+    debugger;
     this.selectedPlan.exerciseSets.forEach((sets) => {
       this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
     });

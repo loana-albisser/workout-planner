@@ -32,6 +32,7 @@ export class WorkoutRunPage implements OnInit {
   ngOnInit() {
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(p => p.id === planId);
+    debugger;
     this.selectedPlan.exerciseSets.forEach(item => {
         item.exerciseSets.forEach(set => {
           set.finished = false;

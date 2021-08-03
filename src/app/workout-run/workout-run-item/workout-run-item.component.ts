@@ -17,6 +17,11 @@ export class WorkoutRunItemComponent implements OnInit {
 
   ngOnInit() {}
 
+  isTimeUnit(): boolean {
+    const timeValues = this.exerciseSet.exercise.unit === 'time';
+    return timeValues;
+  }
+
   exerciseCheckChanged(checked: boolean, index: number) {
     if (checked) {
       const rowElement = this.row.get(index).el;

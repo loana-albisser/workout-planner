@@ -24,6 +24,8 @@ import { BehaviorSubject } from 'rxjs';
 export class DatabaseProvider {
   onWorkoutPlansChanged: BehaviorSubject<any> = new BehaviorSubject([]);
   onWorkoutRunsChanged: BehaviorSubject<any> = new BehaviorSubject([]);
+  onExercisesChanged: BehaviorSubject<any> = new BehaviorSubject([]);
+
   private firestore: any;
 
   constructor(
@@ -57,7 +59,13 @@ export class DatabaseProvider {
                 exercises.push(exerciseSet);
               });
             }
-            const workoutPlan = new WorkoutPlan(id, title, uid, archived, exercises);
+            const workoutPlan = new WorkoutPlan(
+              id,
+              title,
+              uid,
+              archived,
+              exercises
+            );
             obj.push(workoutPlan);
           });
           this.onWorkoutPlansChanged.next(obj);
@@ -84,7 +92,6 @@ export class DatabaseProvider {
             weight: Number(item.weight),
           });
         }
-
       });
       const castedExerciseSetList = exerciseSet.map((obj) =>
         Object.assign({}, obj)
@@ -107,20 +114,17 @@ export class DatabaseProvider {
   ) {
     const exerciseSet = Array();
     singleExerciseSet.forEach((item) => {
-      if (item.time !== undefined) {
+      debugger;
+      if (item.time !== undefined && item.time !== null) {
         exerciseSet.push({
-          time: Number(item.time)
+          time: Number(item.time),
         });
       } else {
         exerciseSet.push({
           reps: Number(item.reps),
-          weight: Number(item.weight)
+          weight: Number(item.weight),
         });
       }
-      /* exerciseSet.push({
-        reps: Number(item.reps),
-        weight: Number(item.weight),
-      }); */
     });
     this.firestore
       .collection('ExerciseSet')
@@ -138,10 +142,6 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const newExerciseSet = Array();
       exerciseSet.exerciseSets.forEach((item) => {
-        /* newExerciseSet.push({
-          reps: Number(item.reps),
-          weight: Number(item.weight),
-        }); */
         if (item.time !== undefined) {
           newExerciseSet.push({
             time: Number(item.time),
@@ -361,26 +361,29 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const docRef = this.firestore.collection('Exercise');
       const obj: any = [];
-
+      const uid = this.authenticationService.getCurrentUser().uid;
+      debugger;
       docRef
-        .get()
-        .then((doc) => {
-          doc.forEach((result: any) => {
-            const id = result.id;
-            const title = result.data().title;
-            const muscleGroups = result.data().muscleGroups;
-            const exercise = new Exercise(id, title);
-            const unit = result.data().unit;
-            exercise.muscleGroups = muscleGroups;
-            exercise.unit = unit;
+        .onSnapshot((querySnapshot) => {
+          const obj: any = [];
+          querySnapshot.forEach((doc: any) => {
+            const id = doc.id;
+              const title = doc.data().title;
+              const muscleGroups = doc.data().muscleGroups;
+              const exercise = new Exercise(id, title);
+              const unit = doc.data().unit;
+              exercise.muscleGroups = muscleGroups;
+              exercise.unit = unit;
 
-            obj.push(exercise);
-          });
-          resolve(obj);
-        })
-        .catch((error: any) => {
-          reject(error);
+              obj.push(exercise);
+            });
+
+            this.onExercisesChanged.next(obj);
+            resolve(obj);
         });
+        /* .catch((error: any) => {
+          reject(error);
+        }); */
     });
   }
 
@@ -396,7 +399,6 @@ export class DatabaseProvider {
             const exercise = new Exercise(doc.data().exercise, '');
             const exerciseSets: Array<SingleExerciseSet> = Array();
             for (const item of doc.data().sets) {
-              // const set = new SingleExerciseSet(item.reps, item.weight);
               let set;
               if (item.time !== undefined) {
                 set = new SingleExerciseSet();
@@ -440,6 +442,33 @@ export class DatabaseProvider {
           reject(error);
         });
     });
+  }
+
+  addExercise(exercise: Exercise) {
+    const uid = this.authenticationService.getCurrentUser().uid;
+    exercise.user = uid;
+    debugger;
+    const docRef = this.firestore.collection('Exercise');
+    const castedMuscleGroups = exercise.muscleGroups.map((obj) =>
+      Object.assign({}, obj)
+    );
+
+    docRef
+      .add({
+        exerciseType: exercise.exerciseType,
+        user: exercise.user,
+        title: exercise.title,
+        unit: exercise.unit,
+        muscleGroups: exercise.muscleGroups,
+      })
+      .then((doc) => {
+        debugger;
+        const test = '';
+      })
+      .catch((error: any) => {
+        debugger;
+        const bla = '';
+      });
   }
 }
 

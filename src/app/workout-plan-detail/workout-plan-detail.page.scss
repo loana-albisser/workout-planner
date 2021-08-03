@@ -28,6 +28,10 @@ ion-header {
   opacity: 1;
 }
 
+ion-fab {
+  position: fixed;
+}
+
 ion-content {
   --padding-bottom: 40px;
 }
