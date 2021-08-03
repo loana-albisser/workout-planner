@@ -29,7 +29,6 @@ export class WorkoutPlanDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    debugger;
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
@@ -73,26 +72,11 @@ export class WorkoutPlanDetailPage implements OnInit {
   }
 
   saveWorkoutPlan() {
-    debugger;
     this.selectedPlan.exerciseSets.forEach((sets) => {
       this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
     });
-    this.addExerciseService.exerciseAddSetList.forEach((sets) => {
-      this.databaseProvider.addExerciseSet(sets).then((result) => {
-        this.databaseProvider.addExerciseSetToWorkoutPlan(
-          this.selectedPlan.id,
-          result
-        );
-      });
-    });
-    this.addExerciseService.removedExercises.forEach((set) => {
-      this.databaseProvider.removeExerciseSet(set).then(() => {
-        this.databaseProvider.removeExerciseSetFromWorkoutPlan(
-          this.selectedPlan.id,
-          set.id
-        );
-      });
-    });
+    const exerciseIds = this.selectedPlan.exerciseSets.map(set => set.id);
+    this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, exerciseIds);
     if (this.title !== this.selectedPlan.title) {
       this.databaseProvider.updateWorkoutPlanTitle(
         this.selectedPlan.id,

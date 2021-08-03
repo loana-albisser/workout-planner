@@ -114,7 +114,6 @@ export class DatabaseProvider {
   ) {
     const exerciseSet = Array();
     singleExerciseSet.forEach((item) => {
-      debugger;
       if (item.time !== undefined && item.time !== null) {
         exerciseSet.push({
           time: Number(item.time),
@@ -362,7 +361,6 @@ export class DatabaseProvider {
       const docRef = this.firestore.collection('Exercise');
       const obj: any = [];
       const uid = this.authenticationService.getCurrentUser().uid;
-      debugger;
       docRef
         .onSnapshot((querySnapshot) => {
           const obj: any = [];
@@ -447,7 +445,6 @@ export class DatabaseProvider {
   addExercise(exercise: Exercise) {
     const uid = this.authenticationService.getCurrentUser().uid;
     exercise.user = uid;
-    debugger;
     const docRef = this.firestore.collection('Exercise');
     const castedMuscleGroups = exercise.muscleGroups.map((obj) =>
       Object.assign({}, obj)
@@ -462,11 +459,9 @@ export class DatabaseProvider {
         muscleGroups: exercise.muscleGroups,
       })
       .then((doc) => {
-        debugger;
         const test = '';
       })
       .catch((error: any) => {
-        debugger;
         const bla = '';
       });
   }
