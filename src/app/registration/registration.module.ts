@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import { RegistrationPage } from './registration.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    TranslateService,
     RegistrationPageRoutingModule
   ],
   declarations: [RegistrationPage]

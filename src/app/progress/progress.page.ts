@@ -227,7 +227,6 @@ export class ProgressPage implements OnInit {
   }
 
   private createDatatable(): any[] {
-    debugger;
     const dataTable = Array();
     const allExecutedExercises = Array();
     this.workoutRuns.forEach((item) => {

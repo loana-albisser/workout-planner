@@ -30,7 +30,6 @@ export class WorkoutPlanDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    debugger;
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
@@ -55,7 +54,6 @@ export class WorkoutPlanDetailPage implements OnInit {
 
   onReorderItems(event) {
     this.orderChanged = true;
-    debugger;
     const draggedItem = this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(
       event.detail.from, 1)[0];
     this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(event.detail.to, 0, draggedItem);
@@ -99,7 +97,6 @@ export class WorkoutPlanDetailPage implements OnInit {
     });
     const exerciseIds = this.selectedPlan.exerciseSets.map(set => set.id);
     this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, exerciseIds);
-    debugger;
     if (this.title !== this.selectedPlan.title) {
       this.databaseProvider.updateWorkoutPlanTitle(
         this.selectedPlan.id,

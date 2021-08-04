@@ -1,5 +1,7 @@
 {
   "logout": "Logout",
+  "login": "Login",
+  "create_account": "create account",
   "title": "Title",
   "add_exercise": "Add exercise",
   "delete": "delete",
@@ -46,5 +48,7 @@
   "months": "months",
   "year": "year",
   "all": "all",
-  "exercises": "Exercises"
+  "exercises": "Exercises",
+  "start_workout": "Start workout",
+  "finish_workout": "Finish workout"
   }

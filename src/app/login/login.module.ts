@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthenticationService } from './../authentication.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,6 +16,7 @@ import { LoginPage } from './login.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    TranslateModule,
     LoginPageRoutingModule
   ],
   providers: [AuthenticationService],

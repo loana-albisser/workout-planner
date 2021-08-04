@@ -24,7 +24,7 @@
     <div class="container-graph-selection" *ngIf="!isListLayout() && loaded && !isEmpty()">
       <ion-item class="select" >
         <ion-label>Period</ion-label>
-        <ion-select [(ngModel)]="period" (ionChange)="updateGraph()" [cancelText]="'Abbrechen'">
+        <ion-select [(ngModel)]="period" (ionChange)="updateGraph()">
           <ion-select-option value="week">1 {{"week"| translate}}</ion-select-option>
           <ion-select-option value="month">1 {{"month" | translate}}</ion-select-option>
           <ion-select-option value="threeMonth">3 {{"months" | translate}}</ion-select-option>

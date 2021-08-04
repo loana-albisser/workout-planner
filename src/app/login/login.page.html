@@ -19,7 +19,7 @@
       </span>
       <span class="placeholder ion-padding" *ngIf="!isSubmitted || !errorControl.password.errors?.invalid">
       </span>
-    <ion-button class="button-login" [expand]="'block'" [type]="'submit'">Login</ion-button>
+    <ion-button class="button-login" [expand]="'block'" [type]="'submit'">{{"login" | translate}}</ion-button>
     </form>
-    <ion-button class="button-register" (click)="register()" [expand]="'block'" [fill]="'clear'" [size]="'small'">Create account</ion-button>
+    <ion-button class="button-register" (click)="register()" [expand]="'block'" [fill]="'clear'" [size]="'small'">{{"create_account" | translate}}</ion-button>
 </ion-content>
