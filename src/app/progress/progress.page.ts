@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { WorkoutRun } from './../workout-run/workout-run.page';
 import { DatabaseProvider } from './../database-provider';
 import {
@@ -33,6 +34,7 @@ export class ProgressPage implements OnInit {
   private lineChart: Chart;
 
   constructor(
+    private translateService: TranslateService,
     private changeDetectorRef: ChangeDetectorRef,
     private databaseProvider: DatabaseProvider,
     private datePipe: DatePipe
@@ -45,7 +47,6 @@ export class ProgressPage implements OnInit {
     this.period = Period.week;
     this.databaseProvider.onWorkoutRunsChanged.subscribe(workoutRuns => {
       this.workoutRuns = workoutRuns;
-      debugger;
 
       this.initializeExerciseList(workoutRuns);
       this.createGroupLineChart();
@@ -58,7 +59,7 @@ export class ProgressPage implements OnInit {
   }
 
   createGroupLineChart() {
-    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+    this.lineChart = new Chart(this.lineCanvas?.nativeElement, {
       type: 'line',
       data: {
         labels: this.createAxisLabels(),
@@ -226,6 +227,7 @@ export class ProgressPage implements OnInit {
   }
 
   private createDatatable(): any[] {
+    debugger;
     const dataTable = Array();
     const allExecutedExercises = Array();
     this.workoutRuns.forEach((item) => {
@@ -259,8 +261,6 @@ export class ProgressPage implements OnInit {
 
   private createAxisLabels(): string[] {
     const days = this.periodToDay(this.period);
-    // const daysAgo = new Date();
-    // daysAgo.setDate(daysAgo.getDate() - days);
     const dateArray = Array();
     for (let i = 0; i < days + 1; i++) {
       const newDate = new Date();
@@ -323,7 +323,6 @@ export class ProgressPage implements OnInit {
 
       dataRow.push(dataArray);
     }
-
     return dataRow;
   }
 
@@ -349,14 +348,11 @@ export class ProgressPage implements OnInit {
     this.pieChart = {
       chartType: 'LineChart',
       dataTable: this.createDatatable(),
-      //opt_firstRowIsData: true,
       options: {
         width: 411,
         height: 300,
         backgroundColor: 'transparent',
-        // title: 'Exercises',
         curveType: 'function',
-        // chartArea: {  width: "100%", height: "120%" },
         legend: { position: 'bottom', textStyle: { color: '#FFFFFF' } },
         hAxis: {
           textStyle: {
@@ -374,9 +370,6 @@ export class ProgressPage implements OnInit {
             opacity: 0.7,
           },
         },
-        /* titleTextStyle: {
-          color: '#FFFFFF',
-        } */
       },
     };
   }

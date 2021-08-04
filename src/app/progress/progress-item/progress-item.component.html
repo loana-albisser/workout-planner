@@ -15,13 +15,13 @@
         <ion-label class="label-exercise-title">{{item.exercise | translate}}</ion-label>
         <ion-row class="row-title">
           <ion-col *ngIf="!isTimeTitle(item)">
-            <ion-label class="label-header">Reps</ion-label>
+            <ion-label class="label-header">{{"repetitions" | translate}}</ion-label>
           </ion-col>
           <ion-col *ngIf="!isTimeTitle(item)">
-            <ion-label class="label-header">Weight</ion-label>
+            <ion-label class="label-header">{{"weight" | translate}}</ion-label>
           </ion-col>
           <ion-col *ngIf="isTimeTitle(item)">
-            <ion-label class="label-header">Time</ion-label>
+            <ion-label class="label-header">{{"time" | translate}}</ion-label>
           </ion-col>
         </ion-row>
         <ion-row *ngFor="let item of item.set; let i = index">

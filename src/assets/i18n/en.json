@@ -40,6 +40,11 @@
   "sitUp": "Sit Up",
   "backExtension": "Back Extension",
   "bentOverRow": "Bent over Row",
-  "sideBends": "Side Bends"
-
+  "sideBends": "Side Bends",
+  "week": "week",
+  "month": "month",
+  "months": "months",
+  "year": "year",
+  "all": "all",
+  "exercises": "Exercises"
   }
