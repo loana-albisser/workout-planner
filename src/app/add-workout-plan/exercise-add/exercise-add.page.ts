@@ -101,7 +101,6 @@ export class ExerciseAddPage implements OnInit {
   receiveAllExercises() {
     this.databaseProvider.getAllExercises();
     this.databaseProvider.onExercisesChanged.subscribe((result) => {
-      debugger;
       const workoutAddList = Array();
       result.forEach((value) => {
         const workoutAdd = new WorkoutAdd(

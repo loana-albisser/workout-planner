@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { LottieModule } from 'ngx-lottie';
 import { WorkoutRunItemComponent } from './workout-run-item/workout-run-item.component';
 import { NgModule } from '@angular/core';
@@ -16,7 +17,8 @@ import { WorkoutRunPage } from './workout-run.page';
     FormsModule,
     IonicModule,
     WorkoutRunPageRoutingModule,
-    LottieModule
+    LottieModule,
+    TranslateModule
   ],
   declarations: [WorkoutRunPage, WorkoutRunItemComponent]
 })

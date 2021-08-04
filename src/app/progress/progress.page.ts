@@ -45,6 +45,8 @@ export class ProgressPage implements OnInit {
     this.period = Period.week;
     this.databaseProvider.onWorkoutRunsChanged.subscribe(workoutRuns => {
       this.workoutRuns = workoutRuns;
+      debugger;
+
       this.initializeExerciseList(workoutRuns);
       this.createGroupLineChart();
       this.loaded = true;
@@ -218,7 +220,9 @@ export class ProgressPage implements OnInit {
         }
       });
     });
-    this.selectedExercises.push(this.exercises[0]);
+    if (this.exercises.length > 0) {
+      this.selectedExercises.push(this.exercises[0]);
+    }
   }
 
   private createDatatable(): any[] {
@@ -295,7 +299,7 @@ export class ProgressPage implements OnInit {
           if (lastExecutedExercise != null) {
             let volume = 0;
             lastExecutedExercise.set.forEach((set) => {
-              if (set.time !== undefined) {
+              if (set.time !== undefined && set.time !== null) {
                 volume = volume + set.time;
               } else {
                 let weight = set.weight;

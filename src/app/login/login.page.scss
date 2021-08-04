@@ -4,11 +4,22 @@
   margin-right: 16px;
 }
 
+.error {
+  font-size: 12px;
+  padding-top: 0;
+  color: var(--ion-color-danger);
+}
+
 .button-register {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.placeholder {
+  opacity: 0;
+  padding-top: 0;
 }
 
 .label-title {
@@ -22,4 +33,5 @@
 
 ion-item {
   margin: 16px;
+  margin-bottom: 4px;
 }

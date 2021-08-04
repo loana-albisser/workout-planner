@@ -20,7 +20,7 @@
   </div>
   <ion-list>
     <ion-item *ngFor="let item of workoutAddList">
-      <ion-label>{{item.title}}</ion-label>
+      <ion-label>{{item.title | translate}}</ion-label>
       <ion-checkbox [(ngModel)]="item.isChecked" slot="end"></ion-checkbox>
     </ion-item>
   </ion-list>

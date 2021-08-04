@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
     this.isSubmitted = true;
     if (!this.loginForm.valid) {
       console.log('Please provide all the required values!');
-      return false;
+      this.loginForm.controls.password.setErrors({invalid: true});
     } else {
       this.authenticationService.login(this.email, this.password).then(() => {
         this.router.navigate([
@@ -53,8 +53,8 @@ export class LoginPage implements OnInit {
 
   private initializeForm() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-   });
+      email: ['', [Validators.email]],
+      password: ['', []]
+   }, { updateOn: 'submit' });
   }
 }

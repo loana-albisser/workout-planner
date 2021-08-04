@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { ProgressItemComponent } from './progress-item/progress-item.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -16,7 +17,8 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     FormsModule,
     IonicModule,
     ProgressPageRoutingModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
+    TranslateModule
   ],
   declarations: [ProgressPage, ProgressItemComponent],
   providers: [DatePipe]

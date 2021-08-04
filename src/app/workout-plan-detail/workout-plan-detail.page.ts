@@ -1,4 +1,4 @@
-import { ExerciseSet } from './../model/workout-plan';
+import { ExerciseSet, SingleExerciseSet } from './../model/workout-plan';
 import { DatabaseProvider } from './../database-provider';
 import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
 import { Component, OnInit } from '@angular/core';
@@ -7,6 +7,7 @@ import { WorkoutPlan } from '../model/workout-plan';
 import { Location } from '@angular/common';
 import { UpdateExerciseService } from '../add-exercise.service';
 import { AuthenticationService } from '../authentication.service';
+import { UnitEnum } from '../add-workout-plan/exercise-add/create-custom-exercise/create-custom-exercise.page';
 
 @Component({
   selector: 'app-workout-plan-detail',
@@ -73,10 +74,25 @@ export class WorkoutPlanDetailPage implements OnInit {
 
   saveWorkoutPlan() {
     this.selectedPlan.exerciseSets.forEach((sets) => {
+      if (sets.exercise.unit !== UnitEnum.timer) {
+        sets.exerciseSets.map(set => delete set.time);
+      }
+      debugger;
       this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
     });
-    const exerciseIds = this.selectedPlan.exerciseSets.map(set => set.id);
-    this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, exerciseIds);
+    this.addExerciseService.exerciseAddSetList.forEach((sets) => {
+
+      sets.exerciseSets.forEach(set => {
+        if (sets.exercise.unit !== UnitEnum.timer) {
+           delete set.time;
+        }
+      });
+      const singleExerciseSet = new ExerciseSet('', sets.exercise, sets.exerciseSets);
+      this.databaseProvider.addExerciseSet(singleExerciseSet).then(data => {
+        this.databaseProvider.addExerciseSetToWorkoutPlan(this.selectedPlan.id, data);
+      });
+    });
+    // const exerciseIds = this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).map(set => set.id);
     if (this.title !== this.selectedPlan.title) {
       this.databaseProvider.updateWorkoutPlanTitle(
         this.selectedPlan.id,

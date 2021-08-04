@@ -22,5 +22,24 @@
   "none": "None",
   "muscle_groups": "Muscle Groups",
   "seconds": "Seconds",
-  "select_time": "Select time"
+  "select_time": "Select time",
+  "oneLegSquat": "One Leg Squat",
+  "legAbductor": "Leg Abductor",
+  "squatSmithMachine": "Squat (Smith-Machine)",
+  "hipAdductor": "Hip Adductor",
+  "kneeToLegs": "Knee to Leg",
+  "verticalTraction": "Veritcal Traction",
+  "legExtension": "Leg Extension",
+  "hipThrusts": "Hip Thrusts",
+  "legPress": "Leg Press",
+  "proneLegCurl": "Prone Leg Curl",
+  "flyingCableFlys": "Flying Cable Flys",
+  "plank": "Plank",
+  "trainTriangle": "Train Triangle",
+  "abdominalCrunch": "Abdominal Crunch",
+  "sitUp": "Sit Up",
+  "backExtension": "Back Extension",
+  "bentOverRow": "Bent over Row",
+  "sideBends": "Side Bends"
+
   }

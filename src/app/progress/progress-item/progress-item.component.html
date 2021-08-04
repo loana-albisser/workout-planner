@@ -12,21 +12,27 @@
   <ion-card-content>
     <ion-list>
       <ion-grid *ngFor="let item of workoutRun.executedExercises">
-        <ion-label class="label-exercise-title">{{item.exercise}}</ion-label>
+        <ion-label class="label-exercise-title">{{item.exercise | translate}}</ion-label>
         <ion-row class="row-title">
-          <ion-col>
+          <ion-col *ngIf="!isTimeTitle(item)">
             <ion-label class="label-header">Reps</ion-label>
           </ion-col>
-          <ion-col>
+          <ion-col *ngIf="!isTimeTitle(item)">
             <ion-label class="label-header">Weight</ion-label>
+          </ion-col>
+          <ion-col *ngIf="isTimeTitle(item)">
+            <ion-label class="label-header">Time</ion-label>
           </ion-col>
         </ion-row>
         <ion-row *ngFor="let item of item.set; let i = index">
-          <ion-col>
-            <ion-input [type]="'number'" [(ngModel)]="item.reps"></ion-input>
+          <ion-col *ngIf="!isTimeUnit(item)">
+            <ion-input [type]="'number'" [readonly]="true" [(ngModel)]="item.reps"></ion-input>
           </ion-col>
-          <ion-col>
-            <ion-input [type]="'number'" [(ngModel)]="item.weight"></ion-input>
+          <ion-col *ngIf="!isTimeUnit(item)">
+            <ion-input [type]="'number'" [readonly]="true" [(ngModel)]="item.weight"></ion-input>
+          </ion-col>
+          <ion-col *ngIf="isTimeUnit(item)">
+            <ion-input [type]="'number'" [readonly]="true" [(ngModel)]="item.time"></ion-input>
           </ion-col>
         </ion-row>
       </ion-grid>

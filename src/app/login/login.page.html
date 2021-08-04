@@ -5,15 +5,19 @@
         <ion-label position="floating">E-Mail</ion-label>
         <ion-input formControlName="email" [(ngModel)]="email" [type]="'email'"></ion-input>
       </ion-item>
-      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors">
         Enter a valid email
+      </span>
+      <span class="placeholder ion-padding" *ngIf="!isSubmitted || !errorControl.email.errors?.invalid">
       </span>
       <ion-item >
         <ion-label position="floating">Password</ion-label>
         <ion-input formControlName="password" [(ngModel)]="password" [type]="'password'"></ion-input>
       </ion-item>
-      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.invalid">
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.invalid">
         E-Mail or password invalid
+      </span>
+      <span class="placeholder ion-padding" *ngIf="!isSubmitted || !errorControl.password.errors?.invalid">
       </span>
     <ion-button class="button-login" [expand]="'block'" [type]="'submit'">Login</ion-button>
     </form>

@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { ToastController } from '@ionic/angular';
+import { ExerciseTypeEnum, UnitEnum } from '../add-workout-plan/exercise-add/create-custom-exercise/create-custom-exercise.page';
 
 @Component({
   selector: 'app-workout-run',
@@ -32,7 +33,6 @@ export class WorkoutRunPage implements OnInit {
   ngOnInit() {
     const planId = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(p => p.id === planId);
-    debugger;
     this.selectedPlan.exerciseSets.forEach(item => {
         item.exerciseSets.forEach(set => {
           set.finished = false;
@@ -92,8 +92,12 @@ export class WorkoutRunPage implements OnInit {
       workoutRun.executedExercises.push(executedExercise);
       item.exerciseSets.forEach(set => {
         if (set.finished) {
+          if (item.exercise.unit !== UnitEnum.timer) {
+            delete set.time;
+          }
           executedExercise.set.push(set);
         }
+
       });
     });
     this.databaseProvider.addWorkoutRun(workoutRun);

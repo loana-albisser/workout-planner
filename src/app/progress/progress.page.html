@@ -21,7 +21,7 @@
         [workoutRun]="workoutRun"
       ></app-progress-item>
     </ion-list>
-    <div class="container-graph-selection" *ngIf="!isListLayout() && loaded">
+    <div class="container-graph-selection" *ngIf="!isListLayout() && loaded && !isEmpty()">
       <ion-item class="select" >
         <ion-label>Period</ion-label>
         <ion-select [(ngModel)]="period" (ionChange)="updateGraph()" [cancelText]="'Abbrechen'">
@@ -41,12 +41,7 @@
       </ion-item>
     </div>
 
-    <!--<google-chart #mychart
-      *ngIf="!isListLayout() && loaded"
-      [data]="pieChart"
-    ></google-chart>-->
-
-    <ion-card [ngClass]="{'container-invisible' :isListLayout(), 'container-visible': !isListLayout()}">
+    <ion-card [ngClass]="{'container-invisible' :isListLayout() || isEmpty(), 'container-visible': !isListLayout()}">
       <ion-card-content>
         <canvas #lineChart></canvas>
       </ion-card-content>

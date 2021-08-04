@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExerciseSetEditItemComponent } from '../workout-plan-detail/exercise-set-edit-item/exercise-set-edit-item.component';
@@ -10,7 +11,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    TranslateModule
 ],
   exports: [ ExerciseSetEditItemComponent ]
 

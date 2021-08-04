@@ -1,9 +1,7 @@
 import { WorkoutPlanRepositoryService } from './workout-plan-repository.service';
 import { TranslateService } from '@ngx-translate/core';
-/* eslint-disable @typescript-eslint/no-shadow */
 import { WorkoutRun, ExecutedExercise } from './workout-run/workout-run.page';
 import { AuthenticationService } from './authentication.service';
-import { Title } from '@angular/platform-browser';
 import {
   WorkoutPlan,
   Exercise,
@@ -16,8 +14,6 @@ import 'rxjs/add/operator/map';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { title } from 'process';
-import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
@@ -82,7 +78,7 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const exerciseSet = Array();
       singleExerciseSet.forEach((item) => {
-        if (item.time !== undefined) {
+        if (item.time !== undefined && item.time !== null) {
           exerciseSet.push({
             time: Number(item.time),
           });
@@ -141,7 +137,7 @@ export class DatabaseProvider {
     return new Promise((resolve, reject) => {
       const newExerciseSet = Array();
       exerciseSet.exerciseSets.forEach((item) => {
-        if (item.time !== undefined) {
+        if (item.time !== undefined && item.time !== null) {
           newExerciseSet.push({
             time: Number(item.time),
           });
@@ -285,7 +281,7 @@ export class DatabaseProvider {
           if (item.set.length > 0) {
             const minimizedSetList = Array();
             item.set.forEach((set) => {
-              if (set.time !== undefined) {
+              if (set.time !== undefined && set.time !== null) {
                 minimizedSetList.push({
                   time: Number(set.time),
                 });
@@ -361,27 +357,26 @@ export class DatabaseProvider {
       const docRef = this.firestore.collection('Exercise');
       const obj: any = [];
       const uid = this.authenticationService.getCurrentUser().uid;
-      docRef
-        .onSnapshot((querySnapshot) => {
-          const obj: any = [];
-          querySnapshot.forEach((doc: any) => {
+      docRef.onSnapshot((querySnapshot) => {
+        const obj: any = [];
+        querySnapshot.forEach((doc: any) => {
+          const user = doc.data().user;
+          if (user === uid || user === 'all') {
             const id = doc.id;
-              const title = doc.data().title;
-              const muscleGroups = doc.data().muscleGroups;
-              const exercise = new Exercise(id, title);
-              const unit = doc.data().unit;
-              exercise.muscleGroups = muscleGroups;
-              exercise.unit = unit;
+            const title = doc.data().title;
+            const muscleGroups = doc.data().muscleGroups;
+            const exercise = new Exercise(id, title);
+            const unit = doc.data().unit;
+            exercise.muscleGroups = muscleGroups;
+            exercise.unit = unit;
 
-              obj.push(exercise);
-            });
-
-            this.onExercisesChanged.next(obj);
-            resolve(obj);
+            obj.push(exercise);
+          }
         });
-        /* .catch((error: any) => {
-          reject(error);
-        }); */
+
+        this.onExercisesChanged.next(obj);
+        resolve(obj);
+      });
     });
   }
 
@@ -398,7 +393,7 @@ export class DatabaseProvider {
             const exerciseSets: Array<SingleExerciseSet> = Array();
             for (const item of doc.data().sets) {
               let set;
-              if (item.time !== undefined) {
+              if (item.time !== undefined && item.time !== null) {
                 set = new SingleExerciseSet();
                 set.time = item.time;
               } else {

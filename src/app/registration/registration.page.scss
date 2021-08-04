@@ -22,4 +22,16 @@
 
 ion-item {
   margin: 16px;
+  margin-bottom: 4px;
+}
+
+.error {
+  font-size: 12px;
+  padding-top: 0;
+  color: var(--ion-color-danger);
+}
+
+.placeholder {
+  opacity: 0;
+  padding-top: 0;
 }

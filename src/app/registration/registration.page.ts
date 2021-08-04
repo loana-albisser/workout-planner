@@ -46,9 +46,9 @@ register() {
 
   private initializeForm() {
     this.registrationForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-   });
+      email: ['', [Validators.email]],
+      password: ['', []]
+   }, { updateOn: 'submit' });
   }
 
 }
