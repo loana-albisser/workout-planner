@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { UpdateExerciseService } from '../add-exercise.service';
 import { AuthenticationService } from '../authentication.service';
 import { UnitEnum } from '../add-workout-plan/exercise-add/create-custom-exercise/create-custom-exercise.page';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-workout-plan-detail',
@@ -90,6 +91,32 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.addExerciseService.removedExercises.push(exerciseSet);
   }
 
+  hasElements(sets: ExerciseSet): boolean {
+    let hasElements = false;
+      if (sets.exercise.unit === UnitEnum.timer) {
+        let totalTime = 0;
+        sets.exerciseSets.forEach(item => {
+          totalTime += item.time;
+        });
+        if (totalTime === null || totalTime === undefined || totalTime === 0) {
+          hasElements = false;
+        } else {
+          hasElements = true;
+        }
+      } else {
+        let total = 0;
+        sets.exerciseSets.forEach(item => {
+          total += (item.weight * item.reps);
+        });
+        if (total === null || total === undefined || total === 0) {
+          hasElements = false;
+        } else {
+          hasElements = true;
+        }
+      }
+      return hasElements;
+  }
+
   saveWorkoutPlan() {
     this.selectedPlan.exerciseSets.forEach((sets) => {
       if (sets.exercise.unit !== UnitEnum.timer) {
@@ -106,19 +133,24 @@ export class WorkoutPlanDetailPage implements OnInit {
            delete set.time;
         }
       });
-      const singleExerciseSet = new ExerciseSet('', sets.exercise, sets.exerciseSets);
+
+      if (this.hasElements(sets)) {
+        const singleExerciseSet = new ExerciseSet('', sets.exercise, sets.exerciseSets);
       await this.databaseProvider.addExerciseSet(singleExerciseSet).then(async data => {
         this.selectedPlan.exerciseSets.find(item => item === sets).id = data;
-        const ids = this.selectedPlan.exerciseSets.map(set => set.id);
+        const ids = this.selectedPlan.exerciseSets.filter(set => set.id !== '0').map(set => set.id);
+        debugger;
         this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, ids);
       });
+      }
+
     });
     this.addExerciseService.removedExercises.forEach(async set => {
       await this.databaseProvider.removeExerciseSet(set);
       await this.databaseProvider.removeExerciseSetFromWorkoutPlan(this.selectedPlan.id, set.id);
     });
-    const exerciseIds = this.selectedPlan.exerciseSets.map(set => set.id);
-    this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, exerciseIds);
+    const ids = this.selectedPlan.exerciseSets.filter(set => set.id !== '0').map(set => set.id);
+    this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, ids);
     if (this.title !== this.selectedPlan.title) {
       this.databaseProvider.updateWorkoutPlanTitle(
         this.selectedPlan.id,
