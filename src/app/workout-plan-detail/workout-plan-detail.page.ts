@@ -34,7 +34,14 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
     );
+
     this.title = this.selectedPlan.title;
+  }
+
+  ionViewWillEnter(){
+    this.addExerciseService.exerciseAddSetList.forEach(item => {
+      this.selectedPlan.exerciseSets.push(item);
+    });
   }
 
   delete() {
@@ -54,11 +61,22 @@ export class WorkoutPlanDetailPage implements OnInit {
 
   onReorderItems(event) {
     this.orderChanged = true;
-    const draggedItem = this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(
-      event.detail.from, 1)[0];
-    this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(event.detail.to, 0, draggedItem);
+   // const allExerciseSets = [].concat(this.selectedPlan.exerciseSets, this.addExerciseService.exerciseAddSetList);
+    // const draggedItem = allExerciseSets.splice(event.detail.from, 1)[0];
+    // this.selectedPlan.exerciseSets.splice(event.detail.to, 1, draggedItem);
+    // const allExerciseSets = this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList);
+    this.move(this.selectedPlan.exerciseSets, event.detail.from, event.detail.to);
+    // this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(event.detail.to, 0, draggedItem);
+    // this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(event.detail.from, 1);
+    const test = this.selectedPlan.exerciseSets;
     event.detail.complete();
   }
+
+  move(arr: any[], fromIndex: number, toIndex: number) {
+    const element = arr[fromIndex];
+    arr.splice(fromIndex, 1);
+    arr.splice(toIndex, 0, element);
+}
 
   cancel() {
     this.location.back();
@@ -77,7 +95,9 @@ export class WorkoutPlanDetailPage implements OnInit {
       if (sets.exercise.unit !== UnitEnum.timer) {
         sets.exerciseSets.map(set => delete set.time);
       }
-      this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
+      if (sets.id !== '0') {
+        this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
+      }
     });
     this.addExerciseService.exerciseAddSetList.forEach(async (sets) => {
 
@@ -88,7 +108,9 @@ export class WorkoutPlanDetailPage implements OnInit {
       });
       const singleExerciseSet = new ExerciseSet('', sets.exercise, sets.exerciseSets);
       await this.databaseProvider.addExerciseSet(singleExerciseSet).then(async data => {
-        await this.databaseProvider.addExerciseSetToWorkoutPlan(this.selectedPlan.id, data);
+        this.selectedPlan.exerciseSets.find(item => item === sets).id = data;
+        const ids = this.selectedPlan.exerciseSets.map(set => set.id);
+        this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, ids);
       });
     });
     this.addExerciseService.removedExercises.forEach(async set => {

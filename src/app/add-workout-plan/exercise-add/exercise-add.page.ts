@@ -84,7 +84,7 @@ export class ExerciseAddPage implements OnInit {
   }
 
   createCustomExercise() {
-    this.router.navigate(['/create-custom-exercise']);
+    this.router.navigate(['/create-custom-exercise'], { replaceUrl: true });
   }
 
   search(event: CustomEvent) {

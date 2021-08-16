@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthenticationService } from 'src/app/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-plan-add',
@@ -18,6 +19,7 @@ export class WorkoutPlanAddPage implements OnInit {
     public translateService: TranslateService,
     public addExerciseService: UpdateExerciseService,
     private databaseProvider: DatabaseProvider,
+    private router: Router,
     private location: Location
   ) {}
 
@@ -25,8 +27,19 @@ export class WorkoutPlanAddPage implements OnInit {
 
   }
 
-  removeExercise(exerciseSet: ExerciseSet) {
+  goToAddExercisePage() {
+    this.router.navigate(['/add-exercise'], { replaceUrl: true });
+
   }
+
+  removeExercise(exerciseSet: ExerciseSet) {
+    const indexToDelete = this.addExerciseService.exerciseAddSetList.findIndex(
+      (item) => item.id === exerciseSet.id
+    );
+    this.addExerciseService.exerciseAddSetList.splice(indexToDelete, 1);
+    // this.addExerciseService.removedExercises.push(exerciseSet);
+  }
+
   saveWorkoutPlan() {
     const workoutPlan = new WorkoutPlan();
     workoutPlan.title = this.title;
