@@ -47,3 +47,13 @@ ion-item {
   display: flex;
   flex-flow: column;
 }
+
+.custom-skeleton ion-skeleton-text {
+  line-height: 100px;
+}
+
+.container-skeleton {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}

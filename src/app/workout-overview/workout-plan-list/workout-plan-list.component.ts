@@ -6,6 +6,8 @@ import { WorkoutPlanRepositoryService } from '../../workout-plan-repository.serv
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
+import { threadId } from 'worker_threads';
+import { delay } from 'rxjs-compat/operator/delay';
 
 @Component({
   selector: 'app-workout-plan-list',
@@ -15,6 +17,7 @@ import { AuthenticationService } from '../../authentication.service';
 export class WorkoutPlanListComponent implements OnInit {
   workoutPlans: Array<WorkoutPlan> = Array();
   archivedWorkoutPlans: Array<WorkoutPlan> = Array();
+  loaded = false;
 
   constructor(
     public router: Router,
@@ -24,7 +27,7 @@ export class WorkoutPlanListComponent implements OnInit {
     private databaseProvider: DatabaseProvider
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.databaseProvider.onWorkoutPlansChanged.subscribe(workoutPlans => {
       this.updateWorkoutPlans(workoutPlans).then((data) => {
         this.archivedWorkoutPlans = Array();
@@ -37,6 +40,7 @@ export class WorkoutPlanListComponent implements OnInit {
           }
         });
         this.workoutPlanRepositoryService.allWorkoutPlans = data;
+          this.loaded = true;
       });
     });
     const uid = this.activatedRoute.snapshot.paramMap.get('uid');

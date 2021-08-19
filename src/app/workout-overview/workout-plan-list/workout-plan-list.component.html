@@ -1,5 +1,4 @@
-<ion-list>
-
+<ion-list *ngIf="loaded">
   <ion-card button *ngFor="let item of workoutPlans" (click)="goToWorkoutDetail(item.id)">
     <ion-card-header>
       <ion-card-title>{{item.title}}</ion-card-title>
@@ -38,3 +37,16 @@
   </ion-card>
 </div>
 </ion-list>
+<div *ngIf="!loaded">
+  <ion-list>
+    <div class="container-skeleton custom-skeleton">
+      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+    </div>
+    <div class="container-skeleton custom-skeleton">
+      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+    </div>
+    <div class="container-skeleton custom-skeleton">
+      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+    </div>
+  </ion-list>
+</div>

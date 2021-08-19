@@ -12,6 +12,7 @@ export class WorkoutOverviewPage implements OnInit {
   constructor(private databaseProvider: DatabaseProvider) { }
 
   ngOnInit() {
+
   }
 
   ionViewWillEnter(){
