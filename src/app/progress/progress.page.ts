@@ -81,8 +81,10 @@ export class ProgressPage implements OnInit {
     const dataSets = Array();
     this.selectedExercises.forEach((selectedExercise) => {
       const data = this.createData(selectedExercise);
-      const dataSet = this.createDataSet(selectedExercise, data);
-      dataSets.push(dataSet);
+      this.translateService.get(selectedExercise).subscribe(trans => {
+        const dataSet = this.createDataSet(trans, data);
+        dataSets.push(dataSet);
+      });
     });
     return dataSets;
   }
@@ -96,7 +98,7 @@ export class ProgressPage implements OnInit {
       daysAgo.setDate(daysAgo.getDate() - days + i);
 
       const exercises = this.workoutRuns.filter((item) =>
-        item.executedExercises.filter((bla) => bla.exercise === title)
+        item.executedExercises.filter((e) => e.exercise === title)
       );
       const exercise = exercises.find(
         (bla) =>
