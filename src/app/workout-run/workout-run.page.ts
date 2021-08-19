@@ -48,6 +48,7 @@ export class WorkoutRunPage implements OnInit {
   stopTimer() {
     this.runTimer = false;
     this.remainingTime = 0;
+    this.displayTime = '00:00:00';
   }
 
   timerTick() {
