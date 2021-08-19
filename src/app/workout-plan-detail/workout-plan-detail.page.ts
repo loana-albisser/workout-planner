@@ -41,7 +41,9 @@ export class WorkoutPlanDetailPage implements OnInit {
 
   ionViewWillEnter(){
     this.addExerciseService.exerciseAddSetList.forEach(item => {
-      this.selectedPlan.exerciseSets.push(item);
+      if (!this.selectedPlan.exerciseSets.includes(item)){
+        this.selectedPlan.exerciseSets.push(item);
+      }
     });
   }
 
@@ -62,13 +64,7 @@ export class WorkoutPlanDetailPage implements OnInit {
 
   onReorderItems(event) {
     this.orderChanged = true;
-   // const allExerciseSets = [].concat(this.selectedPlan.exerciseSets, this.addExerciseService.exerciseAddSetList);
-    // const draggedItem = allExerciseSets.splice(event.detail.from, 1)[0];
-    // this.selectedPlan.exerciseSets.splice(event.detail.to, 1, draggedItem);
-    // const allExerciseSets = this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList);
     this.move(this.selectedPlan.exerciseSets, event.detail.from, event.detail.to);
-    // this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(event.detail.to, 0, draggedItem);
-    // this.selectedPlan.exerciseSets.concat(this.addExerciseService.exerciseAddSetList).splice(event.detail.from, 1);
     const test = this.selectedPlan.exerciseSets;
     event.detail.complete();
   }
@@ -138,9 +134,8 @@ export class WorkoutPlanDetailPage implements OnInit {
         const singleExerciseSet = new ExerciseSet('', sets.exercise, sets.exerciseSets);
       await this.databaseProvider.addExerciseSet(singleExerciseSet).then(async data => {
         this.selectedPlan.exerciseSets.find(item => item === sets).id = data;
-        const ids = this.selectedPlan.exerciseSets.filter(set => set.id !== '0').map(set => set.id);
-        debugger;
-        this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, ids);
+        const exerciseIds = this.selectedPlan.exerciseSets.filter(set => set.id !== '0').map(set => set.id);
+        this.databaseProvider.addExerciseSetsToWorkoutPlan(this.selectedPlan.id, exerciseIds);
       });
       }
 
