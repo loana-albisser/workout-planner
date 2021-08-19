@@ -12,9 +12,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar (ionChange)="search($event)"></ion-searchbar>
+  <ion-searchbar (ionChange)="search($event, null)" (ionClear)="doOnSearchClear()"></ion-searchbar>
   <div class="container-muscle-group">
-      <ion-chip [ngClass]="{'chip-selected': muscleGroup.isChecked === true}"  *ngFor="let muscleGroup of muscleGroups" (click)="changeFilter(muscleGroup)">
+      <ion-chip [ngClass]="{'chip-selected': muscleGroup.isChecked === true}"  *ngFor="let muscleGroup of muscleGroups" (click)="search(searchItem, muscleGroup)">
         <ion-label>{{muscleGroup.title}}</ion-label>
       </ion-chip>
   </div>

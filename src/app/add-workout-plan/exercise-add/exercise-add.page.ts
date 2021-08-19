@@ -1,10 +1,11 @@
+import { TranslateService } from '@ngx-translate/core';
 import { UnitEnum } from './create-custom-exercise/create-custom-exercise.page';
 import { ExerciseSet, SingleExerciseSet } from '../../model/workout-plan';
 import { Exercise } from '../../model/workout-plan';
 import { UpdateExerciseService } from '../../add-exercise.service';
 import { DatabaseProvider } from '../../database-provider';
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,10 +18,12 @@ export class ExerciseAddPage implements OnInit {
   fullWorkoutList: Array<WorkoutAdd> = Array();
   muscleGroups: Array<MuscleGroupFilter> = Array();
   chipSelectedColor = 'primary';
+  searchItem: String = ''
 
   constructor(
     private location: Location,
     private router: Router,
+    private translateService: TranslateService,
     private databaseProvider: DatabaseProvider,
     private addExerciseService: UpdateExerciseService
   ) {}
@@ -44,6 +47,10 @@ export class ExerciseAddPage implements OnInit {
     const selectedMuscleGroups = this.muscleGroups.filter(
       (item) => item.isChecked === true
     );
+    this.applyMuscleGroupFilter(selectedMuscleGroups);
+  }
+
+  applyMuscleGroupFilter(selectedMuscleGroups: MuscleGroupFilter[]) {
     if (selectedMuscleGroups.length === 0) {
       this.workoutAddList = this.fullWorkoutList;
     } else {
@@ -87,14 +94,70 @@ export class ExerciseAddPage implements OnInit {
     this.router.navigate(['/create-custom-exercise'], { replaceUrl: true });
   }
 
-  search(event: CustomEvent) {
-    const value: string = event.detail.value;
-    if (value === '') {
-      this.workoutAddList = this.fullWorkoutList;
+  doOnSearchClear() {
+    const selectedMuscleGroups = this.muscleGroups.filter(
+      (item) => item.isChecked === true
+    );
+    this.applyMuscleGroupFilter(selectedMuscleGroups);
+  }
+
+  search(event: any, filter: MuscleGroupFilter) {
+    debugger;
+    let value: string;
+    if (event.detail != null) {
+      value = event.detail.value;
     } else {
-      this.workoutAddList = this.fullWorkoutList.filter((item) =>
-        item.title.toLowerCase().includes(value.toLowerCase())
+      value = event;
+    }
+    this.searchItem = value;
+    if (value === '') {
+      const selectedMuscleGroups = this.muscleGroups.filter(
+        (item) => item.isChecked === true
       );
+      if (filter == null && selectedMuscleGroups.length === 0) {
+        this.workoutAddList = this.fullWorkoutList;
+      }
+      if (filter != null) {
+        this.changeFilter(filter);
+      } else {
+        this.applyMuscleGroupFilter(selectedMuscleGroups);
+      }
+    } else {
+      if (filter != null) {
+        const muscleGroups = this.muscleGroups.find((item) => item.id === filter.id);
+        if (muscleGroups !== undefined) {
+          muscleGroups.isChecked = !filter.isChecked;
+        }
+      }
+      const selectedMuscleGroups = this.muscleGroups.filter(
+        (item) => item.isChecked === true
+      );
+      if (selectedMuscleGroups.length > 0) {
+        const newExerciseList = Array();
+        selectedMuscleGroups.forEach((item) => {
+          const exercises = this.fullWorkoutList.filter((workout) =>
+            workout.muscleGroups?.includes(item.id)
+          );
+          exercises.forEach((exercise) => {
+            this.translateService.get(exercise.title).subscribe(trans => {
+              if (trans.toLowerCase().includes(value.toLowerCase())) {
+                newExerciseList.push(exercise);
+              }
+            });
+          });
+        });
+        this.workoutAddList = newExerciseList;
+      } else {
+        const newExerciseList = Array();
+        this.fullWorkoutList.forEach(exercise => {
+          this.translateService.get(exercise.title).subscribe(trans => {
+            if (trans.toLowerCase().includes(value.toLowerCase())) {
+              newExerciseList.push(exercise);
+            }
+          });
+        });
+        this.workoutAddList = newExerciseList;
+      }
     }
   }
 
