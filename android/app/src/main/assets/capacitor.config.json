@@ -1,6 +1,12 @@
 {
-	"appId": "io.ionic.starter",
+	"appId": "ch.loanaalbisser.workoutplan",
 	"appName": "workout-planner",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0,
+			"launchAutoHide": true
+		}
+	}
 }

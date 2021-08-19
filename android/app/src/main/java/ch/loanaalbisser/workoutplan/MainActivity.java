@@ -1,4 +1,4 @@
-package ch.loanaalisser.workoutplan;
+package ch.loanaalbisser.workoutplan;
 
 import android.content.res.Configuration;
 import android.os.Build;
@@ -23,4 +23,5 @@ public class MainActivity extends BridgeActivity {
       }
     }
   }
+
 }

@@ -35,7 +35,6 @@ export class WorkoutPlanAddPage implements OnInit {
       (item) => item.id === exerciseSet.id
     );
     this.addExerciseService.exerciseAddSetList.splice(indexToDelete, 1);
-    // this.addExerciseService.removedExercises.push(exerciseSet);
   }
 
   saveWorkoutPlan() {
