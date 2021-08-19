@@ -357,7 +357,7 @@ export class DatabaseProvider {
       const docRef = this.firestore.collection('Exercise');
       const obj: any = [];
       const uid = this.authenticationService.getCurrentUser().uid;
-      docRef.onSnapshot((querySnapshot) => {
+      docRef.orderBy('title').onSnapshot((querySnapshot) => {
         const obj: any = [];
         querySnapshot.forEach((doc: any) => {
           const user = doc.data().user;
