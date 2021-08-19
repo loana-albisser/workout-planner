@@ -3,7 +3,6 @@ import { DatabaseProvider } from './../../database-provider';
 import { UpdateExerciseService } from '../../add-exercise.service';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthenticationService } from 'src/app/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
@@ -28,8 +27,7 @@ export class WorkoutPlanAddPage implements OnInit {
   }
 
   goToAddExercisePage() {
-    this.router.navigate(['/add-exercise'], { replaceUrl: true });
-
+    this.router.navigate(['/add-exercise']);
   }
 
   removeExercise(exerciseSet: ExerciseSet) {

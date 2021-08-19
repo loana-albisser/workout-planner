@@ -5,7 +5,6 @@ import { Exercise } from '../../model/workout-plan';
 import { UpdateExerciseService } from '../../add-exercise.service';
 import { DatabaseProvider } from '../../database-provider';
 import { Component, OnInit } from '@angular/core';
-import { Location, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,10 +17,9 @@ export class ExerciseAddPage implements OnInit {
   fullWorkoutList: Array<WorkoutAdd> = Array();
   muscleGroups: Array<MuscleGroupFilter> = Array();
   chipSelectedColor = 'primary';
-  searchItem: String = ''
+  searchItem = '';
 
   constructor(
-    private location: Location,
     private router: Router,
     private translateService: TranslateService,
     private databaseProvider: DatabaseProvider,
@@ -39,6 +37,10 @@ export class ExerciseAddPage implements OnInit {
         this.muscleGroups.push(new MuscleGroupFilter(item.id, item.title));
       });
     });
+  }
+
+  back() {
+    window.history.back();
   }
 
   changeFilter(filter: MuscleGroupFilter) {
@@ -87,7 +89,7 @@ export class ExerciseAddPage implements OnInit {
     exerciseSetList.forEach((item) => {
       this.addExerciseService.exerciseAddSetList.push(item);
     });
-    this.location.back();
+    window.history.back();
   }
 
   createCustomExercise() {
@@ -102,7 +104,6 @@ export class ExerciseAddPage implements OnInit {
   }
 
   search(event: any, filter: MuscleGroupFilter) {
-    debugger;
     let value: string;
     if (event.detail != null) {
       value = event.detail.value;
