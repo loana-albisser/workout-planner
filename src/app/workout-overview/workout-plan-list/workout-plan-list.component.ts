@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
 import { threadId } from 'worker_threads';
 import { delay } from 'rxjs-compat/operator/delay';
+import { title } from 'process';
 
 @Component({
   selector: 'app-workout-plan-list',
@@ -66,18 +67,25 @@ export class WorkoutPlanListComponent implements OnInit {
 
   async updateWorkoutPlans(data: WorkoutPlan[]): Promise<WorkoutPlan[]> {
     const workoutPlans: WorkoutPlan[] = Array();
-    for (const workoutPlan of data) {
+    const exercises: Exercise[] = Array();
+    for (let workoutPlanIndex = 0, length = data.length; workoutPlanIndex < length; workoutPlanIndex++) {
       const newWorkoutPlan = new WorkoutPlan();
-      Object.assign(newWorkoutPlan, workoutPlan);
+      Object.assign(newWorkoutPlan, data[workoutPlanIndex]);
       newWorkoutPlan.exerciseSets = Array();
-      for (const exerciseSet of workoutPlan.exerciseSets) {
+      for (let i = 0, len = data[workoutPlanIndex].exerciseSets.length; i < len; i++) {
         const newExerciseSet = await this.databaseProvider.getExerciseSet(
-          exerciseSet.id
+          data[workoutPlanIndex].exerciseSets[i].id
         );
-        const newExercise = await this.databaseProvider.getExercise(
-          newExerciseSet.exercise.id
-        );
-        newExerciseSet.exercise = newExercise;
+        const savedExercise = exercises.find(item => item.id === data[workoutPlanIndex].exerciseSets[i].exercise.id);
+        if (savedExercise !== undefined) {
+          newExerciseSet.exercise = savedExercise;
+        } else {
+          const newExercise = await this.databaseProvider.getExercise(
+            newExerciseSet.exercise.id
+          );
+          exercises.push(newExercise);
+          newExerciseSet.exercise = newExercise;
+        }
         newWorkoutPlan.exerciseSets.push(newExerciseSet);
       }
       workoutPlans.push(newWorkoutPlan);
