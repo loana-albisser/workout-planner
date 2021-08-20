@@ -16,7 +16,7 @@ export class WorkoutOverviewPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.receiveWorkoutPlans();
+    // this.receiveWorkoutPlans();
   }
 
   receiveWorkoutPlans(): Promise<WorkoutPlan[]> {

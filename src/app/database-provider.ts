@@ -22,6 +22,8 @@ export class DatabaseProvider {
   onWorkoutRunsChanged: BehaviorSubject<any> = new BehaviorSubject([]);
   onExercisesChanged: BehaviorSubject<any> = new BehaviorSubject([]);
 
+  workoutPlanLoaded = false;
+
   private firestore: any;
 
   constructor(
@@ -64,6 +66,7 @@ export class DatabaseProvider {
             );
             obj.push(workoutPlan);
           });
+        this.workoutPlanLoaded = true;
           this.onWorkoutPlansChanged.next(obj);
           resolve(obj);
         });

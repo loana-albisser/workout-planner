@@ -24,23 +24,25 @@ export class WorkoutPlanListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authenticationService: AuthenticationService,
     public workoutPlanRepositoryService: WorkoutPlanRepositoryService,
-    private databaseProvider: DatabaseProvider
+    public databaseProvider: DatabaseProvider
   ) {}
 
   async ngOnInit() {
-    this.databaseProvider.onWorkoutPlansChanged.subscribe(workoutPlans => {
+    this.databaseProvider.onWorkoutPlansChanged.subscribe((workoutPlans) => {
       this.updateWorkoutPlans(workoutPlans).then((data) => {
         this.archivedWorkoutPlans = Array();
         this.workoutPlans = Array();
-        data.forEach(plan => {
+        data.forEach((plan) => {
           if (plan.archived) {
-              this.archivedWorkoutPlans.push(plan);
+            this.archivedWorkoutPlans.push(plan);
           } else {
-              this.workoutPlans.push(plan);
+            this.workoutPlans.push(plan);
           }
         });
         this.workoutPlanRepositoryService.allWorkoutPlans = data;
+        if (this.databaseProvider.workoutPlanLoaded) {
           this.loaded = true;
+        }
       });
     });
     const uid = this.activatedRoute.snapshot.paramMap.get('uid');
