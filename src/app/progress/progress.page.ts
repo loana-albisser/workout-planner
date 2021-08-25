@@ -64,16 +64,7 @@ export class ProgressPage implements OnInit {
       data: {
         labels: this.createAxisLabels(),
         datasets: this.createDataSets(),
-      },
-      options: {
-        scales: {
-          /* yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }] */
-        },
-      },
+      }
     });
   }
 
@@ -151,6 +142,7 @@ export class ProgressPage implements OnInit {
       data,
       borderColor: this.getRandomColor(),
       borderWidth: 1,
+      pointRadius: 0,
     };
   }
 

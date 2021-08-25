@@ -67,7 +67,6 @@ export class DatabaseProvider {
             obj.push(workoutPlan);
           });
         this.workoutPlanLoaded = true;
-        debugger;
           this.onWorkoutPlansChanged.next(obj);
           resolve(obj);
         });

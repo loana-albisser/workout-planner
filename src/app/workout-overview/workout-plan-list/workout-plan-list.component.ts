@@ -145,7 +145,6 @@ export class WorkoutPlanListComponent implements OnInit {
       }
       workoutPlans.push(newWorkoutPlan);
     }
-    debugger;
     return workoutPlans;
   }
 
