@@ -67,7 +67,40 @@ export class DatabaseProvider {
             obj.push(workoutPlan);
           });
         this.workoutPlanLoaded = true;
+        debugger;
           this.onWorkoutPlansChanged.next(obj);
+          resolve(obj);
+        });
+    });
+  }
+
+  getExerciseSets(): Promise<ExerciseSet[]> {
+    return new Promise((resolve, reject) => {
+      const uid = this.authenticationService.getCurrentUser().uid;
+      this.firestore
+        .collection('ExerciseSet')
+        .where('user', '==', uid)
+        .onSnapshot((querySnapshot) => {
+          const obj: any = [];
+          querySnapshot.forEach((doc: any) => {
+            const setId = doc.id;
+            const exercise = new Exercise(doc.data().exercise, '');
+            const exerciseSets: Array<SingleExerciseSet> = Array();
+            // doc.data().sets
+            const sets = doc.data().sets;
+            for (let i = 0, len = sets.length; i < len; i++) {
+              let set;
+              if (sets[i].time !== undefined && sets[i].time !== null) {
+                set = new SingleExerciseSet();
+                set.time = sets[i].time;
+              } else {
+                set = new SingleExerciseSet(sets[i].reps, sets[i].weight);
+              }
+              exerciseSets.push(set);
+            }
+            const exerciseSet = new ExerciseSet(setId, exercise, exerciseSets);
+            obj.push(exerciseSet);
+          });
           resolve(obj);
         });
     });

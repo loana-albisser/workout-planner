@@ -9,22 +9,9 @@ import { WorkoutPlan } from '../model/workout-plan';
 })
 export class WorkoutOverviewPage implements OnInit {
 
-  constructor(private databaseProvider: DatabaseProvider) { }
+  constructor() { }
 
   ngOnInit() {
 
   }
-
-  ionViewWillEnter(){
-    // this.receiveWorkoutPlans();
-  }
-
-  receiveWorkoutPlans(): Promise<WorkoutPlan[]> {
-    return new Promise((resolve) => {
-      this.databaseProvider.getWorkoutPlans().then((data) => {
-        resolve(data);
-      });
-    });
-  }
-
 }
