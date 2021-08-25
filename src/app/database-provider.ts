@@ -170,6 +170,7 @@ export class DatabaseProvider {
   }
 
   addExerciseSet(exerciseSet: ExerciseSet): Promise<string> {
+    const uid = this.authenticationService.getCurrentUser().uid;
     return new Promise((resolve, reject) => {
       const newExerciseSet = Array();
       exerciseSet.exerciseSets.forEach((item) => {
@@ -189,6 +190,7 @@ export class DatabaseProvider {
         .add({
           exercise: exerciseSet.exercise.id,
           sets: newExerciseSet,
+          user: uid
         })
         .then((data) => {
           resolve(data.id);

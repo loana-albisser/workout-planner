@@ -35,7 +35,6 @@ export class WorkoutPlanDetailPage implements OnInit {
     this.selectedPlan = this.workoutPlanRepositoryService.allWorkoutPlans.find(
       (p) => p.id === planId
     );
-    debugger;
     this.addExerciseService.exerciseAddSetList = Array();
     this.addExerciseService.removedExercises = Array();
     this.title = this.selectedPlan.title;
