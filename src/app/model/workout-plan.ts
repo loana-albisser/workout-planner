@@ -6,6 +6,7 @@ export class WorkoutPlan {
         public title: string = '',
         private user: string = '',
         public archived: boolean = false,
+        public expanded: boolean = false,
         public exerciseSets: Array<ExerciseSet> = Array()) {
     }
 }

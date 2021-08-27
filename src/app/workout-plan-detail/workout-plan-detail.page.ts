@@ -16,7 +16,7 @@ import { isNullOrUndefined } from 'util';
   styleUrls: ['./workout-plan-detail.page.scss'],
 })
 export class WorkoutPlanDetailPage implements OnInit {
-  selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', false, []);
+  selectedPlan: WorkoutPlan = new WorkoutPlan('', '', '', false, false, []);
   orderChanged: boolean;
   title: string;
 

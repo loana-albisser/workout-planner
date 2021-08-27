@@ -9,11 +9,19 @@ ion-card {
 
 ion-card-header {
   padding-bottom: 0;
+  display: flex;
+  align-items: center;
+  ion-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
 }
 
 ion-card-title {
   justify-content: center;
   display: flex;
+  margin-top: 0;
 }
 
 ion-card-content {
@@ -57,3 +65,11 @@ ion-item {
   margin-right: 8px;
   margin-bottom: 8px;
 }
+
+.container-expanded {
+  height: 100%;
+ }
+
+ .container-unexpanded {
+   height: 56px;
+ }

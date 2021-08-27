@@ -23,8 +23,10 @@
       {{ "archived" | translate}}
     </ion-label>
   </ion-item-divider>
-  <ion-card button *ngFor="let item of archivedWorkoutPlans" (click)="goToWorkoutDetail(item.id)">
-    <ion-card-header>
+  <ion-card button *ngFor="let item of archivedWorkoutPlans" (click)="goToWorkoutDetail(item.id)" [ngClass]="item.expanded ? 'container-expanded': 'container-unexpanded'">
+    <ion-card-header (click)="changeExpandItem(item, $event)">
+      <ion-icon *ngIf="!item.expanded" name="chevron-forward-outline"></ion-icon>
+      <ion-icon *ngIf="item.expanded" name="chevron-down-outline"></ion-icon>
       <ion-card-title>{{item.title}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>

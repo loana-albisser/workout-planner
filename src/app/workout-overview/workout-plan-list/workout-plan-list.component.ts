@@ -26,10 +26,17 @@ export class WorkoutPlanListComponent implements OnInit {
     public router: Router,
     private activatedRoute: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private toastController: ToastController,
     public workoutPlanRepositoryService: WorkoutPlanRepositoryService,
     public databaseProvider: DatabaseProvider
   ) {}
+
+  changeExpandItem(item: WorkoutPlan, event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    const workoutPlan = this.archivedWorkoutPlans.find(w => w.id === item.id)
+    const currentExpanded = workoutPlan.expanded;
+    workoutPlan.expanded = !currentExpanded;
+  }
 
   async ngOnInit() {
     this.databaseProvider.onWorkoutPlansChanged.subscribe((workoutPlans) => {

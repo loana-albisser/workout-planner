@@ -15,7 +15,7 @@ import { ExerciseTypeEnum, UnitEnum } from '../add-workout-plan/exercise-add/cre
   styleUrls: ['./workout-run.page.scss'],
 })
 export class WorkoutRunPage implements OnInit {
-  selectedPlan: WorkoutPlan = new WorkoutPlan('', '','', false, []);
+  selectedPlan: WorkoutPlan = new WorkoutPlan('', '','', false, false, []);
   options: AnimationOptions = {
     path: '/assets/fitness.json',
   };

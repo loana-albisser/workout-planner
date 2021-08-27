@@ -63,6 +63,7 @@ export class DatabaseProvider {
               title,
               uid,
               archived,
+              false,
               exercises
             );
             obj.push(workoutPlan);
