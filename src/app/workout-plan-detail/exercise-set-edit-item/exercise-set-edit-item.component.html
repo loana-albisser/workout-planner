@@ -31,7 +31,7 @@
         <ion-col *ngIf="isTimeUnit()">
           <ion-input [type]="'number'" [(ngModel)]="item.time"></ion-input>
         </ion-col>
-        <ion-col size="2">
+        <ion-col size="2" class="col-last">
           <ion-button *ngIf="isLastElement(i)" class="button-add-remove" [fill]="'clear'" (click)="addExerciseSet()">
             <ion-icon name="add-outline"></ion-icon>
           </ion-button>

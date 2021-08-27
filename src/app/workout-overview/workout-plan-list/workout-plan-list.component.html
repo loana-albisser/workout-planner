@@ -10,12 +10,15 @@
           <ion-label *ngFor="let exerciseSet of item.exerciseSets">{{exerciseSet.exercise.title | translate}}</ion-label>
         </div>
       </ion-list>
+      <ion-item button class="item-action" (click)="goToWorkoutRun(item.id, $event)">
+        <div class="item-action-container">
+          <ion-icon class="icon-action" name="play-outline" slot="start"></ion-icon>
+          <ion-label class="label-action">{{"start_workout" | translate}}</ion-label>
+        </div>
+      </ion-item>
     </ion-card-content>
 
-    <ion-item button class="item-action" (click)="goToWorkoutRun(item.id, $event)">
-      <ion-icon class="icon-action" name="play-outline" slot="start"></ion-icon>
-      <ion-label class="label-action">{{"start_workout" | translate}}</ion-label>
-    </ion-item>
+
 
   </ion-card>
   <div *ngIf="hasArchivedPlans()">
