@@ -1,3 +1,4 @@
+<ion-label class="label-no-plans" *ngIf="noPlansAdded">{{"noPlansAdded" | translate}}</ion-label>
 <ion-list *ngIf="loaded">
   <ion-card button *ngFor="let item of workoutPlans" (click)="goToWorkoutDetail(item.id)">
     <ion-card-header>

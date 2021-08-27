@@ -21,6 +21,7 @@ export class WorkoutPlanListComponent implements OnInit {
   workoutPlans: Array<WorkoutPlan> = Array();
   archivedWorkoutPlans: Array<WorkoutPlan> = Array();
   loaded = false;
+  noPlansAdded = false;
 
   constructor(
     public router: Router,
@@ -52,6 +53,13 @@ export class WorkoutPlanListComponent implements OnInit {
               }
             };
             this.workoutPlanRepositoryService.allWorkoutPlans = data;
+            if (this.loaded) {
+              if (this.workoutPlanRepositoryService.allWorkoutPlans.length > 0) {
+                this.noPlansAdded = false;
+              } else {
+                this.noPlansAdded = true;
+              }
+            }
           });
       });
     });
@@ -109,6 +117,9 @@ export class WorkoutPlanListComponent implements OnInit {
         };
         this.workoutPlanRepositoryService.allWorkoutPlans = result;
         if (this.databaseProvider.workoutPlanLoaded) {
+          if (this.workoutPlanRepositoryService.allWorkoutPlans.length === 0) {
+            this.noPlansAdded = true;
+          }
           this.loaded = true;
         }
       });
