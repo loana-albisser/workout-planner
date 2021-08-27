@@ -6,6 +6,7 @@ import { UpdateExerciseService } from '../../add-exercise.service';
 import { DatabaseProvider } from '../../database-provider';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConstantPool } from '@angular/compiler';
 
 @Component({
   selector: 'app-exercise-add',
@@ -31,6 +32,27 @@ export class ExerciseAddPage implements OnInit {
     this.initializeMuscleGroups();
   }
 
+
+ionViewWillEnter(){
+  this.addExerciseService.checkedExercises.forEach(item => {
+    const isChecked = this.addExerciseService.checkedExercises.includes(item);
+    const workoutAddItem = this.workoutAddList.find(i => i.id === item.id);
+        if (workoutAddItem !== null && workoutAddItem !== undefined) {
+          workoutAddItem.isChecked = isChecked;
+        };
+  });
+}
+
+  checkedChanged(event: CustomEvent, workoutAddItem: WorkoutAdd) {
+      const isChecked = event.detail.checked;
+      if (isChecked) {
+        this.addExerciseService.checkedExercises.push(workoutAddItem);
+      } else {
+        const indexToDelete = this.addExerciseService.checkedExercises.indexOf(workoutAddItem);
+        this.addExerciseService.checkedExercises.splice(indexToDelete, 1);
+      }
+  }
+
   initializeMuscleGroups() {
     this.databaseProvider.receiveMuscleGroups().then((result) => {
       result.forEach((item) => {
@@ -40,6 +62,7 @@ export class ExerciseAddPage implements OnInit {
   }
 
   back() {
+    this.addExerciseService.checkedExercises = Array();
     window.history.back();
   }
 
@@ -70,6 +93,7 @@ export class ExerciseAddPage implements OnInit {
   }
 
   saveSelectedExercises() {
+    this.addExerciseService.checkedExercises = Array();
     const selectedExercises = this.workoutAddList.filter(
       (item) => item.isChecked === true
     );
@@ -93,7 +117,7 @@ export class ExerciseAddPage implements OnInit {
   }
 
   createCustomExercise() {
-    this.router.navigate(['/create-custom-exercise'], { replaceUrl: true });
+    this.router.navigate(['/create-custom-exercise']);
   }
 
   doOnSearchClear() {

@@ -23,7 +23,7 @@
   <ion-list>
     <ion-item *ngFor="let item of workoutAddList">
       <ion-label>{{item.title | translate}}</ion-label>
-      <ion-checkbox [(ngModel)]="item.isChecked" slot="end"></ion-checkbox>
+      <ion-checkbox [(ngModel)]="item.isChecked" (ionChange)="checkedChanged($event, item)" slot="end"></ion-checkbox>
     </ion-item>
   </ion-list>
   <ion-button class="button-custom-exercise" [expand]="'block'" (click)="createCustomExercise()">{{"create_custom_exercise" | translate}}</ion-button>

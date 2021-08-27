@@ -21,6 +21,7 @@ export class DatabaseProvider {
   onWorkoutPlansChanged: BehaviorSubject<any> = new BehaviorSubject([]);
   onWorkoutRunsChanged: BehaviorSubject<any> = new BehaviorSubject([]);
   onExercisesChanged: BehaviorSubject<any> = new BehaviorSubject([]);
+  onExercisesAdded: BehaviorSubject<any> = new BehaviorSubject(String);
 
   workoutPlanLoaded = false;
 
@@ -85,7 +86,6 @@ export class DatabaseProvider {
             const setId = doc.id;
             const exercise = new Exercise(doc.data().exercise, '');
             const exerciseSets: Array<SingleExerciseSet> = Array();
-            // doc.data().sets
             const sets = doc.data().sets;
             for (let i = 0, len = sets.length; i < len; i++) {
               let set;
@@ -192,6 +192,7 @@ export class DatabaseProvider {
           user: uid
         })
         .then((data) => {
+          debugger;
           resolve(data.id);
         })
         .catch((error) => {
@@ -491,7 +492,8 @@ export class DatabaseProvider {
         muscleGroups: exercise.muscleGroups,
       })
       .then((doc) => {
-        const test = '';
+        const id = doc.id;
+        this.onExercisesChanged.next(id);
       })
       .catch((error: any) => {
         const bla = '';

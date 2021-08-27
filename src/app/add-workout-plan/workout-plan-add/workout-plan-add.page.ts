@@ -37,19 +37,22 @@ export class WorkoutPlanAddPage implements OnInit {
     this.addExerciseService.exerciseAddSetList.splice(indexToDelete, 1);
   }
 
-  saveWorkoutPlan() {
+  async saveWorkoutPlan() {
     const workoutPlan = new WorkoutPlan();
     workoutPlan.title = this.title;
     workoutPlan.exerciseSets = this.addExerciseService.exerciseAddSetList;
 
-    this.databaseProvider.addWorkoutPlan(workoutPlan).then(workoutPlanId => {
-      this.addExerciseService.exerciseAddSetList.forEach((item) => {
-        this.databaseProvider.setExerciseSet(
-          item.exercise.id,
-          item.exerciseSets
-        ).then(exerciseSetId => {
-          this.databaseProvider.addExerciseSetToWorkoutPlan(workoutPlanId, exerciseSetId);
+    this.databaseProvider.addWorkoutPlan(workoutPlan).then(async workoutPlanId => {
+      const exerciseSetIds = Array();
+      const promises = [];
+      this.addExerciseService.exerciseAddSetList.forEach(async item => {
+        const addExercisePromise =  this.databaseProvider.addExerciseSet(item).then(async data => {
+          exerciseSetIds.push(data);
         });
+        promises.push(addExercisePromise);
+      });
+      Promise.all(promises).then(() => {
+        this.databaseProvider.addExerciseSetsToWorkoutPlan(workoutPlanId, exerciseSetIds);
       });
     });
     this.location.back();

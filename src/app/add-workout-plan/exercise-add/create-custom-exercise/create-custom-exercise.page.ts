@@ -1,8 +1,9 @@
 import { DatabaseProvider } from './../../../database-provider';
 import { Component, OnInit } from '@angular/core';
-import { MuscleGroupFilter } from '../exercise-add.page';
+import { MuscleGroupFilter, WorkoutAdd } from '../exercise-add.page';
 import { Location } from '@angular/common';
 import { Exercise } from 'src/app/model/workout-plan';
+import { UpdateExerciseService } from 'src/app/add-exercise.service';
 
 @Component({
   selector: 'app-create-custom-exercise',
@@ -21,6 +22,7 @@ export class CreateCustomExercisePage implements OnInit {
 
   constructor(
     private location: Location,
+    private updateExerciseService: UpdateExerciseService,
     private databaseProvider: DatabaseProvider
   ) {}
 
@@ -30,12 +32,23 @@ export class CreateCustomExercisePage implements OnInit {
     this.exerciseType = ExerciseTypeEnum.none;
   }
 
+  back() {
+      this.location.back();
+  }
+
   saveExercise() {
     const exercise = new Exercise('', this.title);
     exercise.unit = this.unit;
     exercise.exerciseType = this.exerciseType;
     exercise.muscleGroups = this.muscleGroups.filter(group => group.isChecked === true).map(item => item.title);
     this.databaseProvider.addExercise(exercise);
+    const exerciseAdd = new WorkoutAdd(
+      exercise.id,
+      exercise.title,
+      exercise.muscleGroups,
+      true
+    );
+    this.updateExerciseService.checkedExercises.push(exerciseAdd)
     this.location.back();
   }
 
