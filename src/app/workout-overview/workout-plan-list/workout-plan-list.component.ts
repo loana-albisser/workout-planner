@@ -107,7 +107,7 @@ export class WorkoutPlanListComponent implements OnInit {
             this.workoutPlans.push(result[i]);
           }
         };
-        this.workoutPlanRepositoryService.allWorkoutPlans = this.workoutPlans;
+        this.workoutPlanRepositoryService.allWorkoutPlans = result;
         if (this.databaseProvider.workoutPlanLoaded) {
           this.loaded = true;
         }

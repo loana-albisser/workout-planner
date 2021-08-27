@@ -33,7 +33,7 @@
       <ion-icon name="chevron-up-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button (click)="delete()" class="fab-button-detail"><ion-icon name="trash-outline"></ion-icon></ion-fab-button>
+      <ion-fab-button (click)="showDeleteDialog()" class="fab-button-detail"><ion-icon name="trash-outline"></ion-icon></ion-fab-button>
       <ion-fab-button *ngIf="!selectedPlan.archived" (click)="archive()" class="fab-button-detail"><ion-icon name="archive-outline"></ion-icon></ion-fab-button>
       <ion-fab-button *ngIf="selectedPlan.archived" (click)="unarchive()" class="fab-button-detail"><ion-icon name="reload-outline"></ion-icon></ion-fab-button>
     </ion-fab-list>

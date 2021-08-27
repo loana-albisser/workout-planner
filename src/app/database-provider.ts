@@ -193,7 +193,6 @@ export class DatabaseProvider {
           user: uid
         })
         .then((data) => {
-          debugger;
           resolve(data.id);
         })
         .catch((error) => {

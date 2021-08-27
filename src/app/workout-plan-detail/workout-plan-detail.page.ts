@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ExerciseSet, SingleExerciseSet } from './../model/workout-plan';
 import { DatabaseProvider } from './../database-provider';
 import { WorkoutPlanRepositoryService } from './../workout-plan-repository.service';
@@ -9,6 +10,7 @@ import { UpdateExerciseService } from '../add-exercise.service';
 import { AuthenticationService } from '../authentication.service';
 import { UnitEnum } from '../add-workout-plan/exercise-add/create-custom-exercise/create-custom-exercise.page';
 import { isNullOrUndefined } from 'util';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-workout-plan-detail',
@@ -23,6 +25,8 @@ export class WorkoutPlanDetailPage implements OnInit {
   constructor(
     private location: Location,
     private router: Router,
+    private translateService: TranslateService,
+    private alertController: AlertController,
     private authenticationService: AuthenticationService,
     public activatedRoute: ActivatedRoute,
     private databaseProvider: DatabaseProvider,
@@ -48,9 +52,32 @@ export class WorkoutPlanDetailPage implements OnInit {
     });
   }
 
-  delete() {
-    this.databaseProvider.removeWorkoutPlan(this.selectedPlan.id);
-    this.location.back();
+  async showDeleteDialog() {
+    this.translateService.get('delete').subscribe(title => {
+      this.translateService.get('delete_plan_message').subscribe(message => {
+          this.translateService.get('cancel').subscribe(async cancel => {
+            const alert = await this.alertController.create({
+              header: title[0].toUpperCase() + title.slice(1).toLowerCase(),
+              message,
+              buttons: [
+                {
+                  text: cancel,
+                  role: 'cancel',
+                  cssClass: 'secondary',
+                }, {
+                  text: title,
+                  handler: () => {
+                    this.delete();
+                  }
+                }
+              ]
+            });
+            await alert.present();
+          });
+      });
+    });
+
+
   }
 
   archive() {
@@ -157,5 +184,10 @@ export class WorkoutPlanDetailPage implements OnInit {
       '/home',
       { uid: this.authenticationService.currentUser },
     ]);
+  }
+
+  private delete() {
+    this.databaseProvider.removeWorkoutPlan(this.selectedPlan.id);
+    this.location.back();
   }
 }

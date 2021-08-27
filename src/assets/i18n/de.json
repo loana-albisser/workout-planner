@@ -108,5 +108,7 @@
   "all": "Alle",
   "exercises": "Übungen",
   "start_workout": "Workout starten",
-  "finish_workout": "Workout beenden"
+  "finish_workout": "Workout beenden",
+  "delete_plan_message": "Möchtest du diesen Plan wirklich löschen?",
+  "cancel": "Abbrechen"
   }
