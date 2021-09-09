@@ -1,6 +1,7 @@
 import { UpdateExerciseService } from './../../add-exercise.service';
 import { ExerciseSet, SingleExerciseSet } from '../../model/workout-plan';
 import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { UnitEnum } from 'src/app/add-workout-plan/exercise-add/create-custom-exercise/create-custom-exercise.page';
 
 @Component({
   selector: 'app-exercise-set-edit-item',
@@ -10,6 +11,8 @@ import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren
 export class ExerciseSetEditItemComponent implements OnInit {
   @Input() exerciseSet: ExerciseSet;
   @ViewChildren('repInputs') inputs: QueryList<any>;
+  @ViewChildren('weightInputs') weightInputs: QueryList<any>;
+  @ViewChildren('timeInputs') timeInputs: QueryList<any>;
   @Output() removeExercise = new EventEmitter<ExerciseSet>();
 
   constructor(public addExerciseService: UpdateExerciseService,
@@ -41,10 +44,18 @@ export class ExerciseSetEditItemComponent implements OnInit {
     return false;
   }
 
-  addExerciseSet() {
+  addExerciseSet(item: ExerciseSet) {
     this.exerciseSet.exerciseSets.push(new SingleExerciseSet());
     setTimeout(() => {
-      this.inputs.last.setFocus();
+      if (item.exercise.unit === UnitEnum.timer) {
+        this.weightInputs.last.setFocus();
+      } else {
+        this.inputs.last.setFocus();
+      }
     },100);
+  }
+
+  onEnterReps() {
+      this.weightInputs.last.setFocus();
   }
 }

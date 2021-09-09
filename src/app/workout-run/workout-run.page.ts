@@ -8,6 +8,7 @@ import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { ToastController } from '@ionic/angular';
 import { ExerciseTypeEnum, UnitEnum } from '../add-workout-plan/exercise-add/create-custom-exercise/create-custom-exercise.page';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-workout-run',
@@ -27,6 +28,7 @@ export class WorkoutRunPage implements OnInit {
     public toastController: ToastController,
       private activatedRoute: ActivatedRoute,
       private location: Location,
+      private translateService: TranslateService,
       private databaseProvider: DatabaseProvider,
       private workoutPlanRepositoryService: WorkoutPlanRepositoryService) { }
 
@@ -77,11 +79,13 @@ export class WorkoutRunPage implements OnInit {
   }
 
   async save() {
-    const toast = await this.toastController.create({
-      message: 'Workout finished!',
-      duration: 2000
+    this.translateService.get('workoutFinished').subscribe(async value => {
+      const toast = await this.toastController.create({
+        message: value,
+        duration: 2000
+      });
+      toast.present();
     });
-    toast.present();
     this.location.back();
     const workoutRun = new WorkoutRun();
     workoutRun.executedPlan = this.selectedPlan.title;
@@ -98,9 +102,12 @@ export class WorkoutRunPage implements OnInit {
           }
           executedExercise.set.push(set);
         }
-
       });
+      if (executedExercise.set.length > 0) {
+        this.databaseProvider.updateExerciseSet(item.id, item.exerciseSets);
+      }
     });
+
     this.databaseProvider.addWorkoutRun(workoutRun);
   }
 }

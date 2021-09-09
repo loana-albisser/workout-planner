@@ -111,5 +111,6 @@
   "finish_workout": "Workout beenden",
   "delete_plan_message": "Möchtest du diesen Plan wirklich löschen?",
   "cancel": "Abbrechen",
-  "noPlansAdded": "Du hast noch keine Pläne erstellt."
+  "noPlansAdded": "Du hast noch keine Pläne erstellt.",
+  "workoutFinished": "Workout beendet!"
   }

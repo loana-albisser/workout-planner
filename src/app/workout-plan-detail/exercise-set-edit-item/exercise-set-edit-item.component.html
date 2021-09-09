@@ -23,16 +23,16 @@
       </ion-row>
       <ion-row *ngFor="let item of exerciseSet.exerciseSets; let i = index">
         <ion-col *ngIf="!isTimeUnit()">
-          <ion-input #repInputs [type]="'number'" [(ngModel)]="item.reps"></ion-input>
+          <ion-input #repInputs [type]="'number'" [(ngModel)]="item.reps" (keyup.enter)="onEnterReps()"></ion-input>
         </ion-col>
         <ion-col *ngIf="!isTimeUnit()">
-          <ion-input [type]="'number'" [(ngModel)]="item.weight"></ion-input>
+          <ion-input #weightInputs [type]="'number'" [(ngModel)]="item.weight" (keyup.enter)="addExerciseSet(item)"></ion-input>
         </ion-col>
         <ion-col *ngIf="isTimeUnit()">
-          <ion-input [type]="'number'" [(ngModel)]="item.time"></ion-input>
+          <ion-input #timeInputs [type]="'number'" [(ngModel)]="item.time" (keyup.enter)="addExerciseSet(item)"></ion-input>
         </ion-col>
         <ion-col size="2" class="col-last">
-          <ion-button *ngIf="isLastElement(i)" class="button-add-remove" [fill]="'clear'" (click)="addExerciseSet()">
+          <ion-button *ngIf="isLastElement(i)" class="button-add-remove" [fill]="'clear'" (click)="addExerciseSet(item)">
             <ion-icon name="add-outline"></ion-icon>
           </ion-button>
           <ion-button *ngIf="!isLastElement(i)" class="button-add-remove" [fill]="'clear'" (click)="removeExerciseSet(i)">

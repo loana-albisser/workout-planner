@@ -89,7 +89,7 @@ export class ProgressPage implements OnInit {
       daysAgo.setDate(daysAgo.getDate() - days + i);
 
       const exercises = this.workoutRuns.filter((item) =>
-        item.executedExercises.filter((e) => e.exercise === title)
+        item.executedExercises?.filter((e) => e.exercise === title)
       );
       const exercise = exercises.find(
         (bla) =>
@@ -207,7 +207,7 @@ export class ProgressPage implements OnInit {
 
   private initializeExerciseList(workoutRuns: WorkoutRun[]) {
     workoutRuns.forEach((workoutRun) => {
-      workoutRun.executedExercises.forEach((ex) => {
+      workoutRun.executedExercises?.forEach((ex) => {
         if (
           this.exercises.find((exercise) => exercise === ex.exercise) == null
         ) {

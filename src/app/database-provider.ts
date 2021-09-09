@@ -15,6 +15,7 @@ import 'rxjs/add/operator/map';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
+import { resolve } from 'dns';
 
 @Injectable()
 export class DatabaseProvider {
@@ -308,7 +309,7 @@ export class DatabaseProvider {
   addWorkoutRun(workoutRun: WorkoutRun) {
     const workoutRunCollection = this.firestore.collection('WorkoutRun');
     const uid = this.authenticationService.getCurrentUser().uid;
-    workoutRunCollection
+      workoutRunCollection
       .add({
         date: firebase.firestore.FieldValue.serverTimestamp(),
         user: uid,
@@ -341,7 +342,7 @@ export class DatabaseProvider {
                   set: castedSetList,
                 }),
               })
-              .then((result) => {})
+              .then((result) => { })
               .catch((err) => {});
           }
         });
