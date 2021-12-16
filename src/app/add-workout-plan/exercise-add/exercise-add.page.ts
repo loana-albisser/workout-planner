@@ -32,25 +32,25 @@ export class ExerciseAddPage implements OnInit {
     this.initializeMuscleGroups();
   }
 
-
-ionViewWillEnter(){
-  this.addExerciseService.checkedExercises.forEach(item => {
-    const isChecked = this.addExerciseService.checkedExercises.includes(item);
-    const workoutAddItem = this.workoutAddList.find(i => i.id === item.id);
-        if (workoutAddItem !== null && workoutAddItem !== undefined) {
-          workoutAddItem.isChecked = isChecked;
-        };
-  });
-}
+  ionViewWillEnter() {
+    this.addExerciseService.checkedExercises.forEach((item) => {
+      const isChecked = this.addExerciseService.checkedExercises.includes(item);
+      const workoutAddItem = this.workoutAddList.find((i) => i.id === item.id);
+      if (workoutAddItem !== null && workoutAddItem !== undefined) {
+        workoutAddItem.isChecked = isChecked;
+      }
+    });
+  }
 
   checkedChanged(event: CustomEvent, workoutAddItem: WorkoutAdd) {
-      const isChecked = event.detail.checked;
-      if (isChecked) {
-        this.addExerciseService.checkedExercises.push(workoutAddItem);
-      } else {
-        const indexToDelete = this.addExerciseService.checkedExercises.indexOf(workoutAddItem);
-        this.addExerciseService.checkedExercises.splice(indexToDelete, 1);
-      }
+    const isChecked = event.detail.checked;
+    if (isChecked) {
+      this.addExerciseService.checkedExercises.push(workoutAddItem);
+    } else {
+      const indexToDelete =
+        this.addExerciseService.checkedExercises.indexOf(workoutAddItem);
+      this.addExerciseService.checkedExercises.splice(indexToDelete, 1);
+    }
   }
 
   initializeMuscleGroups() {
@@ -106,7 +106,8 @@ ionViewWillEnter(){
       const exerciseSet = new ExerciseSet(
         index.toString(),
         exercise,
-        singleExerciseSetList
+        singleExerciseSetList,
+        false
       );
       exerciseSetList.push(exerciseSet);
     });
@@ -149,7 +150,9 @@ ionViewWillEnter(){
       }
     } else {
       if (filter != null) {
-        const muscleGroups = this.muscleGroups.find((item) => item.id === filter.id);
+        const muscleGroups = this.muscleGroups.find(
+          (item) => item.id === filter.id
+        );
         if (muscleGroups !== undefined) {
           muscleGroups.isChecked = !filter.isChecked;
         }
@@ -164,7 +167,7 @@ ionViewWillEnter(){
             workout.muscleGroups?.includes(item.id)
           );
           exercises.forEach((exercise) => {
-            this.translateService.get(exercise.title).subscribe(trans => {
+            this.translateService.get(exercise.title).subscribe((trans) => {
               if (trans.toLowerCase().includes(value.toLowerCase())) {
                 newExerciseList.push(exercise);
               }
@@ -174,8 +177,8 @@ ionViewWillEnter(){
         this.workoutAddList = newExerciseList;
       } else {
         const newExerciseList = Array();
-        this.fullWorkoutList.forEach(exercise => {
-          this.translateService.get(exercise.title).subscribe(trans => {
+        this.fullWorkoutList.forEach((exercise) => {
+          this.translateService.get(exercise.title).subscribe((trans) => {
             if (trans.toLowerCase().includes(value.toLowerCase())) {
               newExerciseList.push(exercise);
             }

@@ -16,6 +16,11 @@
     padding: 8px;
 }
 
+.icon-improve {
+  width: 21px;
+    height: 21px;
+}
+
 ion-row {
     align-items: center;
 }
@@ -28,7 +33,10 @@ ion-col {
 }
 
 ion-card-header {
-    padding: 0 0 16px 0
+    padding: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 ion-card-content {

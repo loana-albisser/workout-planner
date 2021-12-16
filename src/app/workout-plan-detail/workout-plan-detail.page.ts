@@ -147,7 +147,7 @@ export class WorkoutPlanDetailPage implements OnInit {
         sets.exerciseSets.map(set => delete set.time);
       }
       if (sets.id !== '0') {
-        this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets);
+        this.databaseProvider.updateExerciseSet(sets.id, sets.exerciseSets, false);
       }
     });
     this.addExerciseService.exerciseAddSetList.forEach(async (sets) => {
@@ -159,7 +159,7 @@ export class WorkoutPlanDetailPage implements OnInit {
       });
 
       if (this.hasElements(sets)) {
-        const singleExerciseSet = new ExerciseSet('', sets.exercise, sets.exerciseSets);
+        const singleExerciseSet = new ExerciseSet('', sets.exercise, sets.exerciseSets, false);
       await this.databaseProvider.addExerciseSet(singleExerciseSet).then(async data => {
         this.selectedPlan.exerciseSets.find(item => item === sets).id = data;
         const exerciseIds = this.selectedPlan.exerciseSets.filter(set => set.id !== '0').map(set => set.id);

@@ -12,6 +12,7 @@ import {
 import { GoogleChartInterface } from 'ng2-google-charts';
 import { DatePipe } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-progress',
@@ -39,10 +40,10 @@ export class ProgressPage implements OnInit {
     private databaseProvider: DatabaseProvider,
     private datePipe: DatePipe
   ) {
-    Chart.register(...registerables);
   }
 
   ngOnInit() {
+    Chart.register(...registerables);
     this.type = 'list';
     this.period = Period.week;
     this.databaseProvider.onWorkoutRunsChanged.subscribe(workoutRuns => {
@@ -59,13 +60,17 @@ export class ProgressPage implements OnInit {
   }
 
   createGroupLineChart() {
-    this.lineChart = new Chart(this.lineCanvas?.nativeElement, {
-      type: 'line',
-      data: {
-        labels: this.createAxisLabels(),
-        datasets: this.createDataSets(),
-      }
-    });
+    const lineCanvas = this.lineCanvas;
+    if (lineCanvas !== undefined) {
+      this.lineChart?.destroy();
+      this.lineChart = new Chart(lineCanvas?.nativeElement, {
+        type: 'line',
+        data: {
+          labels: this.createAxisLabels(),
+          datasets: this.createDataSets(),
+        }
+      });
+    }
   }
 
   createDataSets(): any[] {

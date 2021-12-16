@@ -54,7 +54,8 @@ export class DatabaseProvider {
                 const exerciseSet = new ExerciseSet(
                   setId,
                   new Exercise('', ''),
-                  []
+                  [],
+                  false
                 );
                 exercises.push(exerciseSet);
               });
@@ -69,7 +70,7 @@ export class DatabaseProvider {
             );
             obj.push(workoutPlan);
           });
-        this.workoutPlanLoaded = true;
+          this.workoutPlanLoaded = true;
           this.onWorkoutPlansChanged.next(obj);
           resolve(obj);
         });
@@ -89,6 +90,7 @@ export class DatabaseProvider {
             const exercise = new Exercise(doc.data().exercise, '');
             const exerciseSets: Array<SingleExerciseSet> = Array();
             const sets = doc.data().sets;
+            const markToImprove = doc.data().markToImprove;
             for (let i = 0, len = sets.length; i < len; i++) {
               let set;
               if (sets[i].time !== undefined && sets[i].time !== null) {
@@ -99,7 +101,12 @@ export class DatabaseProvider {
               }
               exerciseSets.push(set);
             }
-            const exerciseSet = new ExerciseSet(setId, exercise, exerciseSets);
+            const exerciseSet = new ExerciseSet(
+              setId,
+              exercise,
+              exerciseSets,
+              markToImprove
+            );
             obj.push(exerciseSet);
           });
           resolve(obj);
@@ -143,7 +150,8 @@ export class DatabaseProvider {
 
   updateExerciseSet(
     exerciseSetId: string,
-    singleExerciseSet: SingleExerciseSet[]
+    singleExerciseSet: SingleExerciseSet[],
+    markToImprove: boolean
   ) {
     const exerciseSet = Array();
     singleExerciseSet.forEach((item) => {
@@ -161,7 +169,7 @@ export class DatabaseProvider {
     this.firestore
       .collection('ExerciseSet')
       .doc(exerciseSetId)
-      .update({ sets: exerciseSet })
+      .update({ sets: exerciseSet, markToImprove })
       .then(() => {
         console.log('Document successfully updated!');
       })
@@ -191,7 +199,8 @@ export class DatabaseProvider {
         .add({
           exercise: exerciseSet.exercise.id,
           sets: newExerciseSet,
-          user: uid
+          user: uid,
+
         })
         .then((data) => {
           resolve(data.id);
@@ -309,7 +318,7 @@ export class DatabaseProvider {
   addWorkoutRun(workoutRun: WorkoutRun) {
     const workoutRunCollection = this.firestore.collection('WorkoutRun');
     const uid = this.authenticationService.getCurrentUser().uid;
-      workoutRunCollection
+    workoutRunCollection
       .add({
         date: firebase.firestore.FieldValue.serverTimestamp(),
         user: uid,
@@ -342,7 +351,7 @@ export class DatabaseProvider {
                   set: castedSetList,
                 }),
               })
-              .then((result) => { })
+              .then((result) => {})
               .catch((err) => {});
           }
         });
@@ -429,6 +438,7 @@ export class DatabaseProvider {
           if (doc.exists) {
             const setId = doc.id;
             const exercise = new Exercise(doc.data().exercise, '');
+            const markToImprove = doc.data().markToImprove;
             const exerciseSets: Array<SingleExerciseSet> = Array();
             for (const item of doc.data().sets) {
               let set;
@@ -440,7 +450,12 @@ export class DatabaseProvider {
               }
               exerciseSets.push(set);
             }
-            const exerciseSet = new ExerciseSet(setId, exercise, exerciseSets);
+            const exerciseSet = new ExerciseSet(
+              setId,
+              exercise,
+              exerciseSets,
+              markToImprove
+            );
             resolve(exerciseSet);
           } else {
             reject();

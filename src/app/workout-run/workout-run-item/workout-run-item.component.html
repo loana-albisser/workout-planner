@@ -1,23 +1,51 @@
 <ion-card class="container" #container>
   <ion-card-header>
-    <ion-card-title>{{exerciseSet.exercise.title | translate}}</ion-card-title>
+    <ion-card-title>{{
+      exerciseSet.exercise.title | translate
+    }}</ion-card-title>
+    <ion-button
+      *ngIf="showMarkToImprove()"
+      (click)="changeMarkToImprove()"
+      fill="clear"
+    >
+      <ion-icon
+        class="icon-improve"
+        name="analytics-outline"
+        color="primary"
+      ></ion-icon>
+    </ion-button>
+    <ion-button
+      *ngIf="!showMarkToImprove()"
+      (click)="changeMarkToImprove()"
+      fill="clear"
+    >
+      <ion-icon
+        class="icon-improve"
+        name="analytics-outline"
+        color="medium"
+      ></ion-icon>
+    </ion-button>
   </ion-card-header>
   <ion-card-content>
     <ion-grid>
       <ion-row>
         <ion-col *ngIf="!isTimeUnit()">
-          <ion-label class="label-header">{{"repetitions" | translate}}</ion-label>
+          <ion-label class="label-header">{{
+            "repetitions" | translate
+          }}</ion-label>
         </ion-col>
         <ion-col *ngIf="!isTimeUnit()">
-          <ion-label class="label-header">{{"weight" | translate}}</ion-label>
+          <ion-label class="label-header">{{ "weight" | translate }}</ion-label>
         </ion-col>
         <ion-col *ngIf="isTimeUnit()">
-          <ion-label class="label-header">{{"time" | translate}}</ion-label>
+          <ion-label class="label-header">{{ "time" | translate }}</ion-label>
         </ion-col>
-        <ion-col size="2">
-        </ion-col>
+        <ion-col size="2"> </ion-col>
       </ion-row>
-      <ion-row #exerciseRow *ngFor="let item of exerciseSet.exerciseSets; index as i">
+      <ion-row
+        #exerciseRow
+        *ngFor="let item of exerciseSet.exerciseSets; index as i"
+      >
         <ion-col *ngIf="isTimeUnit()">
           <ion-input [type]="'number'" [(ngModel)]="item.time"></ion-input>
         </ion-col>
@@ -28,7 +56,11 @@
           <ion-input [type]="'number'" [(ngModel)]="item.weight"></ion-input>
         </ion-col>
         <ion-col size="2">
-          <ion-checkbox  (ionChange)="exerciseCheckChanged(item.finished, i)" class="checkbox-done" [(ngModel)]="item.finished">
+          <ion-checkbox
+            (ionChange)="exerciseCheckChanged(item.finished, i)"
+            class="checkbox-done"
+            [(ngModel)]="item.finished"
+          >
           </ion-checkbox>
         </ion-col>
       </ion-row>

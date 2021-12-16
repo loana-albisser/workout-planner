@@ -34,33 +34,33 @@ export class WorkoutPlanListComponent implements OnInit {
   changeExpandItem(item: WorkoutPlan, event: any) {
     event.preventDefault();
     event.stopPropagation();
-    const workoutPlan = this.archivedWorkoutPlans.find(w => w.id === item.id)
+    const workoutPlan = this.archivedWorkoutPlans.find((w) => w.id === item.id);
     const currentExpanded = workoutPlan.expanded;
     workoutPlan.expanded = !currentExpanded;
   }
 
   async ngOnInit() {
     this.databaseProvider.onWorkoutPlansChanged.subscribe((workoutPlans) => {
-      this.databaseProvider.getExerciseSets().then(exerciseSets => {
-          this.load(workoutPlans, exerciseSets).then(data => {
-            this.archivedWorkoutPlans = Array();
-            this.workoutPlans = Array();
-            for (let i = 0, len = data.length; i < len; i++) {
-              if (data[i].archived) {
-                this.archivedWorkoutPlans.push(data[i]);
-              } else {
-                this.workoutPlans.push(data[i]);
-              }
-            };
-            this.workoutPlanRepositoryService.allWorkoutPlans = data;
-            if (this.loaded) {
-              if (this.workoutPlanRepositoryService.allWorkoutPlans.length > 0) {
-                this.noPlansAdded = false;
-              } else {
-                this.noPlansAdded = true;
-              }
+      this.databaseProvider.getExerciseSets().then((exerciseSets) => {
+        this.load(workoutPlans, exerciseSets).then((data) => {
+          this.archivedWorkoutPlans = Array();
+          this.workoutPlans = Array();
+          for (let i = 0, len = data.length; i < len; i++) {
+            if (data[i].archived) {
+              this.archivedWorkoutPlans.push(data[i]);
+            } else {
+              this.workoutPlans.push(data[i]);
             }
-          });
+          }
+          this.workoutPlanRepositoryService.allWorkoutPlans = data;
+          if (this.loaded) {
+            if (this.workoutPlanRepositoryService.allWorkoutPlans.length > 0) {
+              this.noPlansAdded = false;
+            } else {
+              this.noPlansAdded = true;
+            }
+          }
+        });
       });
     });
     const uid = this.activatedRoute.snapshot.paramMap.get('uid');
@@ -68,16 +68,30 @@ export class WorkoutPlanListComponent implements OnInit {
     this.loadInitialList();
   }
 
-  async load(workoutPlans: WorkoutPlan[], exerciseSets: ExerciseSet[]): Promise<WorkoutPlan[]> {
+  async load(
+    workoutPlans: WorkoutPlan[],
+    exerciseSets: ExerciseSet[]
+  ): Promise<WorkoutPlan[]> {
     const exercises: Exercise[] = Array();
-    for (let workoutPlanIndex = 0, length = workoutPlans.length; workoutPlanIndex < length; workoutPlanIndex++) {
+    for (
+      let workoutPlanIndex = 0, length = workoutPlans.length;
+      workoutPlanIndex < length;
+      workoutPlanIndex++
+    ) {
       const currentExerciseSets = Array<ExerciseSet>();
-      Object.assign(currentExerciseSets, workoutPlans[workoutPlanIndex].exerciseSets);
+      Object.assign(
+        currentExerciseSets,
+        workoutPlans[workoutPlanIndex].exerciseSets
+      );
       workoutPlans[workoutPlanIndex].exerciseSets = Array();
       for (let i = 0, len = currentExerciseSets.length; i < len; i++) {
-        const newExerciseSet = exerciseSets.find(item => item.id === currentExerciseSets[i]?.id);
+        const newExerciseSet = exerciseSets.find(
+          (item) => item.id === currentExerciseSets[i]?.id
+        );
         if (newExerciseSet !== undefined) {
-          const savedExercise = exercises.find(item => item.id === newExerciseSet.exercise.id);
+          const savedExercise = exercises.find(
+            (item) => item.id === newExerciseSet.exercise.id
+          );
           if (savedExercise !== undefined) {
             newExerciseSet.exercise = savedExercise;
           } else {
@@ -89,23 +103,21 @@ export class WorkoutPlanListComponent implements OnInit {
               newExerciseSet.exercise = newExercise;
             }
           }
-        workoutPlans[workoutPlanIndex].exerciseSets.push(newExerciseSet);
+          workoutPlans[workoutPlanIndex].exerciseSets.push(newExerciseSet);
         }
-
-
       }
     }
     return workoutPlans;
   }
 
- loadInitialList() {
+  loadInitialList() {
     return Promise.all([
       this.databaseProvider.getWorkoutPlans(),
       this.databaseProvider.getExerciseSets(),
-    ]).then(async value => {
+    ]).then(async (value) => {
       const workoutPlans: WorkoutPlan[] = value[0];
       const exerciseSets: ExerciseSet[] = value[1];
-      this.load(workoutPlans, exerciseSets).then(result => {
+      this.load(workoutPlans, exerciseSets).then((result) => {
         this.archivedWorkoutPlans = Array();
         this.workoutPlans = Array();
         for (let i = 0, len = result.length; i < len; i++) {
@@ -114,7 +126,7 @@ export class WorkoutPlanListComponent implements OnInit {
           } else {
             this.workoutPlans.push(result[i]);
           }
-        };
+        }
         this.workoutPlanRepositoryService.allWorkoutPlans = result;
         if (this.databaseProvider.workoutPlanLoaded) {
           if (this.workoutPlanRepositoryService.allWorkoutPlans.length === 0) {
@@ -143,15 +155,26 @@ export class WorkoutPlanListComponent implements OnInit {
   async updateWorkoutPlans(data: WorkoutPlan[]): Promise<WorkoutPlan[]> {
     const workoutPlans: WorkoutPlan[] = Array();
     const exercises: Exercise[] = Array();
-    for (let workoutPlanIndex = 0, length = data.length; workoutPlanIndex < length; workoutPlanIndex++) {
+    for (
+      let workoutPlanIndex = 0, length = data.length;
+      workoutPlanIndex < length;
+      workoutPlanIndex++
+    ) {
       const newWorkoutPlan = new WorkoutPlan();
       Object.assign(newWorkoutPlan, data[workoutPlanIndex]);
       newWorkoutPlan.exerciseSets = Array();
-      for (let i = 0, len = data[workoutPlanIndex].exerciseSets.length; i < len; i++) {
+      for (
+        let i = 0, len = data[workoutPlanIndex].exerciseSets.length;
+        i < len;
+        i++
+      ) {
         const newExerciseSet = await this.databaseProvider.getExerciseSet(
           data[workoutPlanIndex].exerciseSets[i].id
         );
-        const savedExercise = exercises.find(item => item.id === data[workoutPlanIndex].exerciseSets[i].exercise.id);
+        const savedExercise = exercises.find(
+          (item) =>
+            item.id === data[workoutPlanIndex].exerciseSets[i].exercise.id
+        );
         if (savedExercise !== undefined) {
           newExerciseSet.exercise = savedExercise;
         } else {

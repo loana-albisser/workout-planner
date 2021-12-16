@@ -15,11 +15,23 @@ export class WorkoutRunItemComponent implements OnInit {
 
   constructor(private animationCtrl: AnimationController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.exerciseSet.markToImprove === undefined) {
+        this.exerciseSet.markToImprove = false;
+    }
+  }
+
+  showMarkToImprove(): boolean {
+    return this.exerciseSet.markToImprove
+  }
 
   isTimeUnit(): boolean {
     const timeValues = this.exerciseSet.exercise.unit === 'time';
     return timeValues;
+  }
+
+  changeMarkToImprove() {
+    this.exerciseSet.markToImprove = !this.exerciseSet.markToImprove;
   }
 
   exerciseCheckChanged(checked: boolean, index: number) {
